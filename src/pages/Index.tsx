@@ -14,6 +14,10 @@ import {
 } from "lucide-react";
 import { BLOOD_GROUPS } from "@/data/mockData";
 
+import { FindDonorSection } from "@/components/home/FindDonorSection";
+import { BloodRequestSection } from "@/components/home/BloodRequestSection";
+import { RecentDonorsSection } from "@/components/home/RecentDonorsSection";
+
 export default function Index() {
   return (
     <Layout>
@@ -104,6 +108,45 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Find Donor Section */}
+      <FindDonorSection />
+
+      {/* Blood Request Section */}
+      <BloodRequestSection />
+
+      {/* Recent Donors Section */}
+      <RecentDonorsSection />
+
+      {/* Emergency CTA */}
+      <section className="py-16 bg-primary/5">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 bg-destructive/10 text-destructive px-4 py-2 rounded-full mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <span className="text-sm font-medium">
+                জরুরি রক্তের প্রয়োজন?
+              </span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              এডমিনকে জানান
+            </h2>
+            <p className="text-muted-foreground mb-8">
+              জরুরি পরিস্থিতিতে সরাসরি এডমিনের কাছে অনুরোধ পাঠান। আমরা দ্রুত
+              সাড়া দেব।
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="blood-gradient text-primary-foreground gap-2"
+            >
+              <Link to="/emergency-request">
+                <Heart className="h-5 w-5" />
+                জরুরি অনুরোধ পাঠান
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
       {/* Features */}
       <section className="py-20">
         <div className="container">
@@ -168,38 +211,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-
-      {/* Emergency CTA */}
-      <section className="py-16 bg-primary/5">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-destructive/10 text-destructive px-4 py-2 rounded-full mb-6">
-              <AlertCircle className="h-4 w-4" />
-              <span className="text-sm font-medium">
-                জরুরি রক্তের প্রয়োজন?
-              </span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              এডমিনকে জানান
-            </h2>
-            <p className="text-muted-foreground mb-8">
-              জরুরি পরিস্থিতিতে সরাসরি এডমিনের কাছে অনুরোধ পাঠান। আমরা দ্রুত
-              সাড়া দেব।
-            </p>
-            <Button
-              asChild
-              size="lg"
-              className="blood-gradient text-primary-foreground gap-2"
-            >
-              <Link to="/emergency-request">
-                <Heart className="h-5 w-5" />
-                জরুরি অনুরোধ পাঠান
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Stats */}
       <section className="py-20">
         <div className="container">
