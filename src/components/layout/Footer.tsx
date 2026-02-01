@@ -1,5 +1,5 @@
-import { Droplet, Heart, Phone, Mail, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Droplet, Heart, Phone, Mail, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
@@ -10,7 +10,9 @@ export function Footer() {
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
               <Droplet className="h-6 w-6 text-primary fill-primary" />
-              <span className="text-lg font-bold text-gradient-blood">Blood Link</span>
+              <span className="text-lg font-bold text-gradient-blood">
+                Blood Link
+              </span>
             </Link>
             <p className="text-sm text-muted-foreground">
               রক্তদানে জীবন বাঁচান। প্রতিটি ফোঁটা রক্ত মূল্যবান।
@@ -21,9 +23,30 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">দ্রুত লিংক</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/donors" className="hover:text-primary transition-colors">ডোনার খুঁজুন</Link></li>
-              <li><Link to="/posts" className="hover:text-primary transition-colors">রক্তের অনুরোধ</Link></li>
-              <li><Link to="/register" className="hover:text-primary transition-colors">রেজিস্ট্রেশন</Link></li>
+              <li>
+                <Link
+                  to="/donors"
+                  className="hover:text-primary transition-colors"
+                >
+                  ডোনার খুঁজুন
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/posts"
+                  className="hover:text-primary transition-colors"
+                >
+                  রক্তের অনুরোধ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/register"
+                  className="hover:text-primary transition-colors"
+                >
+                  রেজিস্ট্রেশন
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -60,12 +83,12 @@ export function Footer() {
 
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2025 Blood Link. সর্বস্বত্ব সংরক্ষিত।
+            © 2026 Blood Link. সর্বস্বত্ব সংরক্ষিত।
           </p>
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <span>Made with</span>
             <Heart className="h-4 w-4 text-primary fill-primary" />
-            <span>in Bangladesh</span>
+            <span>by ArcBit Technology</span>
           </div>
         </div>
       </div>

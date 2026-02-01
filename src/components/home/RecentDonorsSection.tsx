@@ -1,15 +1,26 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, Users } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { DonorCard } from '@/components/donors/DonorCard';
-import { mockUsers } from '@/data/mockData';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { DonorCard } from "@/components/donors/DonorCard";
+import { DonorDialog } from "@/components/donors/DonorDialog";
+import { mockUsers } from "@/data/mockData";
+import { User } from "@/types";
 
 export function RecentDonorsSection() {
+  const [selectedDonor, setSelectedDonor] = useState<User | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   // Get latest 4 donors (excluding admins)
   const recentDonors = mockUsers
-    .filter(user => user.role === 'user')
+    .filter((user) => user.role === "user")
     // Sort by createdAt desc if needed, but mock data is small
     .slice(0, 4);
+
+  const handleDonorClick = (donor: User) => {
+    setSelectedDonor(donor);
+    setDialogOpen(true);
+  };
 
   return (
     <section className="py-16 bg-background">
@@ -20,12 +31,14 @@ export function RecentDonorsSection() {
               <Users className="h-4 w-4" />
               <span className="text-sm font-medium">আমাদের গর্বিত ডোনার</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold">সদ্য যোগ দেওয়া ডোনার</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              সদ্য যোগ দেওয়া ডোনার
+            </h2>
             <p className="text-muted-foreground mt-2">
               যারা মানবতার সেবায় এগিয়ে এসেছেন
             </p>
           </div>
-          
+
           <Button asChild variant="outline" className="hidden md:flex">
             <Link to="/donors">
               সকল ডোনার দেখুন
@@ -36,10 +49,14 @@ export function RecentDonorsSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {recentDonors.map((donor, index) => (
-            <div key={donor.id} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-              <DonorCard 
-                donor={donor} 
-                onClick={() => window.location.href = `/donors?id=${donor.id}`} 
+            <div
+              key={donor.id}
+              className="animate-fade-in"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <DonorCard
+                donor={donor}
+                onClick={() => handleDonorClick(donor)}
               />
             </div>
           ))}
@@ -53,6 +70,12 @@ export function RecentDonorsSection() {
             </Link>
           </Button>
         </div>
+
+        <DonorDialog
+          donor={selectedDonor}
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+        />
       </div>
     </section>
   );

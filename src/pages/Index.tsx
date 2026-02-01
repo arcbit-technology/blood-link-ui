@@ -64,7 +64,7 @@ export default function Index() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 gap-2"
+                className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 gap-2"
               >
                 <Link to="/register">
                   রেজিস্ট্রেশন করুন
