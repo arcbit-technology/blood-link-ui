@@ -1,0 +1,213 @@
+@import '@fontsource/anek-bangla/400.css';
+@import '@fontsource/anek-bangla/500.css';
+@import '@fontsource/anek-bangla/600.css';
+@import '@fontsource/anek-bangla/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 0 84% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 30% 96%;
+    --secondary-foreground: 0 84% 40%;
+
+    --muted: 0 10% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 0 60% 95%;
+    --accent-foreground: 0 84% 35%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 20% 90%;
+    --input: 0 20% 90%;
+    --ring: 0 84% 40%;
+
+    --radius: 0.75rem;
+
+    /* Blood Link Custom Tokens */
+    --blood-primary: 0 84% 40%;
+    --blood-light: 0 80% 95%;
+    --blood-dark: 0 84% 30%;
+    --blood-glow: 0 100% 50%;
+    
+    --gradient-hero: linear-gradient(135deg, hsl(0, 84%, 40%) 0%, hsl(0, 70%, 50%) 50%, hsl(350, 80%, 45%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(0, 30%, 98%) 100%);
+    --gradient-blood-badge: linear-gradient(135deg, hsl(0, 84%, 45%) 0%, hsl(0, 90%, 35%) 100%);
+    
+    --shadow-card: 0 4px 20px -4px hsla(0, 84%, 40%, 0.15);
+    --shadow-blood: 0 8px 30px -8px hsla(0, 84%, 40%, 0.25);
+    --shadow-glow: 0 0 40px hsla(0, 100%, 50%, 0.2);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 0 0% 25%;
+    --sidebar-primary: 0 84% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 60% 95%;
+    --sidebar-accent-foreground: 0 84% 35%;
+    --sidebar-border: 0 20% 90%;
+    --sidebar-ring: 0 84% 40%;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 0 75% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 20% 15%;
+    --secondary-foreground: 0 75% 60%;
+
+    --muted: 0 15% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 0 40% 18%;
+    --accent-foreground: 0 75% 70%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 15% 18%;
+    --input: 0 15% 18%;
+    --ring: 0 75% 55%;
+
+    --blood-primary: 0 75% 55%;
+    --blood-light: 0 40% 15%;
+    --blood-dark: 0 75% 45%;
+    --blood-glow: 0 100% 60%;
+
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 0 75% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 40% 18%;
+    --sidebar-accent-foreground: 0 75% 70%;
+    --sidebar-border: 0 15% 18%;
+    --sidebar-ring: 0 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Anek Bangla', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .blood-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .blood-badge-gradient {
+    background: var(--gradient-blood-badge);
+  }
+
+  .blood-shadow {
+    box-shadow: var(--shadow-blood);
+  }
+
+  .blood-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .card-shadow {
+    box-shadow: var(--shadow-card);
+  }
+
+  .text-gradient-blood {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    background: hsla(0, 0%, 100%, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsla(0, 20%, 90%, 0.5);
+  }
+
+  .dark .glass-card {
+    background: hsla(0, 0%, 10%, 0.8);
+    border: 1px solid hsla(0, 15%, 20%, 0.5);
+  }
+}
+
+/* Blood group badge animations */
+@keyframes pulse-blood {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-pulse-blood {
+  animation: pulse-blood 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsla(0, 100%, 100%, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
