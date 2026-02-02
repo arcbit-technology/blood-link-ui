@@ -13,12 +13,15 @@ import {
   Shield,
 } from "lucide-react";
 import { BLOOD_GROUPS } from "@/data/mockData";
+import { useTranslation } from "react-i18next";
 
 import { FindDonorSection } from "@/components/home/FindDonorSection";
 import { BloodRequestSection } from "@/components/home/BloodRequestSection";
 import { RecentDonorsSection } from "@/components/home/RecentDonorsSection";
 
 export default function Index() {
+  const { t } = useTranslation();
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -29,21 +32,20 @@ export default function Index() {
           <div className="max-w-3xl mx-auto text-center text-primary-foreground">
             <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6 animate-fade-in">
               <Droplet className="h-4 w-4" />
-              <span className="text-sm font-medium">রক্তদানে জীবন বাঁচান</span>
+              <span className="text-sm font-medium">{t("hero.saveLife")}</span>
             </div>
 
             <h1
               className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in"
               style={{ animationDelay: "0.1s" }}
             >
-              Blood Link
+              {t("header.appName")}
             </h1>
             <p
               className="text-lg md:text-xl opacity-90 mb-8 animate-fade-in"
               style={{ animationDelay: "0.2s" }}
             >
-              আপনার রক্তের গ্রুপ অনুযায়ী ডোনার খুঁজুন অথবা রক্তদাতা হিসেবে
-              রেজিস্ট্রেশন করুন।
+              {t("hero.description")}
             </p>
 
             <div
@@ -57,7 +59,7 @@ export default function Index() {
               >
                 <Link to="/donors">
                   <Search className="h-5 w-5" />
-                  ডোনার খুঁজুন
+                  {t("hero.findDonor")}
                 </Link>
               </Button>
               <Button
@@ -67,7 +69,7 @@ export default function Index() {
                 className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 gap-2"
               >
                 <Link to="/register">
-                  রেজিস্ট্রেশন করুন
+                  {t("hero.registerNow")}
                   <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
@@ -91,7 +93,7 @@ export default function Index() {
       <section className="py-16 bg-muted/30">
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-            সকল রক্তের গ্রুপের ডোনার আছে
+            {t("home.allBloodGroups")}
           </h2>
           <div className="flex flex-wrap justify-center gap-4">
             {BLOOD_GROUPS.map((group, index) => (
@@ -124,15 +126,14 @@ export default function Index() {
             <div className="inline-flex items-center gap-2 bg-destructive/10 text-destructive px-4 py-2 rounded-full mb-6">
               <AlertCircle className="h-4 w-4" />
               <span className="text-sm font-medium">
-                জরুরি রক্তের প্রয়োজন?
+                {t("home.emergency.badge")}
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              এডমিনকে জানান
+              {t("home.emergency.title")}
             </h2>
             <p className="text-muted-foreground mb-8">
-              জরুরি পরিস্থিতিতে সরাসরি এডমিনের কাছে অনুরোধ পাঠান। আমরা দ্রুত
-              সাড়া দেব।
+              {t("home.emergency.description")}
             </p>
             <Button
               asChild
@@ -141,7 +142,7 @@ export default function Index() {
             >
               <Link to="/emergency-request">
                 <Heart className="h-5 w-5" />
-                জরুরি অনুরোধ পাঠান
+                {t("home.emergency.button")}
               </Link>
             </Button>
           </div>
@@ -152,10 +153,10 @@ export default function Index() {
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              কেন Blood Link?
+              {t("home.features.title")}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              আমরা রক্তদাতা এবং রক্তগ্রহীতাদের মধ্যে সেতুবন্ধন তৈরি করি
+              {t("home.features.subtitle")}
             </p>
           </div>
 
@@ -164,9 +165,11 @@ export default function Index() {
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
                 <Users className="h-6 w-6 text-primary-foreground" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">বিশাল নেটওয়ার্ক</h3>
+              <h3 className="font-semibold text-lg mb-2">
+                {t("home.features.network")}
+              </h3>
               <p className="text-muted-foreground text-sm">
-                হাজারো রক্তদাতা এক প্ল্যাটফর্মে
+                {t("home.features.networkDesc")}
               </p>
             </div>
 
@@ -177,9 +180,11 @@ export default function Index() {
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
                 <Search className="h-6 w-6 text-primary-foreground" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">সহজ অনুসন্ধান</h3>
+              <h3 className="font-semibold text-lg mb-2">
+                {t("home.features.search")}
+              </h3>
               <p className="text-muted-foreground text-sm">
-                এলাকা ও রক্তের গ্রুপ অনুযায়ী খুঁজুন
+                {t("home.features.searchDesc")}
               </p>
             </div>
 
@@ -190,9 +195,11 @@ export default function Index() {
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
                 <Clock className="h-6 w-6 text-primary-foreground" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">দ্রুত সাড়া</h3>
+              <h3 className="font-semibold text-lg mb-2">
+                {t("home.features.response")}
+              </h3>
               <p className="text-muted-foreground text-sm">
-                জরুরি অবস্থায় দ্রুত যোগাযোগ
+                {t("home.features.responseDesc")}
               </p>
             </div>
 
@@ -203,9 +210,11 @@ export default function Index() {
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
                 <Shield className="h-6 w-6 text-primary-foreground" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">গোপনীয়তা</h3>
+              <h3 className="font-semibold text-lg mb-2">
+                {t("home.features.privacy")}
+              </h3>
               <p className="text-muted-foreground text-sm">
-                আপনার তথ্য সম্পূর্ণ নিরাপদ
+                {t("home.features.privacyDesc")}
               </p>
             </div>
           </div>
@@ -217,27 +226,31 @@ export default function Index() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-bold text-gradient-blood mb-2">
-                ১০০০+
+                {t("home.stats.count.donors")}
               </p>
-              <p className="text-muted-foreground">রক্তদাতা</p>
+              <p className="text-muted-foreground">{t("home.stats.donors")}</p>
             </div>
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-bold text-gradient-blood mb-2">
-                ৬৪
+                {t("home.stats.count.districts")}
               </p>
-              <p className="text-muted-foreground">জেলায় সেবা</p>
+              <p className="text-muted-foreground">
+                {t("home.stats.districts")}
+              </p>
             </div>
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-bold text-gradient-blood mb-2">
-                ৫০০+
+                {t("home.stats.count.donations")}
               </p>
-              <p className="text-muted-foreground">সফল রক্তদান</p>
+              <p className="text-muted-foreground">
+                {t("home.stats.donations")}
+              </p>
             </div>
             <div className="text-center">
               <p className="text-4xl md:text-5xl font-bold text-gradient-blood mb-2">
-                ২৪/৭
+                {t("home.stats.count.service")}
               </p>
-              <p className="text-muted-foreground">সার্ভিস</p>
+              <p className="text-muted-foreground">{t("home.stats.service")}</p>
             </div>
           </div>
         </div>

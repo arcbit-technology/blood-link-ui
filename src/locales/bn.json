@@ -7,7 +7,11 @@
     "profile": "প্রোফাইল",
     "adminDashboard": "এডমিন ড্যাশবোর্ড",
     "logout": "লগআউট",
-    "appName": "ব্লাড লিংক"
+    "appName": "ব্লাড লিংক",
+    "language": {
+      "en": "ইংরেজি",
+      "bn": "বাংলা"
+    }
   },
   "hero": {
     "saveLife": "রক্তদানে জীবন বাঁচান",
@@ -36,7 +40,13 @@
       "privacyDesc": "আপনার তথ্য সম্পূর্ণ নিরাপদ"
     },
     "stats": {
-      "donors": "রক্তদাতা",
+      "count": {
+        "donors": "১০০০+",
+        "districts": "৬৪",
+        "donations": "৫০০+",
+        "service": "২৪/৭"
+      },
+      "donors": "নিবন্ধিত রক্তদাতা",
       "districts": "জেলায় সেবা",
       "donations": "সফল রক্তদান",
       "service": "সার্ভিস"
@@ -70,5 +80,493 @@
     "title": "সদ্য যোগ দেওয়া ডোনার",
     "subtitle": "যারা মানবতার সেবায় এগিয়ে এসেছেন",
     "seeAll": "সকল ডোনার দেখুন"
+  },
+  "auth": {
+    "login": {
+      "title": "লগইন করুন",
+      "description": "আপনার অ্যাকাউন্টে প্রবেশ করুন",
+      "emailLabel": "ইমেইল",
+      "passwordLabel": "পাসওয়ার্ড",
+      "button": {
+        "loading": "লগইন হচ্ছে...",
+        "default": "লগইন"
+      },
+      "noAccount": "অ্যাকাউন্ট নেই? ",
+      "registerLink": "রেজিস্ট্রেশন করুন",
+      "demo": {
+        "title": "ডেমো লগইন:",
+        "note": "(যেকোনো পাসওয়ার্ড ব্যবহার করুন)"
+      },
+      "success": {
+        "title": "সফলভাবে লগইন হয়েছে",
+        "description": "স্বাগতম Blood Link এ!"
+      },
+      "error": {
+        "title": "লগইন ব্যর্থ",
+        "description": "ইমেইল বা পাসওয়ার্ড ভুল"
+      }
+    },
+    "register": {
+      "title": "রেজিস্ট্রেশন করুন",
+      "description": "রক্তদাতা হিসেবে যুক্ত হন এবং জীবন বাঁচাতে সাহায্য করুন",
+      "nameLabel": "নাম *",
+      "namePlaceholder": "আপনার পুরো নাম",
+      "emailLabel": "ইমেইল *",
+      "emailPlaceholder": "উদাহরণ@ইমেইল.কম",
+      "passwordLabel": "পাসওয়ার্ড *",
+      "passwordPlaceholder": "••••••••",
+      "phoneLabel": "ফোন নম্বর *",
+      "phonePlaceholder": "+৮৮০ ১৭১২৩৪৫৬৭৮",
+      "genderLabel": "লিঙ্গ *",
+      "ageLabel": "বয়স *",
+      "agePlaceholder": "২৫",
+      "bloodGroupLabel": "রক্তের গ্রুপ *",
+      "divisionLabel": "বিভাগ *",
+      "selectDivision": "বিভাগ নির্বাচন করুন",
+      "districtLabel": "জেলা *",
+      "selectDistrict": "জেলা নির্বাচন করুন",
+      "addressLabel": "ঠিকানা *",
+      "addressPlaceholder": "সম্পূর্ণ ঠিকানা",
+      "occupationLabel": "পেশা *",
+      "occupationPlaceholder": "আপনার পেশা",
+      "success": {
+        "title": "রেজিস্ট্রেশন সফল হয়েছে!",
+        "description": "স্বাগতম Blood Link পরিবারে!"
+      },
+      "error": {
+        "title": "রেজিস্ট্রেশন ব্যর্থ",
+        "description": "অনুগ্রহ করে আবার চেষ্টা করুন"
+      },
+      "lastDonationDateLabel": "সর্বশেষ রক্তদানের তারিখ",
+      "hideInfoLabel": "ব্যক্তিগত তথ্য গোপন রাখুন",
+      "hideInfoDescription": "সক্রিয় করলে শুধু লিঙ্গ, রক্তের গ্রুপ ও এলাকা দেখাবে",
+      "alreadyAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে? ",
+      "loginLink": "লগইন করুন"
+    }
+  },
+  "common": {
+    "select": "নির্বাচন করুন",
+    "all": "সব",
+    "filter": "ফিল্টার",
+    "reset": "রিসেট",
+    "years": "বছর",
+    "call": "কল করুন",
+    "address": "ঠিকানা",
+    "occupation": "পেশা",
+    "email": "ইমেইল",
+    "sending": "পাঠানো হচ্ছে...",
+    "gender": {
+      "label": "লিঙ্গ",
+      "male": "পুরুষ",
+      "female": "মহিলা",
+      "other": "অন্যান্য"
+    }
+  },
+  "donors": {
+    "title": "ডোনার খুঁজুন",
+    "subtitle": "আপনার প্রয়োজন অনুযায়ী রক্তদাতা খুঁজুন",
+    "results": {
+      "count": "{{count}} জন ডোনার পাওয়া গেছে",
+      "empty": {
+        "title": "কোনো ডোনার পাওয়া যায়নি",
+        "subtitle": "অনুগ্রহ করে ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন"
+      }
+    },
+    "filter": {
+      "bloodGroup": "রক্তের গ্রুপ নির্বাচন করুন:",
+      "searchPlaceholder": "নাম, ঠিকানা বা জেলা দিয়ে খুঁজুন..."
+    },
+    "card": {
+      "hiddenInfo": "তথ্য গোপন",
+      "viewDetails": "বিস্তারিত দেখুন →"
+    },
+    "status": {
+      "available": "রক্তদানে সক্ষম",
+      "unavailable": "সম্প্রতি রক্তদান করেছেন"
+    },
+    "dialog": {
+      "title": "ডোনার তথ্য",
+      "hiddenInfo": "ব্যক্তিগত তথ্য গোপন রাখা হয়েছে",
+      "genderAge": "লিঙ্গ ও বয়স",
+      "lastDonation": "সর্বশেষ রক্তদান"
+    }
+  },
+  "emergency": {
+    "title": "জরুরি রক্তের অনুরোধ",
+    "subtitle": "সরাসরি এডমিনের কাছে অনুরোধ পাঠান",
+    "backHome": "হোমে ফিরে যান",
+    "contactInfo": "যোগাযোগের তথ্য",
+    "patientInfo": "রোগীর তথ্য",
+    "hospitalInfo": "হাসপাতালের তথ্য",
+    "success": {
+      "title": "জরুরি অনুরোধ পাঠানো হয়েছে",
+      "description": "এডমিন দ্রুত আপনার সাথে যোগাযোগ করবেন"
+    },
+    "form": {
+      "yourName": "আপনার নাম *",
+      "phone": "ফোন নম্বর *",
+      "patientName": "রোগীর নাম *",
+      "bloodGroup": "রক্তের গ্রুপ *",
+      "select": "নির্বাচন করুন",
+      "bagsNeeded": "কত ব্যাগ প্রয়োজন *",
+      "whenNeeded": "কবে প্রয়োজন *",
+      "whyNeeded": "কেন রক্ত প্রয়োজন *",
+      "reasonPlaceholder": "অপারেশন, দুর্ঘটনা, রক্তশূন্যতা ইত্যাদি...",
+      "hospitalName": "হাসপাতালের নাম *",
+      "division": "বিভাগ *",
+      "district": "জেলা *",
+      "fullAddress": "সম্পূর্ণ ঠিকানা",
+      "hospitalAddressPlaceholder": "হাসপাতালের সম্পূর্ণ ঠিকানা",
+      "submit": "অনুরোধ পাঠান"
+    },
+    "warning": "জরুরি অনুরোধ শুধুমাত্র সত্যিকারের জরুরি পরিস্থিতিতে ব্যবহার করুন। অপব্যবহার করলে আপনার অ্যাকাউন্ট বন্ধ করা হতে পারে।"
+  },
+  "footer": {
+    "slogan": "রক্তদানে জীবন বাঁচান। প্রতিটি ফোঁটা রক্ত মূল্যবান।",
+    "quickLinks": "দ্রুত লিংক",
+    "findDonors": "ডোনার খুঁজুন",
+    "bloodRequests": "রক্তের অনুরোধ",
+    "registration": "রেজিস্ট্রেশন",
+    "contact": "যোগাযোগ",
+    "address": "ঢাকা, বাংলাদেশ",
+    "emergencyService": "জরুরি সেবা",
+    "emergencyCall": "জরুরি রক্তের প্রয়োজনে কল করুন",
+    "rights": "সর্বস্বত্ব সংরক্ষিত।",
+    "madeWith": "Made with",
+    "by": "by ArcBit Technology"
+  },
+  "validation": {
+    "email": {
+      "invalid": "সঠিক ইমেইল দিন"
+    },
+    "password": {
+      "minLength": "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে"
+    },
+    "name": {
+      "minLength": "নাম কমপক্ষে ২ অক্ষরের হতে হবে"
+    },
+    "phone": {
+      "invalid": "সঠিক ফোন নম্বর দিন (+880XXXXXXXXXX)"
+    },
+    "gender": {
+      "required": "লিঙ্গ নির্বাচন করুন"
+    },
+    "address": {
+      "minLength": "সঠিক ঠিকানা দিন"
+    },
+    "division": {
+      "required": "বিভাগ নির্বাচন করুন"
+    },
+    "district": {
+      "required": "জেলা নির্বাচন করুন"
+    },
+    "bloodGroup": {
+      "required": "রক্তের গ্রুপ নির্বাচন করুন"
+    },
+    "age": {
+      "required": "বয়স দিন",
+      "min": "বয়স কমপক্ষে ১৮ হতে হবে",
+      "max": "বয়স সর্বোচ্চ ৬৫ হতে পারবে"
+    },
+    "occupation": {
+      "required": "পেশা দিন"
+    }
+  },
+  "notFound": {
+    "title": "দুঃখিত! পেজটি পাওয়া যায়নি",
+    "homeLink": "হোমে ফিরে যান"
+  },
+  "posts": {
+    "loginRequired": {
+      "title": "লগইন প্রয়োজন",
+      "description": "আগ্রহ প্রকাশ করতে প্রথমে লগইন করুন"
+    },
+    "interestShown": {
+      "title": "আগ্রহ প্রকাশ করা হয়েছে",
+      "description": "পোস্টকারীর সাথে যোগাযোগ করা হবে"
+    },
+    "createSuccess": {
+      "title": "পোস্ট তৈরি হয়েছে",
+      "description": "আপনার রক্তের অনুরোধ প্রকাশিত হয়েছে"
+    },
+    "status": {
+      "open": "চলমান",
+      "fulfilled": "পূরণ হয়েছে",
+      "closed": "বন্ধ"
+    },
+    "header": {
+      "title": "রক্তের অনুরোধ",
+      "subtitle": "যাদের রক্ত প্রয়োজন তাদের সাহায্য করুন"
+    },
+    "createButton": "নতুন পোস্ট তৈরি করুন",
+    "form": {
+      "title": "রক্তের অনুরোধ পোস্ট করুন",
+      "fields": {
+        "title": "শিরোনাম *",
+        "bloodGroup": "রক্তের গ্রুপ *",
+        "description": "বিবরণ *",
+        "hospitalName": "হাসপাতালের নাম *",
+        "division": "বিভাগ *",
+        "district": "জেলা *",
+        "address": "সম্পূর্ণ ঠিকানা",
+        "requiredDate": "কবে প্রয়োজন *"
+      },
+      "placeholders": {
+        "title": "যেমন: O+ রক্তের জরুরি প্রয়োজন",
+        "description": "কেন রক্ত প্রয়োজন তার বিবরণ দিন...",
+        "hospitalName": "হাসপাতালের নাম",
+        "address": "হাসপাতালের ঠিকানা"
+      },
+      "submit": "পোস্ট করুন"
+    },
+    "loginToPost": "লগইন করে পোস্ট করুন",
+    "card": {
+      "requiredDate": "প্রয়োজন: ",
+      "interestedCount": " {{count}} জন আগ্রহী",
+      "interested": "আগ্রহী",
+      "expressInterest": "আগ্রহ প্রকাশ করুন",
+      "postedBy": "পোস্ট করেছেন: "
+    },
+    "empty": {
+      "title": "কোনো পোস্ট নেই",
+      "subtitle": "প্রথম পোস্ট তৈরি করুন"
+    }
+  },
+  "profile": {
+    "roles": {
+      "admin": "এডমিন",
+      "donor": "রক্তদাতা"
+    },
+    "tabs": {
+      "info": "আমার তথ্য",
+      "requests": "অনুরোধসমূহ",
+      "activity": "আমার কার্যক্রম"
+    },
+    "info": {
+      "title": "ব্যক্তিগত তথ্য",
+      "genderAge": "লিঙ্গ ও বয়স",
+      "phone": "ফোন",
+      "email": "ইমেইল",
+      "occupation": "পেশা",
+      "address": "ঠিকানা",
+      "lastDonation": "সর্বশেষ রক্তদান"
+    },
+    "settings": {
+      "title": "গোপনীয়তা সেটিংস",
+      "hideInfo": {
+        "label": "ব্যক্তিগত তথ্য গোপন রাখুন",
+        "description": "সক্রিয় করলে শুধু লিঙ্গ, রক্তের গ্রুপ ও এলাকা দেখাবে"
+      },
+      "updated": "সেটিংস আপডেট হয়েছে"
+    },
+    "requests": {
+      "status": {
+        "pending": "অপেক্ষমান",
+        "accepted": "গৃহীত",
+        "rejected": "প্রত্যাখ্যাত",
+        "completed": "সম্পন্ন"
+      },
+      "incoming": {
+        "title": "আমার কাছে আসা অনুরোধ",
+        "empty": "কোনো নতুন অনুরোধ নেই"
+      },
+      "outgoing": {
+        "title": "আমার পাঠানো অনুরোধ",
+        "empty": "আপনি কোনো অনুরোধ পাঠাননি"
+      },
+      "card": {
+        "patient": "রোগী:",
+        "reason": "কারণ:",
+        "needed": "প্রয়োজন:",
+        "donor": "ডোনার:"
+      },
+      "actions": {
+        "accept": "গ্রহণ করুন",
+        "reject": "প্রত্যাখ্যান"
+      },
+      "accepted": {
+        "title": "অনুরোধ গ্রহণ করা হয়েছে",
+        "description": "ধন্যবাদ! আপনার সাথে যোগাযোগ করা হবে।"
+      },
+      "rejected": {
+        "title": "অনুরোধ প্রত্যাখ্যান করা হয়েছে"
+      }
+    },
+    "activity": {
+      "title": "আগ্রহ প্রকাশ করা পোস্ট",
+      "empty": "কোনো পোস্টে আগ্রহ প্রকাশ করেননি"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "এডমিন ড্যাশবোর্ড",
+      "subtitle": "Blood Link পরিচালনা করুন"
+    },
+    "stats": {
+      "totalUsers": "মোট ব্যবহারকারী",
+      "successfulDonations": "সফল রক্তদান",
+      "pendingRequests": "অপেক্ষমান অনুরোধ",
+      "emergencyRequests": "জরুরি অনুরোধ"
+    },
+    "status": {
+      "pending": "অপেক্ষমান",
+      "accepted": "গৃহীত",
+      "rejected": "প্রত্যাখ্যাত",
+      "completed": "সম্পন্ন",
+      "open": "চলমান",
+      "fulfilled": "পূরণ হয়েছে",
+      "closed": "বন্ধ"
+    },
+    "urgency": {
+      "normal": "সাধারণ",
+      "urgent": "জরুরি",
+      "emergency": "অতি জরুরি"
+    },
+    "tabs": {
+      "users": "ব্যবহারকারী",
+      "requests": "অনুরোধসমূহ",
+      "posts": "পোস্টসমূহ",
+      "history": "রক্তদানের ইতিহাস"
+    },
+    "users": {
+      "title": "ব্যবহারকারীর তালিকা",
+      "searchPlaceholder": "নাম, ইমেইল বা জেলা...",
+      "table": {
+        "name": "নাম",
+        "bloodGroup": "রক্তের গ্রুপ",
+        "gender": "লিঙ্গ",
+        "district": "জেলা",
+        "phone": "ফোন",
+        "privacy": "গোপনীয়তা"
+      },
+      "privacy": {
+        "hidden": "গোপন",
+        "public": "প্রকাশিত"
+      }
+    },
+    "requests": {
+      "title": "রক্তের অনুরোধসমূহ",
+      "table": {
+        "requester": "অনুরোধকারী",
+        "patient": "রোগী",
+        "bloodGroup": "রক্তের গ্রুপ",
+        "urgency": "জরুরিতা",
+        "hospital": "হাসপাতাল",
+        "status": "স্ট্যাটাস",
+        "action": "অ্যাকশন"
+      },
+      "adminRequest": "এডমিন রিকোয়েস্ট",
+      "toasts": {
+        "approved": "অনুরোধ অনুমোদিত হয়েছে",
+        "rejected": "অনুরোধ প্রত্যাখ্যান করা হয়েছে"
+      }
+    },
+    "posts": {
+      "title": "রক্তের অনুরোধ পোস্টসমূহ",
+      "table": {
+        "title": "শিরোনাম",
+        "author": "পোস্টকারী",
+        "bloodGroup": "রক্তের গ্রুপ",
+        "hospital": "হাসপাতাল",
+        "interested": "আগ্রহী",
+        "status": "স্ট্যাটাস",
+        "action": "অ্যাকশন"
+      },
+      "interestedCount": "জন",
+      "close": "বন্ধ করুন",
+      "toasts": {
+        "closed": "পোস্ট বন্ধ করা হয়েছে"
+      }
+    },
+    "history": {
+      "title": "রক্তদানের ইতিহাস",
+      "table": {
+        "donor": "ডোনার",
+        "recipient": "রিসিপিয়েন্ট",
+        "bloodGroup": "রক্তের গ্রুপ",
+        "hospital": "হাসপাতাল",
+        "units": "ইউনিট",
+        "date": "তারিখ"
+      },
+      "units": "ব্যাগ"
+    }
+  },
+  "location": {
+    "division": {
+      "Dhaka": "ঢাকা",
+      "Chattogram": "চট্টগ্রাম",
+      "Khulna": "খুলনা",
+      "Rajshahi": "রাজশাহী",
+      "Sylhet": "সিলেট",
+      "Rangpur": "রংপুর",
+      "Barisal": "বরিশাল",
+      "Mymensingh": "ময়মনসিংহ"
+    },
+    "district": {
+      "Dhaka": "ঢাকা",
+      "Gazipur": "গাজীপুর",
+      "Narayanganj": "নারায়ণগঞ্জ",
+      "Tangail": "টাঙ্গাইল",
+      "Manikganj": "মানিকগঞ্জ",
+      "Munshiganj": "মুন্সীগঞ্জ",
+      "Narsingdi": "নরসিংদী",
+      "Faridpur": "ফরিদপুর",
+      "Gopalganj": "গোপালগঞ্জ",
+      "Kishoreganj": "কিশোরগঞ্জ",
+      "Madaripur": "মাদারীপুর",
+      "Rajbari": "রাজবাড়ী",
+      "Shariatpur": "শরীয়তপুর",
+      "Chattogram": "চট্টগ্রাম",
+      "Cox's Bazar": "কক্সবাজার",
+      "Comilla": "কুমিল্লা",
+      "Feni": "ফেনী",
+      "Brahmanbaria": "ব্রাহ্মণবাড়িয়া",
+      "Noakhali": "নোয়াখালী",
+      "Lakshmipur": "লক্ষ্মীপুর",
+      "Chandpur": "চাঁদপুর",
+      "Rangamati": "রাঙ্গামাটি",
+      "Khagrachari": "খাগড়াছড়ি",
+      "Bandarban": "বান্দরবান",
+      "Khulna": "খুলনা",
+      "Jessore": "যশোর",
+      "Satkhira": "সাতক্ষীরা",
+      "Bagerhat": "বাগেরহাট",
+      "Narail": "নড়াইল",
+      "Magura": "মাগুরা",
+      "Jhenaidah": "ঝিনাইদহ",
+      "Kushtia": "কুষ্টিয়া",
+      "Chuadanga": "চুয়াডাঙ্গা",
+      "Meherpur": "মেহেরপুর",
+      "Rajshahi": "রাজশাহী",
+      "Bogra": "বগুড়া",
+      "Pabna": "পাবনা",
+      "Sirajganj": "সিরাজগঞ্জ",
+      "Natore": "নাটোর",
+      "Naogaon": "নওগাঁ",
+      "Chapainawabganj": "চাঁপাইনবাবগঞ্জ",
+      "Joypurhat": "জয়পুরহাট",
+      "Sylhet": "সিলেট",
+      "Moulvibazar": "মৌলভীবাজার",
+      "Habiganj": "হবিগঞ্জ",
+      "Sunamganj": "সুনামগঞ্জ",
+      "Rangpur": "রংপুর",
+      "Dinajpur": "দিনাজপুর",
+      "Gaibandha": "গাইবান্ধা",
+      "Kurigram": "কুড়িগ্রাম",
+      "Lalmonirhat": "লালমনিরহাট",
+      "Nilphamari": "নীলফামারী",
+      "Panchagarh": "পঞ্চগড়",
+      "Thakurgaon": "ঠাকুরগাঁও",
+      "Barisal": "বরিশাল",
+      "Bhola": "ভোলা",
+      "Jhalokati": "ঝালকাঠি",
+      "Patuakhali": "পটুয়াখালী",
+      "Pirojpur": "পিরোজপুর",
+      "Barguna": "বরগুনা",
+      "Mymensingh": "ময়মনসিংহ",
+      "Jamalpur": "জামালপুর",
+      "Netrokona": "নেত্রকোনা",
+      "Sherpur": "শেরপুর"
+    }
   }
 }

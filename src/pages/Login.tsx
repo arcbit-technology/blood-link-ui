@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Droplet, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,19 +18,20 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
-const loginSchema = z.object({
-  email: z.string().email("সঠিক ইমেইল দিন"),
-  password: z.string().min(6, "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে"),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
-
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login } = useAuth();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const loginSchema = z.object({
+    email: z.string().email(t("validation.email.invalid")),
+    password: z.string().min(6, t("validation.password.minLength")),
+  });
+
+  type LoginFormData = z.infer<typeof loginSchema>;
 
   const {
     register,
@@ -45,14 +47,14 @@ export default function Login() {
       const success = await login(data.email, data.password);
       if (success) {
         toast({
-          title: "সফলভাবে লগইন হয়েছে",
-          description: "স্বাগতম Blood Link এ!",
+          title: t("auth.login.success.title"),
+          description: t("auth.login.success.description"),
         });
         navigate("/donors");
       } else {
         toast({
-          title: "লগইন ব্যর্থ",
-          description: "ইমেইল বা পাসওয়ার্ড ভুল",
+          title: t("auth.login.error.title"),
+          description: t("auth.login.error.description"),
           variant: "destructive",
         });
       }
@@ -68,20 +70,20 @@ export default function Login() {
           <Link to="/" className="flex items-center gap-2 group">
             <Droplet className="h-10 w-10 text-primary fill-primary transition-transform group-hover:scale-110" />
             <span className="text-2xl font-bold text-gradient-blood">
-              Blood Link
+              {t("header.appName")}
             </span>
           </Link>
         </div>
 
         <Card className="card-shadow">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">লগইন করুন</CardTitle>
-            <CardDescription>আপনার অ্যাকাউন্টে প্রবেশ করুন</CardDescription>
+            <CardTitle className="text-2xl">{t("auth.login.title")}</CardTitle>
+            <CardDescription>{t("auth.login.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">ইমেইল</Label>
+                <Label htmlFor="email">{t("auth.login.emailLabel")}</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -100,13 +102,15 @@ export default function Login() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">পাসওয়ার্ড</Label>
+                <Label htmlFor="password">
+                  {t("auth.login.passwordLabel")}
+                </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder={t("auth.login.passwordPlaceholder")}
                     className="pl-10 pr-10"
                     {...register("password")}
                   />
@@ -134,25 +138,29 @@ export default function Login() {
                 className="w-full blood-gradient text-primary-foreground"
                 disabled={isLoading}
               >
-                {isLoading ? "লগইন হচ্ছে..." : "লগইন"}
+                {isLoading
+                  ? t("auth.login.button.loading")
+                  : t("auth.login.button.default")}
               </Button>
             </form>
 
             <div className="mt-6 text-center text-sm">
-              <span className="text-muted-foreground">অ্যাকাউন্ট নেই? </span>
+              <span className="text-muted-foreground">
+                {t("auth.login.noAccount")}
+              </span>
               <Link
                 to="/register"
                 className="text-primary hover:underline font-medium"
               >
-                রেজিস্ট্রেশন করুন
+                {t("auth.login.registerLink")}
               </Link>
             </div>
 
             <div className="mt-4 p-3 bg-muted rounded-lg text-xs text-muted-foreground">
-              <p className="font-medium mb-1">ডেমো লগইন:</p>
-              <p>ইমেইল: hasib@example.com</p>
-              <p>অ্যাডমিন: admin@bloodlink.com</p>
-              <p className="text-xs mt-1">(যেকোনো পাসওয়ার্ড ব্যবহার করুন)</p>
+              <p className="font-medium mb-1">{t("auth.login.demo.title")}</p>
+              <p>hasib@example.com</p>
+              <p>admin@bloodlink.com</p>
+              <p className="text-xs mt-1">{t("auth.login.demo.note")}</p>
             </div>
           </CardContent>
         </Card>

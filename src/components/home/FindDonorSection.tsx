@@ -12,12 +12,14 @@ import {
 import { Label } from "@/components/ui/label";
 import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
 import { Division, BloodGroup } from "@/types";
+import { useTranslation } from "react-i18next";
 
 export function FindDonorSection() {
   const navigate = useNavigate();
   const [division, setDivision] = useState<Division | "all">("all");
   const [district, setDistrict] = useState<string>("all");
   const [bloodGroup, setBloodGroup] = useState<BloodGroup | "all">("all");
+  const { t } = useTranslation();
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -38,19 +40,21 @@ export function FindDonorSection() {
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full mb-4">
                 <Search className="h-4 w-4" />
-                <span className="text-sm font-medium">সহজ অনুসন্ধান</span>
+                <span className="text-sm font-medium">
+                  {t("findDonor.badge")}
+                </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                ডোনার খুঁজুন
+                {t("findDonor.title")}
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-                আপনার এলাকার রক্তদাতাদের খুঁজে পেতে নিচের তথ্যগুলো পূরণ করুন
+                {t("findDonor.description")}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end max-w-5xl mx-auto bg-background/50 p-6 rounded-xl border shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end max-w-5xl mx-auto bg-background/50 pb-6 rounded-xl  shadow-sm">
               <div className="space-y-2">
-                <Label>বিভাগ</Label>
+                <Label>{t("findDonor.division")}</Label>
                 <Select
                   value={division}
                   onValueChange={(val) => {
@@ -59,13 +63,15 @@ export function FindDonorSection() {
                   }}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="বিভাগ নির্বাচন করুন" />
+                    <SelectValue placeholder={t("findDonor.selectDivision")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">সকল বিভাগ</SelectItem>
+                    <SelectItem value="all">
+                      {t("findDonor.allDivisions")}
+                    </SelectItem>
                     {DIVISIONS.map((div) => (
                       <SelectItem key={div} value={div}>
-                        {div}
+                        {t(`location.division.${div}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -73,21 +79,23 @@ export function FindDonorSection() {
               </div>
 
               <div className="space-y-2">
-                <Label>জেলা</Label>
+                <Label>{t("findDonor.district")}</Label>
                 <Select
                   value={district}
                   onValueChange={setDistrict}
                   disabled={division === "all"}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="জেলা নির্বাচন করুন" />
+                    <SelectValue placeholder={t("findDonor.selectDistrict")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">সকল জেলা</SelectItem>
+                    <SelectItem value="all">
+                      {t("findDonor.allDistricts")}
+                    </SelectItem>
                     {division !== "all" &&
                       DISTRICTS[division]?.map((dist) => (
                         <SelectItem key={dist} value={dist}>
-                          {dist}
+                          {t(`location.district.${dist}`)}
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -95,7 +103,7 @@ export function FindDonorSection() {
               </div>
 
               <div className="space-y-2">
-                <Label>রক্তের গ্রুপ</Label>
+                <Label>{t("findDonor.bloodGroup")}</Label>
                 <Select
                   value={bloodGroup}
                   onValueChange={(val) =>
@@ -103,10 +111,14 @@ export function FindDonorSection() {
                   }
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="রক্তের গ্রুপ" />
+                    <SelectValue
+                      placeholder={t("findDonor.selectBloodGroup")}
+                    />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">সকল গ্রুপ</SelectItem>
+                    <SelectItem value="all">
+                      {t("findDonor.allGroups")}
+                    </SelectItem>
                     {BLOOD_GROUPS.map((group) => (
                       <SelectItem key={group} value={group}>
                         {group}
@@ -122,7 +134,7 @@ export function FindDonorSection() {
                 onClick={handleSearch}
               >
                 <Search className="mr-2 h-5 w-5" />
-                খুঁজুন
+                {t("findDonor.search")}
               </Button>
             </div>
           </div>

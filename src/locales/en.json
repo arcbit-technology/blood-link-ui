@@ -7,7 +7,11 @@
     "profile": "Profile",
     "adminDashboard": "Admin Dashboard",
     "logout": "Logout",
-    "appName": "Blood Link"
+    "appName": "Blood Link",
+    "language": {
+      "en": "English",
+      "bn": "Bangla"
+    }
   },
   "hero": {
     "saveLife": "Save Life by Donating Blood",
@@ -36,7 +40,13 @@
       "privacyDesc": "Your information is completely safe"
     },
     "stats": {
-      "donors": "Donors",
+      "count": {
+        "donors": "1000+",
+        "districts": "64",
+        "donations": "500+",
+        "service": "24/7"
+      },
+      "donors": "Registered Donors",
       "districts": "Districts Served",
       "donations": "Successful Donations",
       "service": "Service"
@@ -70,5 +80,500 @@
     "title": "Newly Joined Donors",
     "subtitle": "Those who stepped forward for humanity",
     "seeAll": "See All Donors"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "description": "Enter your account",
+      "emailLabel": "Email",
+      "emailPlaceholder": "example@email.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "button": {
+        "loading": "Logging in...",
+        "default": "Login"
+      },
+      "noAccount": "Don't have an account? ",
+      "registerLink": "Register",
+      "demo": {
+        "title": "Demo Login:",
+        "note": "(Use any password)"
+      },
+      "success": {
+        "title": "Login Successful",
+        "description": "Welcome to Blood Link!"
+      },
+      "error": {
+        "title": "Login Failed",
+        "description": "Incorrect email or password"
+      }
+    },
+    "register": {
+      "title": "Register",
+      "description": "Join as a blood donor and help save lives",
+      "nameLabel": "Name *",
+      "namePlaceholder": "Your full name",
+      "emailLabel": "Email *",
+      "emailPlaceholder": "example@email.com",
+      "passwordLabel": "Password *",
+      "passwordPlaceholder": "••••••••",
+      "phoneLabel": "Phone Number *",
+      "phonePlaceholder": "+8801712345678",
+      "genderLabel": "Gender *",
+      "ageLabel": "Age *",
+      "agePlaceholder": "25",
+      "bloodGroupLabel": "Blood Group *",
+      "divisionLabel": "Division *",
+      "selectDivision": "Select Division",
+      "districtLabel": "District *",
+      "selectDistrict": "Select District",
+      "addressLabel": "Address *",
+      "addressPlaceholder": "Full Address",
+      "occupationLabel": "Occupation *",
+      "occupationPlaceholder": "Your Occupation",
+      "success": {
+        "title": "Registration Successful!",
+        "description": "Welcome to the Blood Link family!"
+      },
+      "error": {
+        "title": "Registration Failed",
+        "description": "Please try again"
+      },
+      "lastDonationDateLabel": "Last Donation Date",
+      "hideInfoLabel": "Hide Personal Info",
+      "hideInfoDescription": "If enabled, only gender, blood group and area will be shown",
+      "alreadyAccount": "Already have an account? ",
+      "loginLink": "Login"
+    }
+  },
+  "common": {
+    "select": "Select",
+    "all": "All",
+    "filter": "Filter",
+    "reset": "Reset",
+    "years": "Years",
+    "call": "Call Now",
+    "address": "Address",
+    "occupation": "Occupation",
+    "email": "Email",
+    "sending": "Sending...",
+    "gender": {
+      "label": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
+  },
+  "donors": {
+    "title": "Find Donors",
+    "subtitle": "Find blood donors according to your needs",
+    "results": {
+      "count": "Found {{count}} donors",
+      "empty": {
+        "title": "No donors found",
+        "subtitle": "Please try changing filters"
+      }
+    },
+    "filter": {
+      "bloodGroup": "Select Blood Group:",
+      "searchPlaceholder": "Search by name, address or district..."
+    },
+    "card": {
+      "hiddenInfo": "Info Hidden",
+      "viewDetails": "View Details →"
+    },
+    "status": {
+      "available": "Available to Donate",
+      "unavailable": "Recently Donated"
+    },
+    "dialog": {
+      "title": "Donor Information",
+      "hiddenInfo": "Personal information is hidden",
+      "genderAge": "Gender & Age",
+      "lastDonation": "Last Donation"
+    },
+    "resultsCount": "Total {{count}} donors found",
+    "noResults": {
+      "title": "No Donors Found",
+      "description": "Please try changing filters"
+    }
+  },
+  "emergency": {
+    "title": "Emergency Blood Request",
+    "subtitle": "Send request directly to Admin",
+    "backHome": "Back to Home",
+    "contactInfo": "Contact Info",
+    "patientInfo": "Patient Info",
+    "hospitalInfo": "Hospital Info",
+    "success": {
+      "title": "Emergency request sent",
+      "description": "Admin will contact you soon"
+    },
+    "form": {
+      "yourName": "Your Name *",
+      "phone": "Phone Number *",
+      "patientName": "Patient Name *",
+      "bloodGroup": "Blood Group *",
+      "select": "Select",
+      "bagsNeeded": "How many bags needed *",
+      "whenNeeded": "When needed *",
+      "whyNeeded": "Why blood needed *",
+      "reasonPlaceholder": "Operation, accident, anemia etc...",
+      "hospitalName": "Hospital Name *",
+      "division": "Division *",
+      "district": "District *",
+      "fullAddress": "Full Address",
+      "hospitalAddressPlaceholder": "Hospital Full Address",
+      "submit": "Send Request"
+    },
+    "warning": "Use emergency request only in real emergency situations. Misuse may result in account suspension."
+  },
+  "footer": {
+    "slogan": "Save Life by Donating Blood. Every drop is precious.",
+    "quickLinks": "Quick Links",
+    "findDonors": "Find Donors",
+    "bloodRequests": "Blood Requests",
+    "registration": "Registration",
+    "contact": "Contact",
+    "address": "Dhaka, Bangladesh",
+    "emergencyService": "Emergency Service",
+    "emergencyCall": "Call for emergency blood need",
+    "rights": "All rights reserved.",
+    "madeWith": "Made with",
+    "by": "by ArcBit Technology"
+  },
+  "validation": {
+    "email": {
+      "invalid": "Please enter a valid email"
+    },
+    "password": {
+      "minLength": "Password must be at least 6 characters"
+    },
+    "name": {
+      "minLength": "Name must be at least 2 characters"
+    },
+    "phone": {
+      "invalid": "Please enter a valid phone number (+880XXXXXXXXXX)"
+    },
+    "gender": {
+      "required": "Please select gender"
+    },
+    "address": {
+      "minLength": "Please enter a valid address"
+    },
+    "division": {
+      "required": "Please select division"
+    },
+    "district": {
+      "required": "Please select district"
+    },
+    "bloodGroup": {
+      "required": "Please select blood group"
+    },
+    "age": {
+      "required": "Please enter age",
+      "min": "Age must be at least 18",
+      "max": "Age must be at most 65"
+    },
+    "occupation": {
+      "required": "Please enter occupation"
+    }
+  },
+  "notFound": {
+    "title": "Oops! Page not found",
+    "homeLink": "Return to Home"
+  },
+  "posts": {
+    "loginRequired": {
+      "title": "Login Required",
+      "description": "Please login first to express interest"
+    },
+    "interestShown": {
+      "title": "Interest Expressed",
+      "description": "The poster will be contacted"
+    },
+    "createSuccess": {
+      "title": "Post Created",
+      "description": "Your blood request has been published"
+    },
+    "status": {
+      "open": "Open",
+      "fulfilled": "Fulfilled",
+      "closed": "Closed"
+    },
+    "header": {
+      "title": "Blood Requests",
+      "subtitle": "Help those who need blood"
+    },
+    "createButton": "Create New Post",
+    "form": {
+      "title": "Post Blood Request",
+      "fields": {
+        "title": "Title *",
+        "bloodGroup": "Blood Group *",
+        "description": "Description *",
+        "hospitalName": "Hospital Name *",
+        "division": "Division *",
+        "district": "District *",
+        "address": "Full Address",
+        "requiredDate": "When Needed *"
+      },
+      "placeholders": {
+        "title": "e.g., Urgent O+ Blood Needed",
+        "description": "Describe why blood is needed...",
+        "hospitalName": "Hospital Name",
+        "address": "Hospital Address"
+      },
+      "submit": "Post Request"
+    },
+    "loginToPost": "Login to Post",
+    "card": {
+      "requiredDate": "Required: ",
+      "interestedCount": " {{count}} interested",
+      "interested": "Interested",
+      "expressInterest": "Express Interest",
+      "postedBy": "Posted by: "
+    },
+    "empty": {
+      "title": "No Posts Found",
+      "subtitle": "Be the first to create a post"
+    }
+  },
+  "profile": {
+    "roles": {
+      "admin": "Admin",
+      "donor": "Donor"
+    },
+    "tabs": {
+      "info": "My Info",
+      "requests": "Requests",
+      "activity": "My Activity"
+    },
+    "info": {
+      "title": "Personal Info",
+      "genderAge": "Gender & Age",
+      "phone": "Phone",
+      "email": "Email",
+      "occupation": "Occupation",
+      "address": "Address",
+      "lastDonation": "Last Donation"
+    },
+    "settings": {
+      "title": "Privacy Settings",
+      "hideInfo": {
+        "label": "Hide Personal Info",
+        "description": "If enabled, only gender, blood group and area will be shown"
+      },
+      "updated": "Settings Updated"
+    },
+    "requests": {
+      "status": {
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "rejected": "Rejected",
+        "completed": "Completed"
+      },
+      "incoming": {
+        "title": "Incoming Requests",
+        "empty": "No new requests"
+      },
+      "outgoing": {
+        "title": "My Requests",
+        "empty": "You haven't sent any requests"
+      },
+      "card": {
+        "patient": "Patient:",
+        "reason": "Reason:",
+        "needed": "Needed:",
+        "donor": "Donor:"
+      },
+      "actions": {
+        "accept": "Accept",
+        "reject": "Reject"
+      },
+      "accepted": {
+        "title": "Request Accepted",
+        "description": "Thank you! You will be contacted."
+      },
+      "rejected": {
+        "title": "Request Rejected"
+      }
+    },
+    "activity": {
+      "title": "Interested Posts",
+      "empty": "No interests expressed"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Manage Blood Link"
+    },
+    "stats": {
+      "totalUsers": "Total Users",
+      "successfulDonations": "Successful Donations",
+      "pendingRequests": "Pending Requests",
+      "emergencyRequests": "Emergency Requests"
+    },
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "completed": "Completed",
+      "open": "Open",
+      "fulfilled": "Fulfilled",
+      "closed": "Closed"
+    },
+    "urgency": {
+      "normal": "Normal",
+      "urgent": "Urgent",
+      "emergency": "Emergency"
+    },
+    "tabs": {
+      "users": "Users",
+      "requests": "Requests",
+      "posts": "Posts",
+      "history": "History"
+    },
+    "users": {
+      "title": "User List",
+      "searchPlaceholder": "Name, email or district...",
+      "table": {
+        "name": "Name",
+        "bloodGroup": "Blood Group",
+        "gender": "Gender",
+        "district": "District",
+        "phone": "Phone",
+        "privacy": "Privacy"
+      },
+      "privacy": {
+        "hidden": "Hidden",
+        "public": "Public"
+      }
+    },
+    "requests": {
+      "title": "Blood Requests",
+      "table": {
+        "requester": "Requester",
+        "patient": "Patient",
+        "bloodGroup": "Blood Group",
+        "urgency": "Urgency",
+        "hospital": "Hospital",
+        "status": "Status",
+        "action": "Action"
+      },
+      "adminRequest": "Admin Request",
+      "toasts": {
+        "approved": "Request Approved",
+        "rejected": "Request Rejected"
+      }
+    },
+    "posts": {
+      "title": "Blood Request Posts",
+      "table": {
+        "title": "Title",
+        "author": "Author",
+        "bloodGroup": "Blood Group",
+        "hospital": "Hospital",
+        "interested": "Interested",
+        "status": "Status",
+        "action": "Action"
+      },
+      "interestedCount": "people",
+      "close": "Close",
+      "toasts": {
+        "closed": "Post Closed"
+      }
+    },
+    "history": {
+      "title": "Donation History",
+      "table": {
+        "donor": "Donor",
+        "recipient": "Recipient",
+        "bloodGroup": "Blood Group",
+        "hospital": "Hospital",
+        "units": "Units",
+        "date": "Date"
+      },
+      "units": "bags"
+    }
+  },
+  "location": {
+    "division": {
+      "Dhaka": "Dhaka",
+      "Chattogram": "Chattogram",
+      "Khulna": "Khulna",
+      "Rajshahi": "Rajshahi",
+      "Sylhet": "Sylhet",
+      "Rangpur": "Rangpur",
+      "Barisal": "Barisal",
+      "Mymensingh": "Mymensingh"
+    },
+    "district": {
+      "Dhaka": "Dhaka",
+      "Gazipur": "Gazipur",
+      "Narayanganj": "Narayanganj",
+      "Tangail": "Tangail",
+      "Manikganj": "Manikganj",
+      "Munshiganj": "Munshiganj",
+      "Narsingdi": "Narsingdi",
+      "Faridpur": "Faridpur",
+      "Gopalganj": "Gopalganj",
+      "Kishoreganj": "Kishoreganj",
+      "Madaripur": "Madaripur",
+      "Rajbari": "Rajbari",
+      "Shariatpur": "Shariatpur",
+      "Chattogram": "Chattogram",
+      "Cox's Bazar": "Cox's Bazar",
+      "Comilla": "Comilla",
+      "Feni": "Feni",
+      "Brahmanbaria": "Brahmanbaria",
+      "Noakhali": "Noakhali",
+      "Lakshmipur": "Lakshmipur",
+      "Chandpur": "Chandpur",
+      "Rangamati": "Rangamati",
+      "Khagrachari": "Khagrachari",
+      "Bandarban": "Bandarban",
+      "Khulna": "Khulna",
+      "Jessore": "Jessore",
+      "Satkhira": "Satkhira",
+      "Bagerhat": "Bagerhat",
+      "Narail": "Narail",
+      "Magura": "Magura",
+      "Jhenaidah": "Jhenaidah",
+      "Kushtia": "Kushtia",
+      "Chuadanga": "Chuadanga",
+      "Meherpur": "Meherpur",
+      "Rajshahi": "Rajshahi",
+      "Bogra": "Bogra",
+      "Pabna": "Pabna",
+      "Sirajganj": "Sirajganj",
+      "Natore": "Natore",
+      "Naogaon": "Naogaon",
+      "Chapainawabganj": "Chapainawabganj",
+      "Joypurhat": "Joypurhat",
+      "Sylhet": "Sylhet",
+      "Moulvibazar": "Moulvibazar",
+      "Habiganj": "Habiganj",
+      "Sunamganj": "Sunamganj",
+      "Rangpur": "Rangpur",
+      "Dinajpur": "Dinajpur",
+      "Gaibandha": "Gaibandha",
+      "Kurigram": "Kurigram",
+      "Lalmonirhat": "Lalmonirhat",
+      "Nilphamari": "Nilphamari",
+      "Panchagarh": "Panchagarh",
+      "Thakurgaon": "Thakurgaon",
+      "Barisal": "Barisal",
+      "Bhola": "Bhola",
+      "Jhalokati": "Jhalokati",
+      "Patuakhali": "Patuakhali",
+      "Pirojpur": "Pirojpur",
+      "Barguna": "Barguna",
+      "Mymensingh": "Mymensingh",
+      "Jamalpur": "Jamalpur",
+      "Netrokona": "Netrokona",
+      "Sherpur": "Sherpur"
+    }
   }
 }

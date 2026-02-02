@@ -71,10 +71,10 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => changeLanguage("en")}>
-                <span className="mr-2">🇺🇸</span> English
+                <span className="mr-2">🇺🇸</span> {t("header.language.en")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => changeLanguage("bn")}>
-                <span className="mr-2">🇧🇩</span> বাংলা
+                <span className="mr-2">🇧🇩</span> {t("header.language.bn")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -133,10 +133,10 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => changeLanguage("en")}>
-                <span className="mr-2">🇺🇸</span> English
+                <span className="mr-2">🇺🇸</span> {t("header.language.en")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => changeLanguage("bn")}>
-                <span className="mr-2">🇧🇩</span> বাংলা
+                <span className="mr-2">🇧🇩</span> {t("header.language.bn")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
