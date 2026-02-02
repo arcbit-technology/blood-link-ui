@@ -65,8 +65,12 @@ export function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                {i18n.language === "en" ? "🇺🇸" : "🇧🇩"}
+              <Button
+                variant="ghost"
+                className="rounded-full flex items-center gap-2 px-3"
+              >
+                <Globe className="h-5 w-5" />
+                <span>{i18n.language === "en" ? "🇺🇸" : "🇧🇩"}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -127,8 +131,12 @@ export function Header() {
         <div className="flex items-center gap-2 md:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                {i18n.language?.startsWith("en") ? "🇺🇸" : "🇧🇩"}
+              <Button
+                variant="ghost"
+                className="rounded-full flex items-center gap-2 px-3"
+              >
+                <Globe className="h-5 w-5" />
+                <span>{i18n.language?.startsWith("en") ? "🇺🇸" : "🇧🇩"}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
