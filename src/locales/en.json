@@ -1,0 +1,74 @@
+{
+  "header": {
+    "findDonors": "Find Donors",
+    "bloodRequests": "Blood Requests",
+    "login": "Login",
+    "register": "Registration",
+    "profile": "Profile",
+    "adminDashboard": "Admin Dashboard",
+    "logout": "Logout",
+    "appName": "Blood Link"
+  },
+  "hero": {
+    "saveLife": "Save Life by Donating Blood",
+    "description": "Find donors by blood group or register as a donor.",
+    "findDonor": "Find Donor",
+    "registerNow": "Register Now"
+  },
+  "home": {
+    "allBloodGroups": "Donors of all blood groups are available",
+    "emergency": {
+      "badge": "Emergency Blood Need?",
+      "title": "Notify Admin",
+      "description": "Send request directly to admin in emergency. We will respond quickly.",
+      "button": "Send Emergency Request"
+    },
+    "features": {
+      "title": "Why Blood Link?",
+      "subtitle": "We create a bridge between donors and recipients",
+      "network": "Huge Network",
+      "networkDesc": "Thousands of donors on one platform",
+      "search": "Easy Search",
+      "searchDesc": "Search by area and blood group",
+      "response": "Quick Response",
+      "responseDesc": "Quick contact in emergency",
+      "privacy": "Privacy",
+      "privacyDesc": "Your information is completely safe"
+    },
+    "stats": {
+      "donors": "Donors",
+      "districts": "Districts Served",
+      "donations": "Successful Donations",
+      "service": "Service"
+    }
+  },
+  "requests": {
+    "badge": "Emergency Blood Need",
+    "title": "Blood Requests",
+    "subtitle": "Your one bag of blood can save a life",
+    "seeAll": "See All Requests",
+    "viewDetails": "View Details",
+    "required": "Required"
+  },
+  "findDonor": {
+    "badge": "Easy Search",
+    "title": "Find Donor",
+    "description": "Fill the information below to find donors in your area",
+    "division": "Division",
+    "selectDivision": "Select Division",
+    "allDivisions": "All Divisions",
+    "district": "District",
+    "selectDistrict": "Select District",
+    "allDistricts": "All Districts",
+    "bloodGroup": "Blood Group",
+    "selectBloodGroup": "Blood Group",
+    "allGroups": "All Groups",
+    "search": "Search"
+  },
+  "recentDonors": {
+    "badge": "Our Proud Donors",
+    "title": "Newly Joined Donors",
+    "subtitle": "Those who stepped forward for humanity",
+    "seeAll": "See All Donors"
+  }
+}
