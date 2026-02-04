@@ -129,6 +129,10 @@
       "addressPlaceholder": "সম্পূর্ণ ঠিকানা",
       "occupationLabel": "পেশা *",
       "occupationPlaceholder": "আপনার পেশা",
+      "button": {
+        "default": "রেজিস্ট্রেশন করুন",
+        "loading": "রেজিস্ট্রেশন হচ্ছে..."
+      },
       "success": {
         "title": "রেজিস্ট্রেশন সফল হয়েছে!",
         "description": "স্বাগতম Blood Link পরিবারে!"
