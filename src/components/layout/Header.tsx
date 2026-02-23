@@ -96,7 +96,7 @@ export function Header() {
                   <User className="mr-2 h-4 w-4" />
                   {t("header.profile")}
                 </DropdownMenuItem>
-                {user?.role === "admin" && (
+                {user?.role === "ADMIN" && (
                   <DropdownMenuItem onClick={() => navigate("/admin")}>
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     {t("header.adminDashboard")}
@@ -189,7 +189,7 @@ export function Header() {
                 >
                   {t("header.profile")}
                 </Link>
-                {user?.role === "admin" && (
+                {user?.role === "ADMIN" && (
                   <Link
                     to="/admin"
                     className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"

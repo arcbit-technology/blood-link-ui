@@ -43,36 +43,47 @@ import { BloodGroup, Division, Gender } from "@/types";
 export default function Register() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { register: registerUser } = useAuth();
+  const { register: registerUser, registerIsLoading } = useAuth();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedDivision, setSelectedDivision] = useState<Division | null>(
     null,
   );
 
-  const registerSchema = z.object({
-    name: z.string().min(2, t("validation.name.minLength")).max(100),
-    email: z.string().email(t("validation.email.invalid")).max(255),
-    password: z.string().min(6, t("validation.password.minLength")),
-    phone: z.string().regex(/^\+880[0-9]{10}$/, t("validation.phone.invalid")),
-    gender: z.enum(["male", "female", "other"], {
-      required_error: t("validation.gender.required"),
-    }),
-    address: z.string().min(5, t("validation.address.minLength")).max(200),
-    division: z.string({ required_error: t("validation.division.required") }),
-    district: z.string({ required_error: t("validation.district.required") }),
-    bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
-      required_error: t("validation.bloodGroup.required"),
-    }),
-    age: z
-      .number({ required_error: t("validation.age.required") })
-      .min(18, t("validation.age.min"))
-      .max(65, t("validation.age.max")),
-    occupation: z.string().min(2, t("validation.occupation.required")).max(100),
-    lastDonationDate: z.string().optional(),
-    hidePersonalInfo: z.boolean().default(false),
-  });
+  const registerSchema = z
+    .object({
+      firstName: z.string().min(2, t("validation.name.minLength")).max(100),
+      lastName: z.string().min(2, t("validation.name.minLength")).max(100),
+      email: z.string().email(t("validation.email.invalid")).max(255),
+      password: z.string().min(6, t("validation.password.minLength")),
+      confirmPassword: z.string().min(6, t("validation.password.minLength")),
+      phone: z
+        .string()
+        .regex(/^\+880[0-9]{10}$/, t("validation.phone.invalid")),
+      gender: z.enum(["male", "female", "other"], {
+        required_error: t("validation.gender.required"),
+      }),
+      address: z.string().min(5, t("validation.address.minLength")).max(200),
+      division: z.string({ required_error: t("validation.division.required") }),
+      district: z.string({ required_error: t("validation.district.required") }),
+      bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], {
+        required_error: t("validation.bloodGroup.required"),
+      }),
+      age: z
+        .number({ required_error: t("validation.age.required") })
+        .min(18, t("validation.age.min"))
+        .max(65, t("validation.age.max")),
+      occupation: z
+        .string()
+        .min(2, t("validation.occupation.required"))
+        .max(100),
+      lastDonationDate: z.string().optional(),
+      hidePersonalInfo: z.boolean().default(false),
+    })
+    .refine((val) => val.password === val.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    });
 
   type RegisterFormData = z.infer<typeof registerSchema>;
 
@@ -92,36 +103,41 @@ export default function Register() {
   const hidePersonalInfo = watch("hidePersonalInfo");
 
   const onSubmit = async (data: RegisterFormData) => {
-    setIsLoading(true);
-    try {
-      await registerUser({
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        gender: data.gender as Gender,
-        address: data.address,
-        division: data.division as Division,
-        district: data.district,
-        bloodGroup: data.bloodGroup as BloodGroup,
-        age: data.age,
-        occupation: data.occupation,
-        lastDonationDate: data.lastDonationDate,
-        hidePersonalInfo: data.hidePersonalInfo,
-      });
+    const result = await registerUser({
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      password: data.password,
+      confirm_password: data.confirmPassword,
+      gender: data.gender as Gender,
+      phone: data.phone,
+      address: data.address,
+      division: data.division as Division,
+      district: data.district,
+      age: data.age,
+      blood_group: data.bloodGroup as BloodGroup,
+      profession: data.occupation,
+      donated_at: data.lastDonationDate,
+      hide_personal_info: data.hidePersonalInfo,
+      is_available: true,
+      city: "",
+      country: "Bangladesh",
+    });
+
+    if (result.ok) {
       toast({
-        title: t("auth.register.success.title"),
-        description: t("auth.register.success.description"),
+        title: "Registration successful",
+        description: "A verification link send to your email, check that.",
       });
-      navigate("/donors");
-    } catch (error) {
-      toast({
-        title: t("auth.register.error.title"),
-        description: t("auth.register.error.description"),
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+      navigate("/login");
+      return;
     }
+
+    toast({
+      title: t("auth.register.error.title"),
+      description: result.message || t("auth.register.error.description"),
+      variant: "destructive",
+    });
   };
 
   return (
@@ -148,19 +164,37 @@ export default function Register() {
               {/* Personal Info */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">{t("auth.register.nameLabel")}</Label>
+                  <Label htmlFor="firstName">First Name</Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id="name"
-                      placeholder={t("auth.register.namePlaceholder")}
+                      id="firstName"
+                      placeholder="Enter your first name"
                       className="pl-10"
-                      {...register("name")}
+                      {...register("firstName")}
                     />
                   </div>
-                  {errors.name && (
+                  {errors.firstName && (
                     <p className="text-sm text-destructive">
-                      {errors.name.message}
+                      {errors.firstName.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">Last Name</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="lastName"
+                      placeholder="Enter your last name"
+                      className="pl-10"
+                      {...register("lastName")}
+                    />
+                  </div>
+                  {errors.lastName && (
+                    <p className="text-sm text-destructive">
+                      {errors.lastName.message}
                     </p>
                   )}
                 </div>
@@ -180,6 +214,23 @@ export default function Register() {
                   {errors.email && (
                     <p className="text-sm text-destructive">
                       {errors.email.message}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">{t("auth.register.phoneLabel")}</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="phone"
+                      placeholder={t("auth.register.phonePlaceholder")}
+                      className="pl-10"
+                      {...register("phone")}
+                    />
+                  </div>
+                  {errors.phone && (
+                    <p className="text-sm text-destructive">
+                      {errors.phone.message}
                     </p>
                   )}
                 </div>
@@ -219,19 +270,31 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone">{t("auth.register.phoneLabel")}</Label>
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id="phone"
-                      placeholder={t("auth.register.phonePlaceholder")}
-                      className="pl-10"
-                      {...register("phone")}
+                      id="confirmPassword"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Confirm your password"
+                      className="pl-10 pr-10"
+                      {...register("confirmPassword")}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
                   </div>
-                  {errors.phone && (
+                  {errors.confirmPassword && (
                     <p className="text-sm text-destructive">
-                      {errors.phone.message}
+                      {errors.confirmPassword.message}
                     </p>
                   )}
                 </div>
@@ -452,9 +515,9 @@ export default function Register() {
               <Button
                 type="submit"
                 className="w-full blood-gradient text-primary-foreground"
-                disabled={isLoading}
+                disabled={registerIsLoading}
               >
-                {isLoading
+                {registerIsLoading
                   ? t("auth.register.button.loading")
                   : t("auth.register.button.default")}
               </Button>

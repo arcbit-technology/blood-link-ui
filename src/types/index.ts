@@ -1,18 +1,26 @@
-export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+export type BloodGroup =
+  | "A+"
+  | "A-"
+  | "B+"
+  | "B-"
+  | "AB+"
+  | "AB-"
+  | "O+"
+  | "O-";
 
-export type Gender = 'male' | 'female' | 'other';
+export type Gender = "male" | "female" | "other";
 
-export type Division = 
-  | 'Dhaka' 
-  | 'Chattogram' 
-  | 'Khulna' 
-  | 'Rajshahi' 
-  | 'Sylhet' 
-  | 'Rangpur' 
-  | 'Barisal' 
-  | 'Mymensingh';
+export type Division =
+  | "Dhaka"
+  | "Chattogram"
+  | "Khulna"
+  | "Rajshahi"
+  | "Sylhet"
+  | "Rangpur"
+  | "Barisal"
+  | "Mymensingh";
 
-export type RequestStatus = 'pending' | 'accepted' | 'rejected' | 'completed';
+export type RequestStatus = "pending" | "accepted" | "rejected" | "completed";
 
 export interface User {
   id: string;
@@ -29,7 +37,7 @@ export interface User {
   lastDonationDate?: string;
   hidePersonalInfo: boolean;
   createdAt: string;
-  role: 'user' | 'admin';
+  role: "SUPERADMIN" | "ADMIN" | "MANAGER" | "USERROLE";
 }
 
 export interface DonationRequest {
@@ -39,7 +47,7 @@ export interface DonationRequest {
   donorId?: string;
   donorName?: string;
   bloodGroup: BloodGroup;
-  urgency: 'normal' | 'urgent' | 'emergency';
+  urgency: "normal" | "urgent" | "emergency";
   hospitalName: string;
   address: string;
   district: string;
@@ -67,7 +75,7 @@ export interface DonationPost {
   division: Division;
   requiredDate: string;
   interestedUsers: string[];
-  status: 'open' | 'fulfilled' | 'closed';
+  status: "open" | "fulfilled" | "closed";
   createdAt: string;
 }
 

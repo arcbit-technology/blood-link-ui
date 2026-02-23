@@ -21,10 +21,9 @@ import { useToast } from "@/hooks/use-toast";
 export default function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, loginIsLoading } = useAuth();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const loginSchema = z.object({
     email: z.string().email(t("validation.email.invalid")),
@@ -42,25 +41,30 @@ export default function Login() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
-    try {
-      const success = await login(data.email, data.password);
-      if (success) {
+    const result = await login(data.email, data.password);
+    if (result.ok) {
+      const isVerified = Boolean(
+        (result.user as any).is_verified ?? (result.user as any).isVerified,
+      );
+      if (!isVerified) {
         toast({
-          title: t("auth.login.success.title"),
-          description: t("auth.login.success.description"),
-        });
-        navigate("/donors");
-      } else {
-        toast({
-          title: t("auth.login.error.title"),
-          description: t("auth.login.error.description"),
-          variant: "destructive",
+          title: "Please verify your email",
+          description: "Your account is not verified yet. Please check your email inbox.",
         });
       }
-    } finally {
-      setIsLoading(false);
+      toast({
+        title: t("auth.login.success.title"),
+        description: t("auth.login.success.description"),
+      });
+      navigate("/donors");
+      return;
     }
+
+    toast({
+      title: t("auth.login.error.title"),
+      description: result.message || t("auth.login.error.description"),
+      variant: "destructive",
+    });
   };
 
   return (
@@ -136,9 +140,9 @@ export default function Login() {
               <Button
                 type="submit"
                 className="w-full blood-gradient text-primary-foreground"
-                disabled={isLoading}
+                disabled={loginIsLoading}
               >
-                {isLoading
+                {loginIsLoading
                   ? t("auth.login.button.loading")
                   : t("auth.login.button.default")}
               </Button>

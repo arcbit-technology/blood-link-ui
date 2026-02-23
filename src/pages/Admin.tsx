@@ -41,12 +41,12 @@ export default function Admin() {
   const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
-  const [users] = useState(mockUsers.filter((u) => u.role !== "admin"));
+  const [users] = useState(mockUsers.filter((u) => u.role !== "ADMIN"));
   const [requests, setRequests] = useState(mockDonationRequests);
   const [posts, setPosts] = useState(mockDonationPosts);
   const [history] = useState(mockDonationHistory);
 
-  if (!isAuthenticated || user?.role !== "admin") {
+  if (!isAuthenticated || user?.role !== "ADMIN") {
     return <Navigate to="/" replace />;
   }
 
