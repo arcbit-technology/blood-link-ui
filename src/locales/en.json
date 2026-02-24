@@ -131,6 +131,10 @@
       "addressPlaceholder": "Full Address",
       "occupationLabel": "Occupation *",
       "occupationPlaceholder": "Your Occupation",
+      "button": {
+        "default": "Register",
+        "loading": "Registering..."
+      },
       "success": {
         "title": "Registration Successful!",
         "description": "Welcome to the Blood Link family!"
