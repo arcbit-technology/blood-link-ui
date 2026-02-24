@@ -157,6 +157,7 @@
     "occupation": "Occupation",
     "email": "Email",
     "sending": "Sending...",
+    "somethingWentWrong": "Something went wrong. Please try again.",
     "gender": {
       "label": "Gender",
       "male": "Male",

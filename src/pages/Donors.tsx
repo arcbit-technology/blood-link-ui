@@ -1,7 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "@/components/layout/Layout";
 import { DonorCard } from "@/components/donors/DonorCard";
+import { DonorCardSkeleton } from "@/components/donors/DonorCardSkeleton";
 import { DonorDialog } from "@/components/donors/DonorDialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,16 +16,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { BloodBadge } from "@/components/ui/blood-badge";
 import { Search, Filter, X } from "lucide-react";
-import { mockUsers, BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
-import { User, BloodGroup, Division, Gender } from "@/types";
+import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
+import { BloodGroup, Division, Gender } from "@/types";
 import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { extractDonersList, getDoners } from "@/api/donors";
+import { mapApiUserToUser } from "@/api/mappers";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function Donors() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedDonor, setSelectedDonor] = useState<User | null>(null);
+  const [selectedDonorId, setSelectedDonorId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [page, setPage] = useState(1);
+  const size = 20;
 
   // Filters
   const [bloodGroupFilter, setBloodGroupFilter] = useState<BloodGroup | "all">(
@@ -35,39 +48,59 @@ export default function Donors() {
   const [genderFilter, setGenderFilter] = useState<Gender | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
+  const donorsQuery = useQuery({
+    queryKey: [
+      "doners",
+      {
+        bloodGroupFilter,
+        divisionFilter,
+        districtFilter,
+        genderFilter,
+        searchQuery,
+        page,
+        size,
+      },
+    ],
+    queryFn: async () => {
+      const genderParam =
+        genderFilter === "all"
+          ? undefined
+          : genderFilter === "male"
+            ? "male"
+            : genderFilter === "female"
+              ? "female"
+              : "others";
+
+      const res = await getDoners({
+        blood_group: bloodGroupFilter === "all" ? undefined : bloodGroupFilter,
+        division: divisionFilter === "all" ? undefined : divisionFilter,
+        district: districtFilter === "all" ? undefined : districtFilter,
+        gender: genderParam,
+        search: searchQuery ? searchQuery : undefined,
+        page,
+        size,
+      });
+
+      return extractDonersList(res);
+    },
+    retry: false,
+    staleTime: 10_000,
+    placeholderData: (prev) => prev,
+  });
+
   const donors = useMemo(() => {
-    return mockUsers.filter((user) => {
-      if (user.role === "admin") return false;
+    return (donorsQuery.data?.data ?? []).map(mapApiUserToUser);
+  }, [donorsQuery.data?.data]);
 
-      if (bloodGroupFilter !== "all" && user.bloodGroup !== bloodGroupFilter)
-        return false;
-      if (divisionFilter !== "all" && user.division !== divisionFilter)
-        return false;
-      if (districtFilter !== "all" && user.district !== districtFilter)
-        return false;
-      if (genderFilter !== "all" && user.gender !== genderFilter) return false;
+  const totalCount = donorsQuery.data?.totalCount ?? donors.length;
+  const canPrev = page > 1;
+  const canNext =
+    typeof totalCount === "number" && totalCount > 0
+      ? page * size < totalCount
+      : donors.length === size;
 
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        const matchesName =
-          !user.hidePersonalInfo && user.name.toLowerCase().includes(query);
-        const matchesAddress = user.address.toLowerCase().includes(query);
-        const matchesDistrict = user.district.toLowerCase().includes(query);
-        if (!matchesName && !matchesAddress && !matchesDistrict) return false;
-      }
-
-      return true;
-    });
-  }, [
-    bloodGroupFilter,
-    divisionFilter,
-    districtFilter,
-    genderFilter,
-    searchQuery,
-  ]);
-
-  const handleDonorClick = (donor: User) => {
-    setSelectedDonor(donor);
+  const handleDonorClick = (donorId: string) => {
+    setSelectedDonorId(donorId);
     setDialogOpen(true);
   };
 
@@ -77,6 +110,7 @@ export default function Donors() {
     setDistrictFilter("all");
     setGenderFilter("all");
     setSearchQuery("");
+    setPage(1);
     setSearchParams({});
   };
 
@@ -86,6 +120,52 @@ export default function Donors() {
     districtFilter !== "all" ||
     genderFilter !== "all" ||
     searchQuery !== "";
+
+  const isInitialLoading = donorsQuery.isLoading && donors.length === 0;
+
+  const handlePrev = (e: MouseEvent) => {
+    e.preventDefault();
+    if (!canPrev) return;
+    setPage((p) => Math.max(1, p - 1));
+  };
+
+  const handleNext = (e: MouseEvent) => {
+    e.preventDefault();
+    if (!canNext) return;
+    setPage((p) => p + 1);
+  };
+
+  const handleSetSearchQuery = (value: string) => {
+    setSearchQuery(value);
+    setPage(1);
+  };
+
+  const handleSetBloodGroupFilter = (value: BloodGroup | "all") => {
+    setBloodGroupFilter(value);
+    setPage(1);
+  };
+
+  const handleSetDivisionFilter = (value: Division | "all") => {
+    setDivisionFilter(value);
+    setDistrictFilter("all");
+    setPage(1);
+  };
+
+  const handleSetDistrictFilter = (value: string) => {
+    setDistrictFilter(value);
+    setPage(1);
+  };
+
+  const handleSetGenderFilter = (value: Gender | "all") => {
+    setGenderFilter(value);
+    setPage(1);
+  };
+
+  const handleSetBloodGroupQuick = (value: BloodGroup | "all") => {
+    handleSetBloodGroupFilter(value);
+    if (value === "all") setSearchParams({});
+    else setSearchParams({ bloodGroup: value });
+  };
 
   return (
     <Layout>
@@ -103,10 +183,7 @@ export default function Donors() {
           </p>
           <div className="flex flex-wrap gap-3">
             <button
-              onClick={() => {
-                setBloodGroupFilter("all");
-                setSearchParams({});
-              }}
+              onClick={() => handleSetBloodGroupQuick("all")}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 bloodGroupFilter === "all"
                   ? "bg-primary text-primary-foreground"
@@ -118,10 +195,7 @@ export default function Donors() {
             {BLOOD_GROUPS.map((group) => (
               <button
                 key={group}
-                onClick={() => {
-                  setBloodGroupFilter(group);
-                  setSearchParams({ bloodGroup: group });
-                }}
+                onClick={() => handleSetBloodGroupQuick(group)}
                 className="transition-transform hover:scale-110"
               >
                 <BloodBadge
@@ -146,7 +220,7 @@ export default function Donors() {
               placeholder={t("donors.filter.searchPlaceholder")}
               className="pl-10"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSetSearchQuery(e.target.value)}
             />
           </div>
           <Button
@@ -176,10 +250,9 @@ export default function Donors() {
               <Label>{t("findDonor.division")}</Label>
               <Select
                 value={divisionFilter}
-                onValueChange={(value) => {
-                  setDivisionFilter(value as Division | "all");
-                  setDistrictFilter("all");
-                }}
+                onValueChange={(value) =>
+                  handleSetDivisionFilter(value as Division | "all")
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder={t("findDonor.allDivisions")} />
@@ -201,7 +274,7 @@ export default function Donors() {
               <Label>{t("findDonor.district")}</Label>
               <Select
                 value={districtFilter}
-                onValueChange={setDistrictFilter}
+                onValueChange={handleSetDistrictFilter}
                 disabled={divisionFilter === "all"}
               >
                 <SelectTrigger>
@@ -226,7 +299,7 @@ export default function Donors() {
               <Select
                 value={genderFilter}
                 onValueChange={(value) =>
-                  setGenderFilter(value as Gender | "all")
+                  handleSetGenderFilter(value as Gender | "all")
                 }
               >
                 <SelectTrigger>
@@ -251,11 +324,23 @@ export default function Donors() {
 
         {/* Results Count */}
         <p className="text-sm text-muted-foreground mb-4">
-          {t("donors.results.count", { count: donors.length })}
+          {t("donors.results.count", { count: totalCount })}
         </p>
 
         {/* Donor Cards Grid */}
-        {donors.length > 0 ? (
+        {isInitialLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <div
+                key={index}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <DonorCardSkeleton />
+              </div>
+            ))}
+          </div>
+        ) : donors.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {donors.map((donor, index) => (
               <div
@@ -265,10 +350,14 @@ export default function Donors() {
               >
                 <DonorCard
                   donor={donor}
-                  onClick={() => handleDonorClick(donor)}
+                  onClick={() => handleDonorClick(donor.id)}
                 />
               </div>
             ))}
+          </div>
+        ) : donorsQuery.isError ? (
+          <div className="text-center py-16 text-muted-foreground">
+            {t("common.somethingWentWrong")}
           </div>
         ) : (
           <div className="text-center py-16">
@@ -284,11 +373,44 @@ export default function Donors() {
           </div>
         )}
 
+        {(canPrev || canNext) && (
+          <Pagination className="mt-8">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={handlePrev}
+                  className={
+                    !canPrev ? "pointer-events-none opacity-50" : undefined
+                  }
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <span className="px-3 text-sm text-muted-foreground">
+                  {page}
+                </span>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={handleNext}
+                  className={
+                    !canNext ? "pointer-events-none opacity-50" : undefined
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
+
         {/* Donor Dialog */}
         <DonorDialog
-          donor={selectedDonor}
+          donorId={selectedDonorId}
           open={dialogOpen}
-          onOpenChange={setDialogOpen}
+          onOpenChange={(nextOpen) => {
+            setDialogOpen(nextOpen);
+            if (!nextOpen) setSelectedDonorId(null);
+          }}
         />
       </div>
     </Layout>

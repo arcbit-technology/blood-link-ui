@@ -3,24 +3,32 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DonorCard } from "@/components/donors/DonorCard";
+import { DonorCardSkeleton } from "@/components/donors/DonorCardSkeleton";
 import { DonorDialog } from "@/components/donors/DonorDialog";
-import { mockUsers } from "@/data/mockData";
-import { User } from "@/types";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { extractDonersList, getDoners } from "@/api/donors";
+import { mapApiUserToUser } from "@/api/mappers";
 
 export function RecentDonorsSection() {
-  const [selectedDonor, setSelectedDonor] = useState<User | null>(null);
+  const [selectedDonorId, setSelectedDonorId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const { t } = useTranslation();
 
-  // Get latest 4 donors (excluding admins)
-  const recentDonors = mockUsers
-    .filter((user) => user.role === "user")
-    // Sort by createdAt desc if needed, but mock data is small
-    .slice(0, 4);
+  const recentDonorsQuery = useQuery({
+    queryKey: ["doners", "recent", 4],
+    queryFn: async () => {
+      const res = await getDoners({ page: 1, size: 4 });
+      return extractDonersList(res);
+    },
+    retry: false,
+    staleTime: 10_000,
+  });
 
-  const handleDonorClick = (donor: User) => {
-    setSelectedDonor(donor);
+  const recentDonors = (recentDonorsQuery.data?.data ?? []).map(mapApiUserToUser);
+
+  const handleDonorClick = (donorId: string) => {
+    setSelectedDonorId(donorId);
     setDialogOpen(true);
   };
 
@@ -50,18 +58,28 @@ export function RecentDonorsSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {recentDonors.map((donor, index) => (
-            <div
-              key={donor.id}
-              className="animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <DonorCard
-                donor={donor}
-                onClick={() => handleDonorClick(donor)}
-              />
-            </div>
-          ))}
+          {recentDonorsQuery.isLoading
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <DonorCardSkeleton />
+                </div>
+              ))
+            : recentDonors.map((donor, index) => (
+                <div
+                  key={donor.id}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <DonorCard
+                    donor={donor}
+                    onClick={() => handleDonorClick(donor.id)}
+                  />
+                </div>
+              ))}
         </div>
 
         <div className="mt-8 text-center md:hidden">
@@ -74,9 +92,12 @@ export function RecentDonorsSection() {
         </div>
 
         <DonorDialog
-          donor={selectedDonor}
+          donorId={selectedDonorId}
           open={dialogOpen}
-          onOpenChange={setDialogOpen}
+          onOpenChange={(nextOpen) => {
+            setDialogOpen(nextOpen);
+            if (!nextOpen) setSelectedDonorId(null);
+          }}
         />
       </div>
     </section>

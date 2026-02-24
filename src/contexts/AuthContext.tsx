@@ -2,7 +2,6 @@ import React, {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
   ReactNode,
 } from "react";
@@ -27,6 +26,7 @@ import {
   setStoredUser,
 } from "@/lib/authStorage";
 import { User } from "@/types";
+import { mapApiUserToUser } from "@/api/mappers";
 
 interface AuthContextType {
   user: User | null;
@@ -53,83 +53,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(() => getStoredUser<User>());
   const [token, setToken] = useState<string | null>(() => getStoredToken());
-
-  const mapApiUserToAppUser = useMemo(
-    () =>
-      (apiUser: ApiUser): User => {
-        const firstName =
-          typeof apiUser.first_name === "string" ? apiUser.first_name : "";
-        const lastName =
-          typeof apiUser.last_name === "string" ? apiUser.last_name : "";
-        const fullName = [firstName, lastName].filter(Boolean).join(" ");
-        const email = typeof apiUser.email === "string" ? apiUser.email : "";
-        const phone = typeof apiUser.phone === "string" ? apiUser.phone : "";
-        const address =
-          typeof apiUser.address === "string" ? apiUser.address : "";
-        const district =
-          typeof apiUser.district === "string" ? apiUser.district : "";
-        const division =
-          typeof apiUser.division === "string" ? apiUser.division : "Dhaka";
-        const genderRaw =
-          typeof apiUser.gender === "string" ? apiUser.gender : "";
-        const gender =
-          genderRaw === "M"
-            ? ("male" as const)
-            : genderRaw === "F"
-              ? ("female" as const)
-              : (genderRaw?.toLowerCase?.() as any) || "other";
-        const hidePersonalInfo =
-          typeof apiUser.hide_personal_info === "boolean"
-            ? apiUser.hide_personal_info
-            : false;
-        const apiBloodGroup =
-          typeof (apiUser as any).blood_group === "string"
-            ? ((apiUser as any).blood_group as string)
-            : undefined;
-
-        const roleRaw = typeof apiUser.role === "string" ? apiUser.role : "";
-        const roleName =
-          (roleRaw && roleRaw) ||
-          (typeof apiUser.id_role === "number" && apiUser.id_role === 1
-            ? "ADMIN"
-            : "USERROLE");
-
-        const id =
-          typeof apiUser.id === "number"
-            ? String(apiUser.id)
-            : typeof apiUser.id === "string"
-              ? apiUser.id
-              : email || `user_${Date.now()}`;
-
-        const backendRole = roleName.toUpperCase();
-        const normalizedRole = backendRole === "ADMIN" ? "admin" : "user";
-
-        return {
-          id,
-          name: fullName || email || "User",
-          email,
-          phone,
-          gender,
-          address,
-          district,
-          division: division as any,
-          bloodGroup: (apiBloodGroup as any) || "O+",
-          age: typeof apiUser.age === "number" ? apiUser.age : 0,
-          occupation:
-            typeof apiUser.profession === "string" ? apiUser.profession : "",
-          lastDonationDate:
-            typeof apiUser.donated_at === "string"
-              ? apiUser.donated_at
-              : undefined,
-          hidePersonalInfo,
-          createdAt:
-            typeof apiUser.created_at === "string" ? apiUser.created_at : "",
-          role: normalizedRole as any,
-          ...(apiUser as any),
-        };
-      },
-    [],
-  );
 
   const logout = () => {
     setUser(null);
@@ -181,12 +104,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         : null);
 
     if (maybeUser) {
-      const nextUser = mapApiUserToAppUser(maybeUser);
+      const nextUser = mapApiUserToUser(maybeUser);
       setUser(nextUser);
       setStoredUser(nextUser);
     }
   }, [
-    mapApiUserToAppUser,
     token,
     tokenValidationQuery.data,
     tokenValidationQuery.isError,
@@ -213,7 +135,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         };
       }
 
-      const nextUser = mapApiUserToAppUser(apiUser);
+      const nextUser = mapApiUserToUser(apiUser);
       setUser(nextUser);
       setStoredUser(nextUser);
 
