@@ -765,7 +765,7 @@ export const mockUsers: User[] = [
     lastDonationDate: "2024-10-15",
     hidePersonalInfo: false,
     createdAt: "2024-01-15",
-    role: "user",
+    role: "USERROLE",
   },
   {
     id: "2",
@@ -782,7 +782,7 @@ export const mockUsers: User[] = [
     lastDonationDate: "2024-11-20",
     hidePersonalInfo: true,
     createdAt: "2024-02-20",
-    role: "user",
+    role: "USERROLE",
   },
   {
     id: "3",
@@ -799,7 +799,7 @@ export const mockUsers: User[] = [
     lastDonationDate: "2024-09-10",
     hidePersonalInfo: false,
     createdAt: "2024-03-10",
-    role: "user",
+    role: "USERROLE",
   },
   {
     id: "4",
@@ -815,7 +815,7 @@ export const mockUsers: User[] = [
     occupation: "Nurse",
     hidePersonalInfo: false,
     createdAt: "2024-04-05",
-    role: "user",
+    role: "USERROLE",
   },
   {
     id: "5",
@@ -832,7 +832,7 @@ export const mockUsers: User[] = [
     lastDonationDate: "2024-08-25",
     hidePersonalInfo: true,
     createdAt: "2024-05-12",
-    role: "user",
+    role: "USERROLE",
   },
   {
     id: "6",
@@ -848,7 +848,7 @@ export const mockUsers: User[] = [
     occupation: "Bank Officer",
     hidePersonalInfo: false,
     createdAt: "2024-06-18",
-    role: "user",
+    role: "USERROLE",
   },
   {
     id: "admin",
@@ -864,7 +864,7 @@ export const mockUsers: User[] = [
     occupation: "Administrator",
     hidePersonalInfo: false,
     createdAt: "2024-01-01",
-    role: "admin",
+    role: "ADMIN",
   },
 ];
 

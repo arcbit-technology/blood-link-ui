@@ -1,57 +1,51 @@
-# Welcome to Blood Link
+# Blood Link
 
-A blood donation tracking application.
+A blood donation tracking application built with Next.js App Router, React, TypeScript, Tailwind CSS, shadcn/ui, React Query, and English/Bangla translations.
 
-## Project info
+## Requirements
 
-This project is a blood donation tracking application designed to help manage and track blood donations.
+- Node.js 20.9 or newer
+- pnpm 12.18 (`corepack enable` if needed)
+- The Blood Link Go API (the sibling `blood-link-server` project)
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Local development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+pnpm install
+cp .env.example .env
+pnpm dev
 ```
 
-**Edit a file directly in GitHub**
+On Windows PowerShell, use `Copy-Item .env.example .env` to create the environment file. Preserve your existing `.env` if you have already configured the API.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Open http://localhost:3000. Set `NEXT_PUBLIC_API_BASE_URL` in `.env` to the backend address (default: `http://localhost:8765`). This public variable is included in the browser bundle at build time; restart development or rebuild production after changing it.
 
-**Use GitHub Codespaces**
+## Production
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+pnpm build
+pnpm start
+```
 
-## What technologies are used for this project?
+Deploy with a Next.js-compatible Node.js host. Routing and 404 responses are handled by Next.js; the old Vite SPA fallback is no longer needed.
 
-This project is built with:
+## Checks
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```sh
+pnpm typecheck
+pnpm lint
+pnpm test
+```
+
+Vitest uses Vite only as its test runner; the application runs and builds with Next.js.
+
+## Structure
+
+- `src/app`: Next.js routes, root metadata/layout, and client providers.
+- `src/views`: Interactive screens used by each route.
+- `src/components`: Shared layout, donor, home, and shadcn/ui components.
+- `src/api`: Calls to the existing Go backend.
+- `src/contexts/AuthContext.tsx`: Browser session restoration and authentication.
+- `src/locales`: English and Bangla translations.
+
+Existing routes are `/`, `/login`, `/register`, `/donors`, `/posts`, `/profile`, `/emergency-request`, and `/admin`. Donor filters use URL query parameters such as `/donors?bloodGroup=A%2B&division=Dhaka`.

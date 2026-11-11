@@ -1,29 +1,22 @@
-import i18n from "i18next";
+import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 import en from "./locales/en.json";
 import bn from "./locales/bn.json";
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
+export function createI18n() {
+  const i18n = createInstance();
+
+  void i18n.use(initReactI18next).init({
     resources: {
-      en: {
-        translation: en,
-      },
-      bn: {
-        translation: bn,
-      },
+      en: { translation: en },
+      bn: { translation: bn },
     },
+    lng: "bn",
     fallbackLng: "bn",
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
-    },
-    detection: {
-      order: ["localStorage", "navigator"],
-      caches: ["localStorage"],
-    },
+    supportedLngs: ["bn", "en"],
+    initAsync: false,
+    interpolation: { escapeValue: false },
   });
 
-export default i18n;
+  return i18n;
+}

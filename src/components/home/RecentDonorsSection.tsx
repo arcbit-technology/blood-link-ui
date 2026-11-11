@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { ArrowRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DonorCard } from "@/components/donors/DonorCard";
@@ -50,7 +50,7 @@ export function RecentDonorsSection() {
           </div>
 
           <Button asChild variant="outline" className="hidden md:flex">
-            <Link to="/donors">
+            <Link href="/donors">
               {t('recentDonors.seeAll')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -84,7 +84,7 @@ export function RecentDonorsSection() {
 
         <div className="mt-8 text-center md:hidden">
           <Button asChild variant="outline" className="w-full">
-            <Link to="/donors">
+            <Link href="/donors">
               {t('recentDonors.seeAll')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>

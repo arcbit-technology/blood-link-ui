@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { ArrowRight, MapPin, Calendar, Droplet, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BloodBadge } from "@/components/ui/blood-badge";
@@ -30,7 +30,7 @@ export function BloodRequestSection() {
           </div>
 
           <Button asChild variant="outline" className="hidden md:flex">
-            <Link to="/posts">
+            <Link href="/posts">
               {t("requests.seeAll")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -83,7 +83,7 @@ export function BloodRequestSection() {
                 asChild
                 className="w-full bg-muted text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                <Link to="/posts">{t("requests.viewDetails")}</Link>
+                <Link href="/posts">{t("requests.viewDetails")}</Link>
               </Button>
             </div>
           ))}
@@ -91,7 +91,7 @@ export function BloodRequestSection() {
 
         <div className="mt-8 text-center md:hidden">
           <Button asChild variant="outline" className="w-full">
-            <Link to="/posts">
+            <Link href="/posts">
               {t("requests.seeAll")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>

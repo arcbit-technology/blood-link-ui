@@ -55,8 +55,8 @@ export async function http<T>(options: HttpOptions): Promise<T> {
 
   if (!res.ok) {
     const message =
-      (typeof data === "object" && data && "message" in data && typeof (data as any).message === "string"
-        ? (data as any).message
+      (typeof data === "object" && data && "message" in data && typeof data.message === "string"
+        ? data.message
         : `Request failed with status ${res.status}`);
     throw new ApiError(message, res.status, data);
   }

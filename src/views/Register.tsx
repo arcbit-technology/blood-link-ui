@@ -1,10 +1,12 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
-  Droplet,
   User,
   Mail,
   Lock,
@@ -17,6 +19,8 @@ import {
   Heart,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Logo } from "@/components/Logo";
+import { BrandName } from "@/components/BrandName";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,7 +46,7 @@ import { BloodGroup, Division, Gender } from "@/types";
 
 export default function Register() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { register: registerUser, registerIsLoading } = useAuth();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
@@ -124,12 +128,12 @@ export default function Register() {
       country: "Bangladesh",
     });
 
-    if (result.ok) {
+    if (result.ok === true) {
       toast({
         title: "Registration successful",
         description: "A verification link send to your email, check that.",
       });
-      navigate("/login");
+      router.push("/login");
       return;
     }
 
@@ -144,11 +148,9 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4 py-8">
       <div className="w-full max-w-2xl animate-fade-in">
         <div className="flex justify-center mb-8">
-          <Link to="/" className="flex items-center gap-2 group">
-            <Droplet className="h-10 w-10 text-primary fill-primary transition-transform group-hover:scale-110" />
-            <span className="text-2xl font-bold text-gradient-blood">
-              {t("header.appName")}
-            </span>
+          <Link href="/" className="flex items-center gap-2 group">
+            <Logo className="h-16 w-16 transition-transform group-hover:scale-110" />
+            <BrandName className="text-2xl" />
           </Link>
         </div>
 
@@ -528,7 +530,7 @@ export default function Register() {
                 {t("auth.register.alreadyAccount")}
               </span>
               <Link
-                to="/login"
+                href="/login"
                 className="text-primary hover:underline font-medium"
               >
                 {t("auth.register.loginLink")}

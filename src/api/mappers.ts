@@ -20,7 +20,7 @@ export function mapApiUserToUser(apiUser: ApiUser): User {
       ? ("male" as const)
       : genderRaw === "F"
         ? ("female" as const)
-        : (genderRaw?.toLowerCase?.() as any) || "other";
+        : genderRaw.toLowerCase() as User["gender"] || "other";
 
   const hidePersonalInfo =
     typeof apiUser.hide_personal_info === "boolean"
@@ -28,8 +28,8 @@ export function mapApiUserToUser(apiUser: ApiUser): User {
       : false;
 
   const apiBloodGroup =
-    typeof (apiUser as any).blood_group === "string"
-      ? ((apiUser as any).blood_group as string)
+    typeof apiUser.blood_group === "string"
+      ? apiUser.blood_group
       : undefined;
 
   const roleRaw = typeof apiUser.role === "string" ? apiUser.role : "";
@@ -47,9 +47,13 @@ export function mapApiUserToUser(apiUser: ApiUser): User {
         : email || `user_${Date.now()}`;
 
   const backendRole = roleName.toUpperCase();
-  const normalizedRole = backendRole === "ADMIN" ? "admin" : "user";
+  const normalizedRole: User["role"] =
+    backendRole === "ADMIN" || backendRole === "SUPERADMIN" || backendRole === "MANAGER"
+      ? backendRole
+      : "USERROLE";
 
   return {
+    ...apiUser,
     id,
     name: fullName || email || "User",
     email,
@@ -57,8 +61,8 @@ export function mapApiUserToUser(apiUser: ApiUser): User {
     gender,
     address,
     district,
-    division: division as any,
-    bloodGroup: (apiBloodGroup as any) || "O+",
+    division: division as User["division"],
+    bloodGroup: (apiBloodGroup as User["bloodGroup"]) || "O+",
     age: typeof apiUser.age === "number" ? apiUser.age : 0,
     occupation: typeof apiUser.profession === "string" ? apiUser.profession : "",
     lastDonationDate:
@@ -66,6 +70,6 @@ export function mapApiUserToUser(apiUser: ApiUser): User {
     hidePersonalInfo,
     createdAt: typeof apiUser.created_at === "string" ? apiUser.created_at : "",
     role: normalizedRole,
-    ...(apiUser as any),
+    isVerified: apiUser.is_verified === true,
   };
 }

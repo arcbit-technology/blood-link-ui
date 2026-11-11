@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useMemo, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "@/components/layout/Layout";
@@ -18,7 +20,7 @@ import { BloodBadge } from "@/components/ui/blood-badge";
 import { Search, Filter, X } from "lucide-react";
 import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
 import { BloodGroup, Division, Gender } from "@/types";
-import { useSearchParams } from "react-router-dom";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { extractDonersList, getDoners } from "@/api/donors";
 import { mapApiUserToUser } from "@/api/mappers";
@@ -32,7 +34,13 @@ import {
 
 export default function Donors() {
   const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const setSearchParams = (values: Record<string, string>) => {
+    const query = new URLSearchParams(values).toString();
+    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
   const [selectedDonorId, setSelectedDonorId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -40,11 +48,28 @@ export default function Donors() {
   const size = 20;
 
   // Filters
-  const [bloodGroupFilter, setBloodGroupFilter] = useState<BloodGroup | "all">(
-    (searchParams.get("bloodGroup") as BloodGroup) || "all",
-  );
-  const [divisionFilter, setDivisionFilter] = useState<Division | "all">("all");
-  const [districtFilter, setDistrictFilter] = useState<string>("all");
+  const bloodGroupParam = searchParams.get("bloodGroup");
+  const bloodGroupFilter: BloodGroup | "all" = BLOOD_GROUPS.includes(bloodGroupParam as BloodGroup)
+    ? bloodGroupParam as BloodGroup
+    : "all";
+  const divisionParam = searchParams.get("division");
+  const divisionFilter: Division | "all" = DIVISIONS.includes(divisionParam as Division)
+    ? divisionParam as Division
+    : "all";
+  const districtParam = searchParams.get("district");
+  const districtFilter = divisionFilter !== "all" && DISTRICTS[divisionFilter].includes(districtParam)
+    ? districtParam
+    : "all";
+
+  const updateFilters = (values: Record<string, string>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    for (const [key, value] of Object.entries(values)) {
+      if (value === "all") params.delete(key);
+      else params.set(key, value);
+    }
+    setSearchParams(Object.fromEntries(params));
+    setPage(1);
+  };
   const [genderFilter, setGenderFilter] = useState<Gender | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -105,9 +130,6 @@ export default function Donors() {
   };
 
   const clearFilters = () => {
-    setBloodGroupFilter("all");
-    setDivisionFilter("all");
-    setDistrictFilter("all");
     setGenderFilter("all");
     setSearchQuery("");
     setPage(1);
@@ -141,19 +163,15 @@ export default function Donors() {
   };
 
   const handleSetBloodGroupFilter = (value: BloodGroup | "all") => {
-    setBloodGroupFilter(value);
-    setPage(1);
+    updateFilters({ bloodGroup: value });
   };
 
   const handleSetDivisionFilter = (value: Division | "all") => {
-    setDivisionFilter(value);
-    setDistrictFilter("all");
-    setPage(1);
+    updateFilters({ division: value, district: "all" });
   };
 
   const handleSetDistrictFilter = (value: string) => {
-    setDistrictFilter(value);
-    setPage(1);
+    updateFilters({ district: value });
   };
 
   const handleSetGenderFilter = (value: Gender | "all") => {
@@ -163,8 +181,6 @@ export default function Donors() {
 
   const handleSetBloodGroupQuick = (value: BloodGroup | "all") => {
     handleSetBloodGroupFilter(value);
-    if (value === "all") setSearchParams({});
-    else setSearchParams({ bloodGroup: value });
   };
 
   return (

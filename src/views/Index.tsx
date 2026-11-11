@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BloodBadge } from "@/components/ui/blood-badge";
 import { Layout } from "@/components/layout/Layout";
@@ -57,7 +59,7 @@ export default function Index() {
                 size="lg"
                 className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 gap-2"
               >
-                <Link to="/donors">
+                <Link href="/donors">
                   <Search className="h-5 w-5" />
                   {t("hero.findDonor")}
                 </Link>
@@ -68,7 +70,7 @@ export default function Index() {
                 variant="outline"
                 className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 gap-2"
               >
-                <Link to="/register">
+                <Link href="/register">
                   {t("hero.registerNow")}
                   <ArrowRight className="h-5 w-5" />
                 </Link>
@@ -99,7 +101,7 @@ export default function Index() {
             {BLOOD_GROUPS.map((group, index) => (
               <Link
                 key={group}
-                to={`/donors?bloodGroup=${group}`}
+                href={`/donors?bloodGroup=${group}`}
                 className="animate-scale-in transition-transform hover:scale-110"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
@@ -140,7 +142,7 @@ export default function Index() {
               size="lg"
               className="blood-gradient text-primary-foreground gap-2"
             >
-              <Link to="/emergency-request">
+              <Link href="/emergency-request">
                 <Heart className="h-5 w-5" />
                 {t("home.emergency.button")}
               </Link>

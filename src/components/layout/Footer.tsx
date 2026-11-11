@@ -1,5 +1,7 @@
-import { Droplet, Heart, Phone, Mail, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Heart, Phone, Mail, MapPin } from "lucide-react";
+import { Logo } from "@/components/Logo";
+import { BrandName } from "@/components/BrandName";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 export function Footer() {
@@ -11,11 +13,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <Droplet className="h-6 w-6 text-primary fill-primary" />
-              <span className="text-lg font-bold text-gradient-blood">
-                {t('header.appName')}
-              </span>
+            <Link href="/" className="flex items-center gap-2">
+              <Logo className="h-10 w-10" />
+              <BrandName className="text-lg" />
             </Link>
             <p className="text-sm text-muted-foreground">
               {t('footer.slogan')}
@@ -28,7 +28,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
-                  to="/donors"
+                  href="/donors"
                   className="hover:text-primary transition-colors"
                 >
                   {t('footer.findDonors')}
@@ -36,7 +36,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/posts"
+                  href="/posts"
                   className="hover:text-primary transition-colors"
                 >
                   {t('footer.bloodRequests')}
@@ -44,7 +44,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/register"
+                  href="/register"
                   className="hover:text-primary transition-colors"
                 >
                   {t('footer.registration')}

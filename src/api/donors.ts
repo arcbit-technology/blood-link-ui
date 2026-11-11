@@ -63,8 +63,8 @@ export function extractDonersList(payload: unknown): {
   page: number | null;
   size: number | null;
 } {
-  const root = typeof payload === "object" && payload ? (payload as any) : {};
-  const result = typeof root.result === "object" && root.result ? root.result : {};
+  const root = typeof payload === "object" && payload ? (payload as Record<string, unknown>) : {};
+  const result = typeof root.result === "object" && root.result ? root.result as Record<string, unknown> : {};
   const data = Array.isArray(result.data) ? (result.data as ApiUser[]) : [];
   const totalCount =
     typeof result.total_count === "number" ? (result.total_count as number) : data.length;
@@ -74,7 +74,7 @@ export function extractDonersList(payload: unknown): {
 }
 
 export function extractDoner(payload: unknown): ApiUser | null {
-  const root = typeof payload === "object" && payload ? (payload as any) : {};
+  const root = typeof payload === "object" && payload ? (payload as Record<string, unknown>) : {};
   if (root && typeof root.result === "object" && root.result) return root.result as ApiUser;
   if (root && typeof root.data === "object" && root.data) return root.data as ApiUser;
   return null;

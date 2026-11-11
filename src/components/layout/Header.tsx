@@ -1,8 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/Logo";
+import { BrandName } from "@/components/BrandName";
 import { useAuth } from "@/contexts/AuthContext";
 import {
-  Droplet,
   User,
   LogOut,
   LayoutDashboard,
@@ -22,13 +24,13 @@ import {
 
 export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    router.push("/");
   };
 
   const changeLanguage = (lng: string) => {
@@ -38,26 +40,21 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="relative">
-            <Droplet className="h-8 w-8 text-primary fill-primary transition-transform group-hover:scale-110" />
-            <div className="absolute inset-0 blood-glow opacity-0 group-hover:opacity-100 transition-opacity rounded-full" />
-          </div>
-          <span className="text-xl font-bold text-gradient-blood">
-            {t("header.appName")}
-          </span>
+        <Link href="/" className="flex items-center gap-2 group">
+          <Logo className="transition-transform group-hover:scale-110" />
+          <BrandName className="text-xl" />
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
           <Link
-            to="/donors"
+            href="/donors"
             className="text-muted-foreground hover:text-primary transition-colors font-medium"
           >
             {t("header.findDonors")}
           </Link>
           <Link
-            to="/posts"
+            href="/posts"
             className="text-muted-foreground hover:text-primary transition-colors font-medium"
           >
             {t("header.bloodRequests")}
@@ -92,12 +89,12 @@ export function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                <DropdownMenuItem onClick={() => router.push("/profile")}>
                   <User className="mr-2 h-4 w-4" />
                   {t("header.profile")}
                 </DropdownMenuItem>
                 {user?.role === "ADMIN" && (
-                  <DropdownMenuItem onClick={() => navigate("/admin")}>
+                  <DropdownMenuItem onClick={() => router.push("/admin")}>
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     {t("header.adminDashboard")}
                   </DropdownMenuItem>
@@ -114,11 +111,11 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-3">
-              <Button variant="ghost" onClick={() => navigate("/login")}>
+              <Button variant="ghost" onClick={() => router.push("/login")}>
                 {t("header.login")}
               </Button>
               <Button
-                onClick={() => navigate("/register")}
+                onClick={() => router.push("/register")}
                 className="blood-gradient text-primary-foreground"
               >
                 {t("header.register")}
@@ -167,14 +164,14 @@ export function Header() {
         <div className="md:hidden border-t bg-background animate-fade-in">
           <nav className="container py-4 flex flex-col gap-3">
             <Link
-              to="/donors"
+              href="/donors"
               className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
               {t("header.findDonors")}
             </Link>
             <Link
-              to="/posts"
+              href="/posts"
               className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -183,7 +180,7 @@ export function Header() {
             {isAuthenticated ? (
               <>
                 <Link
-                  to="/profile"
+                  href="/profile"
                   className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -191,7 +188,7 @@ export function Header() {
                 </Link>
                 {user?.role === "ADMIN" && (
                   <Link
-                    to="/admin"
+                    href="/admin"
                     className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -215,7 +212,7 @@ export function Header() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    navigate("/login");
+                    router.push("/login");
                     setMobileMenuOpen(false);
                   }}
                 >
@@ -224,7 +221,7 @@ export function Header() {
                 <Button
                   className="blood-gradient text-primary-foreground"
                   onClick={() => {
-                    navigate("/register");
+                    router.push("/register");
                     setMobileMenuOpen(false);
                   }}
                 >

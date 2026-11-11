@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,12 +35,13 @@ import {
   mockDonationPosts,
   mockDonationHistory,
 } from "@/data/mockData";
-import { Navigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 export default function Admin() {
   const { t, i18n } = useTranslation();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isAuthLoading } = useAuth();
+  const router = useRouter();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [users] = useState(mockUsers.filter((u) => u.role !== "ADMIN"));
@@ -46,9 +49,13 @@ export default function Admin() {
   const [posts, setPosts] = useState(mockDonationPosts);
   const [history] = useState(mockDonationHistory);
 
-  if (!isAuthenticated || user?.role !== "ADMIN") {
-    return <Navigate to="/" replace />;
-  }
+  useEffect(() => {
+    if (!isAuthLoading && (!isAuthenticated || user?.role !== "ADMIN")) {
+      router.replace("/");
+    }
+  }, [isAuthLoading, isAuthenticated, user?.role, router]);
+
+  if (isAuthLoading || !isAuthenticated || user?.role !== "ADMIN") return null;
 
   const filteredUsers = users.filter(
     (u) =>

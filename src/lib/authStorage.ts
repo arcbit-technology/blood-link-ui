@@ -1,8 +1,27 @@
 const USER_KEY = "bloodlink_user";
 const TOKEN_KEY = "bloodlink_token";
 
+function readStorage(key: string): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeStorage(key: string, value: string | null) {
+  if (typeof window === "undefined") return;
+  try {
+    if (value === null) window.localStorage.removeItem(key);
+    else window.localStorage.setItem(key, value);
+  } catch {
+    // Keep the current session usable when browser storage is unavailable.
+  }
+}
+
 export function getStoredUser<T>(): T | null {
-  const raw = localStorage.getItem(USER_KEY);
+  const raw = readStorage(USER_KEY);
   if (!raw) return null;
   try {
     return JSON.parse(raw) as T;
@@ -12,22 +31,21 @@ export function getStoredUser<T>(): T | null {
 }
 
 export function setStoredUser(user: unknown) {
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
+  writeStorage(USER_KEY, JSON.stringify(user));
 }
 
 export function clearStoredUser() {
-  localStorage.removeItem(USER_KEY);
+  writeStorage(USER_KEY, null);
 }
 
 export function getStoredToken(): string | null {
-  return localStorage.getItem(TOKEN_KEY);
+  return readStorage(TOKEN_KEY);
 }
 
 export function setStoredToken(token: string) {
-  localStorage.setItem(TOKEN_KEY, token);
+  writeStorage(TOKEN_KEY, token);
 }
 
 export function clearStoredToken() {
-  localStorage.removeItem(TOKEN_KEY);
+  writeStorage(TOKEN_KEY, null);
 }
-

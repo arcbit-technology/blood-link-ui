@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,18 +26,29 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { mockDonationRequests, mockDonationPosts } from "@/data/mockData";
-import { Navigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import type { User as BloodLinkUser } from "@/types";
 
 export default function Profile() {
+  const router = useRouter();
+  const { user, isAuthenticated, isAuthLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [isAuthLoading, isAuthenticated, router]);
+
+  if (isAuthLoading || !isAuthenticated || !user) return null;
+
+  return <ProfileContent key={user.id} user={user} />;
+}
+
+function ProfileContent({ user }: { user: BloodLinkUser }) {
   const { t, i18n } = useTranslation();
-  const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [hideInfo, setHideInfo] = useState(user?.hidePersonalInfo ?? false);
-
-  if (!isAuthenticated || !user) {
-    return <Navigate to="/login" replace />;
-  }
 
   const incomingRequests = mockDonationRequests.filter(
     (req) => req.donorId === user.id && req.status === "pending",
@@ -96,12 +109,12 @@ export default function Profile() {
                 </div>
                 <Badge
                   className={
-                    user.role === "admin"
+                    user.role === "ADMIN"
                       ? "bg-primary"
                       : "bg-secondary text-secondary-foreground"
                   }
                 >
-                  {user.role === "admin"
+                  {user.role === "ADMIN"
                     ? t("profile.roles.admin")
                     : t("profile.roles.donor")}
                 </Badge>

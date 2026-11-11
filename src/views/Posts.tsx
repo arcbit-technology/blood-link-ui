@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +33,7 @@ import {
   DISTRICTS,
 } from "@/data/mockData";
 import { BloodGroup, Division, DonationPost } from "@/types";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 export default function Posts() {
@@ -275,7 +277,7 @@ export default function Posts() {
             </Dialog>
           ) : (
             <Button asChild className="blood-gradient text-primary-foreground">
-              <Link to="/login">{t("posts.loginToPost")}</Link>
+              <Link href="/login">{t("posts.loginToPost")}</Link>
             </Button>
           )}
         </div>

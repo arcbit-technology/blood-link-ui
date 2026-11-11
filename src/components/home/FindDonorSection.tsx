@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Search, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,7 @@ import { Division, BloodGroup } from "@/types";
 import { useTranslation } from "react-i18next";
 
 export function FindDonorSection() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [division, setDivision] = useState<Division | "all">("all");
   const [district, setDistrict] = useState<string>("all");
   const [bloodGroup, setBloodGroup] = useState<BloodGroup | "all">("all");
@@ -27,7 +27,7 @@ export function FindDonorSection() {
     if (district !== "all") params.append("district", district);
     if (bloodGroup !== "all") params.append("bloodGroup", bloodGroup);
 
-    navigate(`/donors?${params.toString()}`);
+    router.push(`/donors?${params.toString()}`);
   };
 
   return (

@@ -38,6 +38,7 @@ export interface User {
   hidePersonalInfo: boolean;
   createdAt: string;
   role: "SUPERADMIN" | "ADMIN" | "MANAGER" | "USERROLE";
+  isVerified?: boolean;
 }
 
 export interface DonationRequest {

@@ -1,5 +1,7 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Layout } from "@/components/layout/Layout";
 import {
   Card,
@@ -24,14 +26,14 @@ import { useToast } from "@/hooks/use-toast";
 import { AlertCircle, Phone, MapPin, Heart, ArrowLeft } from "lucide-react";
 import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
 import { BloodGroup, Division } from "@/types";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 export default function EmergencyRequest() {
   const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedDivision, setSelectedDivision] = useState<Division | null>(
     null,
@@ -50,7 +52,7 @@ export default function EmergencyRequest() {
     });
 
     setIsSubmitting(false);
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -58,7 +60,7 @@ export default function EmergencyRequest() {
       <div className="container py-8">
         <div className="max-w-2xl mx-auto">
           <Link
-            to="/"
+            href="/"
             className="inline-flex items-center text-muted-foreground hover:text-primary mb-6"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />

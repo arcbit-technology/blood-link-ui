@@ -1,9 +1,14 @@
+"use client";
+
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Droplet, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Logo } from "@/components/Logo";
+import { BrandName } from "@/components/BrandName";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { login, loginIsLoading } = useAuth();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
@@ -42,10 +47,8 @@ export default function Login() {
 
   const onSubmit = async (data: LoginFormData) => {
     const result = await login(data.email, data.password);
-    if (result.ok) {
-      const isVerified = Boolean(
-        (result.user as any).is_verified ?? (result.user as any).isVerified,
-      );
+    if (result.ok === true) {
+      const isVerified = Boolean(result.user.isVerified);
       if (!isVerified) {
         toast({
           title: "Please verify your email",
@@ -56,7 +59,7 @@ export default function Login() {
         title: t("auth.login.success.title"),
         description: t("auth.login.success.description"),
       });
-      navigate("/donors");
+      router.push("/donors");
       return;
     }
 
@@ -71,11 +74,9 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4 py-8">
       <div className="w-full max-w-md animate-fade-in">
         <div className="flex justify-center mb-8">
-          <Link to="/" className="flex items-center gap-2 group">
-            <Droplet className="h-10 w-10 text-primary fill-primary transition-transform group-hover:scale-110" />
-            <span className="text-2xl font-bold text-gradient-blood">
-              {t("header.appName")}
-            </span>
+          <Link href="/" className="flex items-center gap-2 group">
+            <Logo className="h-16 w-16 transition-transform group-hover:scale-110" />
+            <BrandName className="text-2xl" />
           </Link>
         </div>
 
@@ -153,7 +154,7 @@ export default function Login() {
                 {t("auth.login.noAccount")}
               </span>
               <Link
-                to="/register"
+                href="/register"
                 className="text-primary hover:underline font-medium"
               >
                 {t("auth.login.registerLink")}

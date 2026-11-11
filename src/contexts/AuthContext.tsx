@@ -1,6 +1,9 @@
+"use client";
+
 import React, {
   createContext,
   useContext,
+  useCallback,
   useEffect,
   useState,
   ReactNode,
@@ -51,16 +54,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const queryClient = useQueryClient();
-  const [user, setUser] = useState<User | null>(() => getStoredUser<User>());
-  const [token, setToken] = useState<string | null>(() => getStoredToken());
+  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [hasRestoredSession, setHasRestoredSession] = useState(false);
 
-  const logout = () => {
+  useEffect(() => {
+    setUser(getStoredUser<User>());
+    setToken(getStoredToken());
+    setHasRestoredSession(true);
+  }, []);
+
+  const logout = useCallback(() => {
     setUser(null);
     setToken(null);
     clearStoredUser();
     clearStoredToken();
     queryClient.clear();
-  };
+  }, [queryClient]);
 
   const tokenValidationQuery = useQuery({
     queryKey: ["auth", "tokenValidation", token],
@@ -78,7 +88,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
     if (!tokenValidationQuery.data) return;
 
-    const data = tokenValidationQuery.data as any;
+    const data = tokenValidationQuery.data;
     const validFlag =
       typeof data === "object" &&
       data &&
@@ -99,8 +109,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       (typeof data === "object" &&
       data &&
       "data" in data &&
-      (data as any).data?.user
-        ? ((data as any).data.user as ApiUser)
+      typeof data.data === "object" && data.data && "user" in data.data
+        ? (data.data.user as ApiUser)
         : null);
 
     if (maybeUser) {
@@ -112,6 +122,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     token,
     tokenValidationQuery.data,
     tokenValidationQuery.isError,
+    logout,
   ]);
 
   const loginMutation = useMutation({
@@ -177,7 +188,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         user,
         token,
         isAuthenticated: !!user && !!token,
-        isAuthLoading: tokenValidationQuery.isFetching,
+        isAuthLoading: !hasRestoredSession || tokenValidationQuery.isFetching,
         loginIsLoading: loginMutation.isPending,
         registerIsLoading: registerMutation.isPending,
         login,
