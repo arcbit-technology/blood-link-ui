@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Check, Droplets, HeartPulse, Info } from "lucide-react";
+import { ArrowDownToLine, ArrowUpFromLine, HeartPulse, Info, Sparkles } from "lucide-react";
 import { BLOOD_GROUPS } from "@/data/mockData";
 import type { BloodGroup } from "@/types";
+import { BloodBadge } from "@/components/ui/blood-badge";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
@@ -20,59 +21,31 @@ const CAN_DONATE_TO: Record<BloodGroup, BloodGroup[]> = {
 const canReceiveFrom = (group: BloodGroup) =>
   BLOOD_GROUPS.filter((donor) => CAN_DONATE_TO[donor].includes(group));
 
-function CompatibilityGrid({
+function GroupList({
   title,
   icon: Icon,
-  compatible,
+  groups,
 }: {
   title: string;
-  icon: typeof Droplets;
-  compatible: BloodGroup[];
+  icon: typeof HeartPulse;
+  groups: BloodGroup[];
 }) {
-  const { t } = useTranslation();
-
   return (
-    <div className="rounded-2xl border bg-background/70 p-5 backdrop-blur-sm">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h3 className="flex items-center gap-2 font-semibold">
-          <span className="icon-tile-soft h-8 w-8 rounded-lg">
-            <Icon className="h-4 w-4" />
-          </span>
-          {title}
-        </h3>
-        <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-          {t("home.compatibility.count", { count: compatible.length })}
-        </span>
-      </div>
-
-      {/* Screen readers get a plain list; the grid is visual only. */}
-      <p className="sr-only">{compatible.join(", ")}</p>
-      <div aria-hidden="true" className="grid grid-cols-4 gap-2">
-        {BLOOD_GROUPS.map((group) => {
-          const ok = compatible.includes(group);
-          return (
-            <div
-              key={group}
-              className={cn(
-                "relative flex h-12 items-center justify-center rounded-xl text-sm font-bold transition-all duration-300",
-                ok
-                  ? "bg-primary/10 text-primary ring-1 ring-inset ring-primary/30"
-                  : "bg-muted/50 text-muted-foreground/45",
-              )}
-            >
-              {group}
-              <span
-                className={cn(
-                  "absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full text-white transition-transform duration-300",
-                  ok ? "scale-100 bg-primary" : "scale-0",
-                )}
-              >
-                <Check className="h-2.5 w-2.5" strokeWidth={3} />
-              </span>
-            </div>
-          );
-        })}
-      </div>
+    <div className="p-6 md:p-8">
+      <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-muted-foreground">
+        <Icon className="h-4 w-4 text-primary" />
+        {title}
+      </h3>
+      <ul className="flex flex-wrap gap-2">
+        {groups.map((group) => (
+          <li
+            key={group}
+            className="flex h-10 min-w-[3.5rem] items-center justify-center rounded-xl bg-primary/10 px-3 text-sm font-bold text-primary ring-1 ring-inset ring-primary/20"
+          >
+            {group}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -83,15 +56,19 @@ export function BloodCompatibilitySection() {
 
   const donateTo = CAN_DONATE_TO[selected];
   const receiveFrom = canReceiveFrom(selected);
-  const isUniversalDonor = donateTo.length === BLOOD_GROUPS.length;
-  const isUniversalRecipient = receiveFrom.length === BLOOD_GROUPS.length;
+  const universal =
+    donateTo.length === BLOOD_GROUPS.length
+      ? t("home.compatibility.universalDonor")
+      : receiveFrom.length === BLOOD_GROUPS.length
+        ? t("home.compatibility.universalRecipient")
+        : null;
 
   return (
     <section className="relative isolate py-20 section-soft">
       <div aria-hidden="true" className="section-pattern pattern-grid" />
 
-      <div className="container">
-        <div className="text-center mb-12">
+      <div className="container max-w-5xl">
+        <div className="text-center mb-10">
           <span className="eyebrow mb-4">
             <HeartPulse className="h-4 w-4" />
             {t("home.compatibility.badge")}
@@ -104,80 +81,67 @@ export function BloodCompatibilitySection() {
           </p>
         </div>
 
-        <div className="relative isolate overflow-hidden rounded-3xl border bg-card p-5 card-shadow md:p-8">
-          <div
-            aria-hidden="true"
-            className="section-pattern pattern-dots pattern-fade-center opacity-80"
-          />
-
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center">
-            {/* Picker */}
-            <div>
-              <p id="compat-picker-label" className="mb-4 text-sm font-medium text-muted-foreground">
-                {t("home.compatibility.select")}
-              </p>
-              <div
-                role="group"
-                aria-labelledby="compat-picker-label"
-                className="grid grid-cols-4 gap-3"
+        {/* Picker */}
+        <div
+          role="group"
+          aria-label={t("home.compatibility.select")}
+          className="mx-auto mb-8 grid max-w-md grid-cols-4 gap-1.5 rounded-3xl border bg-card p-1.5 shadow-sm sm:flex sm:w-fit sm:max-w-none sm:rounded-full"
+        >
+          {BLOOD_GROUPS.map((group) => {
+            const active = group === selected;
+            return (
+              <button
+                key={group}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setSelected(group)}
+                className={cn(
+                  "h-10 rounded-full px-4 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-w-[3.5rem]",
+                  active
+                    ? "blood-gradient text-white shadow-md"
+                    : "text-muted-foreground hover:bg-primary/10 hover:text-primary",
+                )}
               >
-                {BLOOD_GROUPS.map((group) => {
-                  const active = group === selected;
-                  return (
-                    <button
-                      key={group}
-                      type="button"
-                      aria-pressed={active}
-                      onClick={() => setSelected(group)}
-                      className={cn(
-                        "flex aspect-square items-center justify-center rounded-2xl border text-lg font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card sm:text-xl",
-                        active
-                          ? "blood-badge-gradient scale-105 border-transparent text-white blood-glow"
-                          : "bg-background/80 text-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary",
-                      )}
-                    >
-                      {group}
-                    </button>
-                  );
-                })}
-              </div>
+                {group}
+              </button>
+            );
+          })}
+        </div>
 
-              <div className="mt-5 flex min-h-8 flex-wrap gap-2" aria-live="polite">
-                {isUniversalDonor && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-green-500/10 px-3 py-1 text-xs font-semibold text-green-600 dark:text-green-400">
-                    <Droplets className="h-3.5 w-3.5" />
-                    {t("home.compatibility.universalDonor")}
-                  </span>
-                )}
-                {isUniversalRecipient && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400">
-                    <HeartPulse className="h-3.5 w-3.5" />
-                    {t("home.compatibility.universalRecipient")}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Results */}
-            <div className="grid gap-4 sm:grid-cols-2" aria-live="polite">
-              <CompatibilityGrid
-                title={t("home.compatibility.canDonateTo", { group: selected })}
-                icon={Droplets}
-                compatible={donateTo}
-              />
-              <CompatibilityGrid
-                title={t("home.compatibility.canReceiveFrom", { group: selected })}
-                icon={HeartPulse}
-                compatible={receiveFrom}
-              />
-            </div>
+        {/* Result */}
+        <div
+          className="grid overflow-hidden rounded-3xl border bg-card card-shadow divide-y md:grid-cols-[auto_1fr_1fr] md:divide-x md:divide-y-0"
+          aria-live="polite"
+        >
+          <div className="flex flex-col items-center justify-center gap-3 p-6 md:px-10">
+            <BloodBadge bloodGroup={selected} size="lg" />
+            <span
+              className={cn(
+                "inline-flex h-6 items-center gap-1 rounded-full px-2.5 text-xs font-semibold",
+                universal ? "bg-primary/10 text-primary" : "invisible",
+              )}
+            >
+              <Sparkles className="h-3 w-3" />
+              {universal}
+            </span>
           </div>
 
-          <p className="mt-6 flex items-start gap-2 border-t border-dashed pt-5 text-xs text-muted-foreground">
-            <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-            {t("home.compatibility.note")}
-          </p>
+          <GroupList
+            title={t("home.compatibility.canDonateTo", { group: selected })}
+            icon={ArrowUpFromLine}
+            groups={donateTo}
+          />
+          <GroupList
+            title={t("home.compatibility.canReceiveFrom", { group: selected })}
+            icon={ArrowDownToLine}
+            groups={receiveFrom}
+          />
         </div>
+
+        <p className="mt-5 flex items-start justify-center gap-2 text-center text-xs text-muted-foreground">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          {t("home.compatibility.note")}
+        </p>
       </div>
     </section>
   );

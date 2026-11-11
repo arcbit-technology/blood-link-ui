@@ -95,8 +95,6 @@
       "select": "Select a blood group",
       "canDonateTo": "{{group}} can donate to",
       "canReceiveFrom": "{{group}} can receive from",
-      "count_one": "{{count}} group",
-      "count_other": "{{count}} groups",
       "universalDonor": "Universal donor",
       "universalRecipient": "Universal recipient",
       "note": "Based on red blood cell compatibility. Always follow your doctor's or blood bank's advice before a transfusion."
