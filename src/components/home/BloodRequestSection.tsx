@@ -2,15 +2,19 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Calendar, Droplet, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BloodBadge } from "@/components/ui/blood-badge";
-import { mockDonationPosts } from "@/data/mockData";
+import { getPosts } from "@/api/posts";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 export function BloodRequestSection() {
   const { t, i18n } = useTranslation();
-  // Get latest 3 active posts
-  const latestPosts = mockDonationPosts
-    .filter((post) => post.status === "open")
-    .slice(0, 3);
+  // latest 3 open posts
+  const latestQuery = useQuery({
+    queryKey: ["posts", "latest-open"],
+    queryFn: () => getPosts({ status: "open", size: 3 }),
+    staleTime: 30_000,
+  });
+  const latestPosts = latestQuery.data?.data ?? [];
 
   return (
     <section className="py-16 bg-muted/30">
@@ -64,8 +68,13 @@ export function BloodRequestSection() {
                 <div className="flex items-start gap-2 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                   <span className="line-clamp-2">
-                    {post.hospitalName}, {post.address},{" "}
-                    {t(`location.district.${post.district}`)}
+                    {[
+                      post.hospitalName,
+                      post.address,
+                      t(`location.district.${post.district}`),
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">

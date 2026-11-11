@@ -1,0 +1,22 @@
+.scrollTrack {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.45) hsl(var(--primary) / 0.08);
+}
+
+.scrollTrack::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollTrack::-webkit-scrollbar-track {
+  background: hsl(var(--primary) / 0.08);
+  border-radius: 999px;
+}
+
+.scrollTrack::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.45);
+  border-radius: 999px;
+}
+
+.scrollTrack::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}

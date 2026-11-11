@@ -23,31 +23,86 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, MapPin, Calendar, Users, Heart, Clock } from "lucide-react";
-import {
-  mockDonationPosts,
-  BLOOD_GROUPS,
-  DIVISIONS,
-  DISTRICTS,
-} from "@/data/mockData";
-import { BloodGroup, Division, DonationPost } from "@/types";
+import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
+import { Division, DonationPost } from "@/types";
+import { createPost, getPosts, togglePostInterest } from "@/api/posts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
+const POSTS_QUERY_KEY = ["posts"] as const;
+
 export default function Posts() {
   const { t, i18n } = useTranslation();
-  const { user, isAuthenticated } = useAuth();
+  const { user, token, isAuthenticated } = useAuth();
   const { toast } = useToast();
-  const [posts, setPosts] = useState<DonationPost[]>(mockDonationPosts);
+  const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedDivision, setSelectedDivision] = useState<Division | null>(
     null,
   );
 
+  const postsQuery = useQuery({
+    queryKey: POSTS_QUERY_KEY,
+    queryFn: () => getPosts({ size: 100 }),
+    staleTime: 10_000,
+  });
+  const posts = postsQuery.data?.data ?? [];
+
+  const replacePost = (updated: DonationPost) => {
+    queryClient.setQueryData(
+      POSTS_QUERY_KEY,
+      (prev: Awaited<ReturnType<typeof getPosts>> | undefined) =>
+        prev && {
+          ...prev,
+          data: prev.data.map((p) => (p.id === updated.id ? updated : p)),
+        },
+    );
+  };
+
+  const interestMutation = useMutation({
+    mutationFn: (postId: string) => togglePostInterest(postId, token as string),
+    onSuccess: (updated) => {
+      replacePost(updated);
+      const nowInterested = !!user && updated.interestedUsers.includes(user.id);
+      toast(
+        nowInterested
+          ? {
+              title: t("posts.interestShown.title"),
+              description: t("posts.interestShown.description"),
+            }
+          : { title: t("posts.interestWithdrawn.title") },
+      );
+    },
+    onError: () => {
+      toast({ title: t("posts.interestError.title"), variant: "destructive" });
+      queryClient.invalidateQueries({ queryKey: POSTS_QUERY_KEY });
+    },
+  });
+
+  const createMutation = useMutation({
+    mutationFn: (payload: Parameters<typeof createPost>[0]) =>
+      createPost(payload, token as string),
+    onSuccess: () => {
+      setDialogOpen(false);
+      setSelectedDivision(null);
+      queryClient.invalidateQueries({ queryKey: POSTS_QUERY_KEY });
+      toast({
+        title: t("posts.createSuccess.title"),
+        description: t("posts.createSuccess.description"),
+      });
+    },
+    onError: () => {
+      toast({ title: t("posts.createError.title"), variant: "destructive" });
+    },
+  });
+
   const handleInterest = (postId: string) => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !token) {
       toast({
         title: t("posts.loginRequired.title"),
         description: t("posts.loginRequired.description"),
@@ -55,55 +110,24 @@ export default function Posts() {
       });
       return;
     }
-
-    setPosts(
-      posts.map((post) => {
-        if (post.id === postId) {
-          const isInterested = post.interestedUsers.includes(user!.id);
-          return {
-            ...post,
-            interestedUsers: isInterested
-              ? post.interestedUsers.filter((id) => id !== user!.id)
-              : [...post.interestedUsers, user!.id],
-          };
-        }
-        return post;
-      }),
-    );
-
-    toast({
-      title: t("posts.interestShown.title"),
-      description: t("posts.interestShown.description"),
-    });
+    interestMutation.mutate(postId);
   };
 
   const handleCreatePost = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !token) return;
 
     const formData = new FormData(e.currentTarget);
-    const newPost: DonationPost = {
-      id: `post_${Date.now()}`,
-      authorId: user!.id,
-      authorName: user!.name,
-      bloodGroup: formData.get("bloodGroup") as BloodGroup,
-      title: formData.get("title") as string,
-      description: formData.get("description") as string,
-      hospitalName: formData.get("hospitalName") as string,
-      address: formData.get("address") as string,
-      district: formData.get("district") as string,
-      division: formData.get("division") as Division,
-      requiredDate: formData.get("requiredDate") as string,
-      interestedUsers: [],
-      status: "open",
-      createdAt: new Date().toISOString().split("T")[0],
-    };
-
-    setPosts([newPost, ...posts]);
-    setDialogOpen(false);
-    toast({
-      title: t("posts.createSuccess.title"),
-      description: t("posts.createSuccess.description"),
+    const field = (name: string) => String(formData.get(name) ?? "").trim();
+    createMutation.mutate({
+      title: field("title"),
+      blood_group: field("bloodGroup"),
+      description: field("description"),
+      hospital_name: field("hospitalName"),
+      address: field("address"),
+      division: field("division"),
+      district: field("district"),
+      required_date: field("requiredDate"),
     });
   };
 
@@ -262,12 +286,14 @@ export default function Posts() {
                       id="requiredDate"
                       name="requiredDate"
                       type="date"
+                      min={new Date().toISOString().split("T")[0]}
                       required
                     />
                   </div>
 
                   <Button
                     type="submit"
+                    disabled={createMutation.isPending}
                     className="w-full blood-gradient text-blood-foreground"
                   >
                     {t("posts.form.submit")}
@@ -283,7 +309,35 @@ export default function Posts() {
         </div>
 
         {/* Posts Grid */}
-        {posts.length > 0 ? (
+        {postsQuery.isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Card key={i}>
+                <CardHeader className="pb-2 space-y-2">
+                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-6 w-3/4" />
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                  <Skeleton className="h-10 w-40" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : postsQuery.isError ? (
+          <div className="text-center py-16">
+            <h3 className="text-lg font-medium mb-2">
+              {t("posts.loadError.title")}
+            </h3>
+            <p className="text-muted-foreground mb-4">
+              {t("posts.loadError.description")}
+            </p>
+            <Button variant="outline" onClick={() => postsQuery.refetch()}>
+              {t("posts.loadError.retry")}
+            </Button>
+          </div>
+        ) : posts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post, index) => (
               <Card
@@ -337,27 +391,35 @@ export default function Posts() {
                   </div>
 
                   <div className="pt-2">
-                    <Button
-                      onClick={() => handleInterest(post.id)}
-                      variant={
-                        user && post.interestedUsers.includes(user.id)
-                          ? "secondary"
-                          : "default"
-                      }
-                      className={
-                        user && post.interestedUsers.includes(user.id)
-                          ? ""
-                          : "blood-gradient text-blood-foreground"
-                      }
-                      disabled={post.status !== "open"}
-                    >
-                      <Heart
-                        className={`h-4 w-4 mr-2 ${user && post.interestedUsers.includes(user.id) ? "fill-current" : ""}`}
-                      />
-                      {user && post.interestedUsers.includes(user.id)
-                        ? t("posts.card.interested")
-                        : t("posts.card.expressInterest")}
-                    </Button>
+                    {user && post.authorId === user.id ? (
+                      <Badge variant="outline">{t("posts.card.yourPost")}</Badge>
+                    ) : (
+                      <Button
+                        onClick={() => handleInterest(post.id)}
+                        variant={
+                          user && post.interestedUsers.includes(user.id)
+                            ? "secondary"
+                            : "default"
+                        }
+                        className={
+                          user && post.interestedUsers.includes(user.id)
+                            ? ""
+                            : "blood-gradient text-blood-foreground"
+                        }
+                        disabled={
+                          interestMutation.isPending ||
+                          (post.status !== "open" &&
+                            !(user && post.interestedUsers.includes(user.id)))
+                        }
+                      >
+                        <Heart
+                          className={`h-4 w-4 mr-2 ${user && post.interestedUsers.includes(user.id) ? "fill-current" : ""}`}
+                        />
+                        {user && post.interestedUsers.includes(user.id)
+                          ? t("posts.card.interested")
+                          : t("posts.card.expressInterest")}
+                      </Button>
+                    )}
                   </div>
 
                   <div className="text-xs text-muted-foreground pt-2 border-t">
@@ -365,7 +427,7 @@ export default function Posts() {
                       <Clock className="h-3 w-3" />
                       <span>
                         {t("posts.card.postedBy")}
-                        {post.authorName}
+                        {post.authorName || t("posts.card.anonymous")}
                       </span>
                     </div>
                   </div>

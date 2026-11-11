@@ -93,7 +93,9 @@
     "badge": "Our Proud Donors",
     "title": "Newly Joined Donors",
     "subtitle": "Those who stepped forward for humanity",
-    "seeAll": "See All Donors"
+    "seeAll": "See All Donors",
+    "previous": "Previous donors",
+    "next": "Next donors"
   },
   "auth": {
     "login": {
@@ -315,6 +317,20 @@
       "title": "Post Created",
       "description": "Your blood request has been published"
     },
+    "createError": {
+      "title": "Could not publish your request. Please check the form and try again."
+    },
+    "interestWithdrawn": {
+      "title": "Interest withdrawn"
+    },
+    "interestError": {
+      "title": "Could not update your interest. Please try again."
+    },
+    "loadError": {
+      "title": "Could not load blood requests",
+      "description": "Please check your connection and try again.",
+      "retry": "Try again"
+    },
     "status": {
       "open": "Open",
       "fulfilled": "Fulfilled",
@@ -351,7 +367,9 @@
       "interestedCount": " {{count}} interested",
       "interested": "Interested",
       "expressInterest": "Express Interest",
-      "postedBy": "Posted by: "
+      "postedBy": "Posted by: ",
+      "anonymous": "Anonymous donor",
+      "yourPost": "Your post"
     },
     "empty": {
       "title": "No Posts Found",
