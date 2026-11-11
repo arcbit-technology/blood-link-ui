@@ -31,9 +31,7 @@
     "divisionLink": "Find donors in {{division}} division",
     "groupLink": "Find {{group}} blood donors",
     "searchTitle": "Your search for a donor starts here",
-    "searchNote": "Choose a blood group and location to get started.",
-    "footnote": "One connection can make all the difference.",
-    "emergency": "Urgent need? Request blood"
+    "searchNote": "Choose a blood group and location to get started."
   },
   "home": {
     "allBloodGroups": "Donors of all blood groups are available",

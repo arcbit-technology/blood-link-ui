@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, ChevronDown, Clock, Droplet, Heart, MapPin, Search, Siren } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock, Droplet, Heart, MapPin, Search } from "lucide-react";
 import { BLOOD_GROUPS, DISTRICTS, DIVISIONS } from "@/data/mockData";
 import type { Division } from "@/types";
 import {
@@ -72,7 +72,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className={styles.hero} aria-labelledby="hero-title">
+    <div className={styles.hero}>
       <div className={styles.backdrop} aria-hidden="true">
         <span className={`${styles.aurora} ${styles.auroraOne}`} />
         <span className={`${styles.aurora} ${styles.auroraTwo}`} />
@@ -80,6 +80,8 @@ export function HeroSection() {
         <span className={styles.grid} />
       </div>
 
+      {/* First screen: headline + district map, sized to fill exactly one viewport. */}
+      <section className={styles.screen} aria-labelledby="hero-title">
       <div className={`container ${styles.container}`}>
         <div className={styles.main}>
           <div className={styles.copy}>
@@ -199,12 +201,17 @@ export function HeroSection() {
             </nav>
           </div>
         </div>
+      </div>
+      </section>
 
+      {/* Donor search: its own section, just below the first screen. */}
+      <section className={styles.searchSection} aria-labelledby="hero-search-title">
+      <div className="container">
         <div className={styles.searchCard}>
           <div className={styles.searchHeading}>
             <div className={styles.searchTitle}>
               <span className={styles.searchIcon}><Search size={17} aria-hidden="true" /></span>
-              <h2>{t("hero.searchTitle")}</h2>
+              <h2 id="hero-search-title">{t("hero.searchTitle")}</h2>
             </div>
             <span className={styles.searchNote}>{t("hero.searchNote")}</span>
           </div>
@@ -245,16 +252,8 @@ export function HeroSection() {
             </button>
           </form>
         </div>
-
-        <div className={styles.footnote}>
-          <span><Heart size={14} aria-hidden="true" />{t("hero.footnote")}</span>
-          <Link href="/emergency-request" className={styles.emergencyLink}>
-            <Siren size={14} aria-hidden="true" />
-            {t("hero.emergency")}
-            <ArrowRight size={14} aria-hidden="true" />
-          </Link>
-        </div>
       </div>
-    </section>
+      </section>
+    </div>
   );
 }
