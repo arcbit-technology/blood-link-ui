@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +27,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, MapPin, Calendar, Users, Heart, Clock } from "lucide-react";
+import { Plus, MapPin, Calendar, Users, Heart, Clock, Droplet } from "lucide-react";
 import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
 import { Division, DonationPost } from "@/types";
 import { createPost, getPosts, togglePostInterest } from "@/api/posts";
@@ -147,20 +148,14 @@ export default function Posts() {
     <Layout>
       <div className="container py-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">
-              {t("posts.header.title")}
-            </h1>
-            <p className="text-muted-foreground">
-              {t("posts.header.subtitle")}
-            </p>
-          </div>
-
-          {isAuthenticated ? (
+        <PageHeader
+          icon={Droplet}
+          title={t("posts.header.title")}
+          subtitle={t("posts.header.subtitle")}
+          actions={isAuthenticated ? (
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="blood-gradient text-blood-foreground gap-2">
+                <Button size="lg" className="gap-2 rounded-full">
                   <Plus className="h-5 w-5" />
                   {t("posts.createButton")}
                 </Button>
@@ -302,11 +297,11 @@ export default function Posts() {
               </DialogContent>
             </Dialog>
           ) : (
-            <Button asChild className="blood-gradient text-blood-foreground">
+            <Button asChild size="lg" className="rounded-full">
               <Link href="/login">{t("posts.loginToPost")}</Link>
             </Button>
           )}
-        </div>
+        />
 
         {/* Posts Grid */}
         {postsQuery.isLoading ? (
@@ -342,7 +337,7 @@ export default function Posts() {
             {posts.map((post, index) => (
               <Card
                 key={post.id}
-                className="overflow-hidden hover:blood-shadow transition-shadow animate-fade-in"
+                className="lift-card accent-top group overflow-hidden animate-fade-in"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <CardHeader className="pb-2">
@@ -355,7 +350,7 @@ export default function Posts() {
                         {post.title}
                       </CardTitle>
                     </div>
-                    <BloodBadge bloodGroup={post.bloodGroup} size="md" />
+                    <BloodBadge bloodGroup={post.bloodGroup} size="md" className="blood-glow transition-transform duration-300 group-hover:scale-105" />
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -437,8 +432,8 @@ export default function Posts() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <Heart className="h-8 w-8 text-muted-foreground" />
+            <div className="icon-tile-soft mx-auto mb-4 h-16 w-16 rounded-2xl">
+              <Heart className="h-8 w-8" />
             </div>
             <h3 className="text-lg font-medium mb-2">
               {t("posts.empty.title")}

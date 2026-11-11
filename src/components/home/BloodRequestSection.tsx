@@ -17,14 +17,15 @@ export function BloodRequestSection() {
   const latestPosts = latestQuery.data?.data ?? [];
 
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="relative isolate py-20 section-soft">
+      <div aria-hidden="true" className="section-pattern pattern-grid" />
       <div className="container">
         <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
           <div className="text-center md:text-left w-full md:w-auto">
-            <div className="inline-flex items-center gap-2 bg-destructive/10 text-destructive px-4 py-1.5 rounded-full mb-4">
-              <Droplet className="h-4 w-4" />
-              <span className="text-sm font-medium">{t("requests.badge")}</span>
-            </div>
+            <span className="eyebrow mb-4">
+              <Droplet className="h-4 w-4 fill-current" />
+              {t("requests.badge")}
+            </span>
             <h2 className="text-3xl md:text-4xl font-bold">
               {t("requests.title")}
             </h2>
@@ -33,10 +34,10 @@ export function BloodRequestSection() {
             </p>
           </div>
 
-          <Button asChild variant="outline" className="hidden md:flex">
+          <Button asChild variant="outline" className="group hidden rounded-full md:flex">
             <Link href="/posts">
               {t("requests.seeAll")}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>
@@ -45,26 +46,27 @@ export function BloodRequestSection() {
           {latestPosts.map((post) => (
             <div
               key={post.id}
-              className="group bg-card rounded-xl border p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+              className="lift-card accent-top group isolate flex flex-col p-6"
             >
+              <div aria-hidden="true" className="card-pattern" />
               <div className="flex justify-between items-start mb-4">
                 <div className="space-y-1">
                   <h3 className="font-semibold text-lg line-clamp-1 group-hover:text-primary transition-colors">
                     {post.title}
                   </h3>
-                  <div className="flex items-center text-sm text-muted-foreground gap-1">
-                    <Clock className="h-3 w-3" />
+                  <div className="flex items-center text-xs text-muted-foreground gap-1.5">
+                    <Clock className="h-3.5 w-3.5" />
                     <span>{post.createdAt}</span>
                   </div>
                 </div>
                 <BloodBadge
                   bloodGroup={post.bloodGroup}
                   size="md"
-                  className="shrink-0"
+                  className="shrink-0 blood-glow transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
 
-              <div className="space-y-3 mb-6">
+              <div className="space-y-2.5 mb-6 flex-1 rounded-xl bg-muted/60 p-3.5">
                 <div className="flex items-start gap-2 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                   <span className="line-clamp-2">
@@ -88,18 +90,18 @@ export function BloodRequestSection() {
                 </div>
               </div>
 
-              <Button
-                asChild
-                className="w-full bg-muted text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                <Link href="/posts">{t("requests.viewDetails")}</Link>
+              <Button asChild variant="outline" className="group/btn w-full rounded-xl">
+                <Link href="/posts">
+                  {t("requests.viewDetails")}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                </Link>
               </Button>
             </div>
           ))}
         </div>
 
         <div className="mt-8 text-center md:hidden">
-          <Button asChild variant="outline" className="w-full">
+          <Button asChild variant="outline" className="w-full rounded-full">
             <Link href="/posts">
               {t("requests.seeAll")}
               <ArrowRight className="ml-2 h-4 w-4" />

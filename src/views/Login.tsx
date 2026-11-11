@@ -71,7 +71,10 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4 py-8">
+    <div className="relative isolate min-h-screen flex items-center justify-center overflow-hidden px-4 py-8">
+      <div className="page-decor page-decor-full" aria-hidden="true">
+        <div className="page-decor-grid" />
+      </div>
       <div className="w-full max-w-md animate-fade-in">
         <div className="flex justify-center mb-8">
           <Link href="/" className="flex items-center gap-2 group">
@@ -80,7 +83,7 @@ export default function Login() {
           </Link>
         </div>
 
-        <Card className="card-shadow">
+        <Card className="accent-top border-primary/15 bg-card/90 backdrop-blur-xl blood-shadow">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl">{t("auth.login.title")}</CardTitle>
             <CardDescription>{t("auth.login.description")}</CardDescription>
@@ -140,7 +143,8 @@ export default function Login() {
 
               <Button
                 type="submit"
-                className="w-full blood-gradient text-blood-foreground"
+                size="lg"
+                className="w-full"
                 disabled={loginIsLoading}
               >
                 {loginIsLoading
@@ -161,7 +165,7 @@ export default function Login() {
               </Link>
             </div>
 
-            <div className="mt-4 p-3 bg-muted rounded-lg text-xs text-muted-foreground">
+            <div className="mt-4 p-3 rounded-xl border border-dashed border-primary/25 bg-primary/5 text-xs text-muted-foreground">
               <p className="font-medium mb-1">{t("auth.login.demo.title")}</p>
               <p>hasib@example.com</p>
               <p>admin@bloodlink.com</p>

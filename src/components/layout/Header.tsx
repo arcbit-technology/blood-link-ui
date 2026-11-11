@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
 import { BrandName } from "@/components/BrandName";
@@ -26,6 +27,7 @@ import {
 export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
 
@@ -34,12 +36,33 @@ export function Header() {
     router.push("/");
   };
 
+  const navClass = (href: string) =>
+    cn(
+      "relative rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+      pathname?.startsWith(href)
+        ? "bg-primary/10 text-primary"
+        : "text-muted-foreground hover:bg-primary/5 hover:text-primary",
+    );
+
+  const mobileNavClass = (href: string) =>
+    cn(
+      "rounded-xl px-4 py-2.5 font-medium transition-colors",
+      pathname?.startsWith(href)
+        ? "bg-primary/10 text-primary"
+        : "text-muted-foreground hover:bg-primary/5 hover:text-primary",
+    );
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-background/85 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
+      {/* Gradient hairline in the hero's accent colour */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-[-1px] h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"
+      />
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <Logo className="transition-transform group-hover:scale-110" />
@@ -47,17 +70,11 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Link
-            href="/donors"
-            className="text-muted-foreground hover:text-primary transition-colors font-medium"
-          >
+        <nav className="hidden md:flex items-center gap-2">
+          <Link href="/donors" className={navClass("/donors")}>
             {t("header.findDonors")}
           </Link>
-          <Link
-            href="/posts"
-            className="text-muted-foreground hover:text-primary transition-colors font-medium"
-          >
+          <Link href="/posts" className={navClass("/posts")}>
             {t("header.bloodRequests")}
           </Link>
 
@@ -113,13 +130,13 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="ml-2 flex items-center gap-2 border-l border-primary/10 pl-4">
               <Button variant="ghost" onClick={() => router.push("/login")}>
                 {t("header.login")}
               </Button>
               <Button
                 onClick={() => router.push("/register")}
-                className="blood-gradient text-blood-foreground"
+                className="rounded-full px-5"
               >
                 {t("header.register")}
               </Button>
@@ -151,7 +168,9 @@ export function Header() {
           </DropdownMenu>
 
           <button
-            className="p-2"
+            className="rounded-full p-2 transition-colors hover:bg-primary/10 hover:text-primary"
+            aria-label="Menu"
+            aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
@@ -165,18 +184,18 @@ export function Header() {
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t bg-background animate-fade-in">
-          <nav className="container py-4 flex flex-col gap-3">
+        <div className="md:hidden border-t border-primary/10 bg-background/95 backdrop-blur-xl animate-fade-in">
+          <nav className="container py-4 flex flex-col gap-1">
             <Link
               href="/donors"
-              className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
+              className={mobileNavClass("/donors")}
               onClick={() => setMobileMenuOpen(false)}
             >
               {t("header.findDonors")}
             </Link>
             <Link
               href="/posts"
-              className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
+              className={mobileNavClass("/posts")}
               onClick={() => setMobileMenuOpen(false)}
             >
               {t("header.bloodRequests")}
@@ -185,7 +204,7 @@ export function Header() {
               <>
                 <Link
                   href="/profile"
-                  className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
+                  className={mobileNavClass("/profile")}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {t("header.profile")}
@@ -193,7 +212,7 @@ export function Header() {
                 {user?.role === "ADMIN" && (
                   <Link
                     href="/admin"
-                    className="px-4 py-2 text-muted-foreground hover:text-primary transition-colors font-medium"
+                    className={mobileNavClass("/admin")}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {t("header.adminDashboard")}
@@ -212,7 +231,7 @@ export function Header() {
                 </Button>
               </>
             ) : (
-              <div className="flex flex-col gap-2 px-4">
+              <div className="mt-2 flex flex-col gap-2 px-4">
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -223,7 +242,6 @@ export function Header() {
                   {t("header.login")}
                 </Button>
                 <Button
-                  className="blood-gradient text-blood-foreground"
                   onClick={() => {
                     router.push("/register");
                     setMobileMenuOpen(false);

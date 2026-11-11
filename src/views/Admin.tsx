@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ import {
   X,
   Eye,
   Trash2,
+  LayoutDashboard,
 } from "lucide-react";
 import {
   mockUsers,
@@ -134,20 +136,17 @@ export default function Admin() {
   return (
     <Layout>
       <div className="container py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">
-            {t("admin.dashboard.title")}
-          </h1>
-          <p className="text-muted-foreground">
-            {t("admin.dashboard.subtitle")}
-          </p>
-        </div>
+        <PageHeader
+          icon={LayoutDashboard}
+          title={t("admin.dashboard.title")}
+          subtitle={t("admin.dashboard.subtitle")}
+        />
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card>
+          <Card className="lift-card">
             <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center">
+              <div className="icon-tile">
                 <Users className="h-6 w-6 text-blood-foreground" />
               </div>
               <div>
@@ -159,9 +158,9 @@ export default function Admin() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="lift-card">
             <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/30">
                 <Droplet className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -173,9 +172,9 @@ export default function Admin() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="lift-card">
             <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/30">
                 <AlertCircle className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -187,9 +186,9 @@ export default function Admin() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="lift-card">
             <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-rose-500 to-red-700 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/30">
                 <AlertCircle className="h-6 w-6 text-white" />
               </div>
               <div>

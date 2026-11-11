@@ -94,14 +94,18 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
       <div className="container py-8">
         <div className="max-w-4xl mx-auto">
           {/* Profile Header */}
-          <Card className="mb-8 overflow-hidden">
-            <div className="blood-gradient h-24" />
+          <Card className="mb-8 overflow-hidden border-primary/15">
+            <div className="relative isolate h-32 overflow-hidden blood-gradient">
+              <div aria-hidden="true" className="absolute -right-10 -top-16 -z-10 h-48 w-48 rounded-full border-[30px] border-white/10" />
+              <div aria-hidden="true" className="absolute left-1/3 -bottom-24 -z-10 h-44 w-44 rounded-full border-[24px] border-white/[0.07]" />
+              <div aria-hidden="true" className="absolute inset-0 -z-10 opacity-40 [background-image:radial-gradient(rgb(255_255_255/0.35)_1px,transparent_1px)] [background-size:18px_18px]" />
+            </div>
             <CardContent className="relative pt-0">
               <div className="flex flex-col md:flex-row items-center md:items-end gap-4 -mt-12">
                 <BloodBadge
                   bloodGroup={user.bloodGroup}
                   size="xl"
-                  className="border-4 border-background shadow-lg"
+                  className="border-4 border-card blood-glow"
                 />
                 <div className="text-center md:text-left flex-1 pb-4">
                   <h1 className="text-2xl font-bold">{user.name}</h1>
@@ -146,7 +150,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/[0.03] transition-colors hover:border-primary/25 hover:bg-primary/[0.06]">
                       <User className="h-5 w-5 text-primary" />
                       <div>
                         <p className="text-sm text-muted-foreground">
@@ -159,7 +163,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/[0.03] transition-colors hover:border-primary/25 hover:bg-primary/[0.06]">
                       <Phone className="h-5 w-5 text-primary" />
                       <div>
                         <p className="text-sm text-muted-foreground">
@@ -169,7 +173,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/[0.03] transition-colors hover:border-primary/25 hover:bg-primary/[0.06]">
                       <Mail className="h-5 w-5 text-primary" />
                       <div>
                         <p className="text-sm text-muted-foreground">
@@ -179,7 +183,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/[0.03] transition-colors hover:border-primary/25 hover:bg-primary/[0.06]">
                       <Briefcase className="h-5 w-5 text-primary" />
                       <div>
                         <p className="text-sm text-muted-foreground">
@@ -189,7 +193,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg md:col-span-2">
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/[0.03] transition-colors hover:border-primary/25 hover:bg-primary/[0.06] md:col-span-2">
                       <MapPin className="h-5 w-5 text-primary" />
                       <div>
                         <p className="text-sm text-muted-foreground">
@@ -204,7 +208,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                     </div>
 
                     {user.lastDonationDate && (
-                      <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg md:col-span-2">
+                      <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/[0.03] transition-colors hover:border-primary/25 hover:bg-primary/[0.06] md:col-span-2">
                         <Calendar className="h-5 w-5 text-primary" />
                         <div>
                           <p className="text-sm text-muted-foreground">
@@ -227,7 +231,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                   <CardTitle>{t("profile.settings.title")}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                  <div className="flex items-center justify-between p-4 rounded-xl border border-primary/10 bg-primary/[0.03]">
                     <div className="flex items-center gap-3">
                       <Heart className="h-5 w-5 text-primary" />
                       <div>
@@ -268,7 +272,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                       {incomingRequests.map((request) => (
                         <div
                           key={request.id}
-                          className="p-4 border rounded-lg space-y-3"
+                          className="p-4 border rounded-xl transition-colors hover:border-primary/30 space-y-3"
                         >
                           <div className="flex items-start justify-between">
                             <div>
@@ -304,7 +308,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                           <div className="flex gap-2">
                             <Button
                               onClick={() => handleAcceptRequest(request.id)}
-                              className="flex-1 blood-gradient text-blood-foreground"
+                              className="flex-1"
                             >
                               <Check className="h-4 w-4 mr-2" />
                               {t("profile.requests.actions.accept")}
@@ -339,7 +343,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                   {myRequests.length > 0 ? (
                     <div className="space-y-4">
                       {myRequests.map((request) => (
-                        <div key={request.id} className="p-4 border rounded-lg">
+                        <div key={request.id} className="p-4 border rounded-xl transition-colors hover:border-primary/30">
                           <div className="flex items-start justify-between mb-2">
                             <div>
                               <h4 className="font-medium">
@@ -383,7 +387,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                   {interestedPosts.length > 0 ? (
                     <div className="space-y-4">
                       {interestedPosts.map((post) => (
-                        <div key={post.id} className="p-4 border rounded-lg">
+                        <div key={post.id} className="p-4 border rounded-xl transition-colors hover:border-primary/30">
                           <div className="flex items-start justify-between mb-2">
                             <div>
                               <h4 className="font-medium">{post.title}</h4>

@@ -18,7 +18,7 @@
   },
   "hero": {
     "saveLife": "Save Life by Donating Blood",
-    "description": "When someone needs blood, every connection matters. Find a donor near you, or become the reason someone gets another tomorrow.",
+    "description": "In a moment of need, one connection can make a big difference.",
     "findDonor": "Find a donor",
     "registerNow": "Become a donor",
     "eyebrow": "A little kindness. A lifeline for someone.",
@@ -27,6 +27,8 @@
     "community": "People helping people.",
     "communityNote": "A community built on the willingness to give.",
     "visualCaption": "Different blood groups. One shared humanity.",
+    "mapLabel": "Find donors by division",
+    "divisionLink": "Find donors in {{division}} division",
     "groupLink": "Find {{group}} blood donors",
     "searchTitle": "Your search for a donor starts here",
     "searchNote": "Choose a blood group and location to get started.",
@@ -64,6 +66,40 @@
       "districts": "Districts Served",
       "donations": "Successful Donations",
       "service": "Service"
+    },
+    "howItWorks": {
+      "badge": "How It Works",
+      "title": "Save a life in 3 simple steps",
+      "subtitle": "From signing up to donating — it only takes a few minutes to become someone's lifeline.",
+      "step": "Step {{n}}",
+      "steps": {
+        "register": {
+          "title": "Register as a donor",
+          "desc": "Create a free account with your blood group and location so people nearby can find you."
+        },
+        "search": {
+          "title": "Find or request blood",
+          "desc": "Search donors by blood group and district, or post a request when someone needs blood urgently."
+        },
+        "donate": {
+          "title": "Connect & donate",
+          "desc": "Contact the donor or patient directly, donate safely, and help save a life."
+        }
+      },
+      "cta": "Become a Donor"
+    },
+    "compatibility": {
+      "badge": "Blood Compatibility",
+      "title": "Who can give blood to whom?",
+      "subtitle": "Pick a blood group to see which groups it can donate to and receive from.",
+      "select": "Select a blood group",
+      "canDonateTo": "{{group}} can donate to",
+      "canReceiveFrom": "{{group}} can receive from",
+      "count_one": "{{count}} group",
+      "count_other": "{{count}} groups",
+      "universalDonor": "Universal donor",
+      "universalRecipient": "Universal recipient",
+      "note": "Based on red blood cell compatibility. Always follow your doctor's or blood bank's advice before a transfusion."
     }
   },
   "requests": {
@@ -95,7 +131,9 @@
     "subtitle": "Those who stepped forward for humanity",
     "seeAll": "See All Donors",
     "previous": "Previous donors",
-    "next": "Next donors"
+    "next": "Next donors",
+    "pagination": "Donor slides",
+    "goToPage": "Go to slide {{page}}"
   },
   "auth": {
     "login": {

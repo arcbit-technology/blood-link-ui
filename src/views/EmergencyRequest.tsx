@@ -67,10 +67,14 @@ export default function EmergencyRequest() {
             {t("emergency.backHome")}
           </Link>
 
-          <Card className="overflow-hidden">
-            <div className="blood-gradient p-6 text-blood-foreground">
-              <div className="flex items-center gap-3">
-                <AlertCircle className="h-8 w-8" />
+          <Card className="overflow-hidden border-primary/15 blood-shadow">
+            <div className="relative isolate overflow-hidden blood-gradient p-6 md:p-8 text-blood-foreground">
+              <div aria-hidden="true" className="absolute -right-16 -top-16 -z-10 h-48 w-48 rounded-full border-[30px] border-white/10" />
+              <div aria-hidden="true" className="absolute -bottom-20 right-24 -z-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+              <div className="flex items-center gap-4">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/30 bg-white/15 backdrop-blur">
+                  <AlertCircle className="h-7 w-7" />
+                </span>
                 <div>
                   <h1 className="text-2xl font-bold">{t("emergency.title")}</h1>
                   <p className="opacity-90">{t("emergency.subtitle")}</p>
@@ -273,8 +277,8 @@ export default function EmergencyRequest() {
 
                 <Button
                   type="submit"
-                  className="w-full blood-gradient text-blood-foreground"
                   size="lg"
+                  className="w-full"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (

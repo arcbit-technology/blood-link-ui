@@ -3,6 +3,7 @@
 import { useState, useMemo, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "@/components/layout/Layout";
+import { PageHeader } from "@/components/layout/PageHeader";
 import { DonorCard } from "@/components/donors/DonorCard";
 import { DonorCardSkeleton } from "@/components/donors/DonorCardSkeleton";
 import { DonorDialog } from "@/components/donors/DonorDialog";
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { BloodBadge } from "@/components/ui/blood-badge";
-import { Search, Filter, X } from "lucide-react";
+import { Search, Filter, X, Users } from "lucide-react";
 import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
 import { BloodGroup, Division, Gender } from "@/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -187,14 +188,11 @@ export default function Donors() {
     <Layout>
       <div className="container py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">{t("donors.title")}</h1>
-          <p className="text-muted-foreground">{t("donors.subtitle")}</p>
-        </div>
+        <PageHeader icon={Users} title={t("donors.title")} subtitle={t("donors.subtitle")} />
 
         {/* Blood Group Quick Filter */}
-        <div className="mb-6">
-          <p className="text-sm text-muted-foreground mb-3">
+        <div className="mb-6 rounded-2xl border bg-card/80 p-4 md:p-5 card-shadow backdrop-blur">
+          <p className="text-sm font-semibold text-muted-foreground mb-3">
             {t("donors.filter.bloodGroup")}
           </p>
           <div className="flex flex-wrap gap-3">
@@ -202,8 +200,8 @@ export default function Donors() {
               onClick={() => handleSetBloodGroupQuick("all")}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 bloodGroupFilter === "all"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted hover:bg-muted/80"
+                  ? "blood-gradient text-white blood-glow"
+                  : "bg-muted hover:bg-primary/10 hover:text-primary"
               }`}
             >
               {t("common.all")}
@@ -219,8 +217,8 @@ export default function Donors() {
                   size="sm"
                   className={
                     bloodGroupFilter === group
-                      ? "ring-2 ring-offset-2 ring-primary"
-                      : "opacity-70"
+                      ? "ring-2 ring-offset-2 ring-offset-card ring-primary blood-glow"
+                      : "opacity-60 saturate-50 hover:opacity-100 hover:saturate-100"
                   }
                 />
               </button>
@@ -261,7 +259,7 @@ export default function Donors() {
 
         {/* Expanded Filters */}
         {showFilters && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/50 rounded-lg mb-6 animate-fade-in">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-2xl border bg-card/80 card-shadow mb-6 animate-fade-in">
             <div className="space-y-2">
               <Label>{t("findDonor.division")}</Label>
               <Select
@@ -377,8 +375,8 @@ export default function Donors() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="h-8 w-8 text-muted-foreground" />
+            <div className="icon-tile-soft mx-auto mb-4 h-16 w-16 rounded-2xl">
+              <Search className="h-8 w-8" />
             </div>
             <h3 className="text-lg font-medium mb-2">
               {t("donors.results.empty.title")}

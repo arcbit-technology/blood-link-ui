@@ -10,7 +10,12 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="relative isolate flex-1">
+        {/* Soft aurora + grid backdrop, matching the home hero. Sections with
+            their own background (like the hero) simply paint over it. */}
+        <div className="page-decor" aria-hidden="true">
+          <div className="page-decor-grid" />
+        </div>
         {children}
       </main>
       <Footer />

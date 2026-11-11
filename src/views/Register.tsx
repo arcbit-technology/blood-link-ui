@@ -145,7 +145,10 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4 py-8">
+    <div className="relative isolate min-h-screen flex items-center justify-center overflow-hidden px-4 py-8">
+      <div className="page-decor page-decor-full" aria-hidden="true">
+        <div className="page-decor-grid" />
+      </div>
       <div className="w-full max-w-2xl animate-fade-in">
         <div className="flex justify-center mb-8">
           <Link href="/" className="flex items-center gap-2 group">
@@ -154,7 +157,7 @@ export default function Register() {
           </Link>
         </div>
 
-        <Card className="card-shadow">
+        <Card className="accent-top border-primary/15 bg-card/90 backdrop-blur-xl blood-shadow">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl">
               {t("auth.register.title")}
@@ -490,7 +493,7 @@ export default function Register() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-primary/10 bg-primary/[0.03]">
                 <div className="flex items-center gap-3">
                   <Heart className="h-5 w-5 text-primary" />
                   <div>
@@ -516,7 +519,8 @@ export default function Register() {
 
               <Button
                 type="submit"
-                className="w-full blood-gradient text-blood-foreground"
+                size="lg"
+                className="w-full"
                 disabled={registerIsLoading}
               >
                 {registerIsLoading

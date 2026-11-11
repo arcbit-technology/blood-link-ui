@@ -9,8 +9,8 @@ export function BrandName({ className }: { className?: string }) {
 
   return (
     <span className={cn("whitespace-nowrap font-bold", className)}>
-      <span className="text-[#ed0000] dark:text-primary">{blood}</span>{" "}
-      <span className="text-[#1f2937] dark:text-[#f1f5f9]">
+      <span className="text-primary">{blood}</span>{" "}
+      <span className="text-foreground">
         {link.join(" ")}
       </span>
     </span>

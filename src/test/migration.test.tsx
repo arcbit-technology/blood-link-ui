@@ -18,6 +18,7 @@ vi.mock("@/api/auth", async (importOriginal) => ({
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ replace }),
+  usePathname: () => "/profile",
 }));
 
 const storedUser = {

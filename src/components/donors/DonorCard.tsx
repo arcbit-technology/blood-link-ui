@@ -30,38 +30,38 @@ export function DonorCard({ donor, onClick }: DonorCardProps) {
   return (
     <Card
       className={cn(
-        "cursor-pointer transition-all duration-300 hover:blood-shadow hover:-translate-y-1",
-        "bg-card border-border overflow-hidden group",
+        "lift-card flex h-full w-full cursor-pointer flex-col overflow-hidden group",
       )}
       onClick={onClick}
     >
-      <CardContent className="p-0">
+      <CardContent className="flex flex-1 flex-col p-0">
         {/* Header with blood group */}
-        <div className="relative p-4 pb-8 bg-gradient-to-br from-primary/5 to-transparent">
+        <div className="relative p-4 pb-8 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent">
+          <div aria-hidden="true" className="absolute inset-0 opacity-60 [background-image:radial-gradient(hsl(var(--primary)/0.18)_1px,transparent_1px)] [background-size:14px_14px] [mask-image:linear-gradient(to_bottom_left,#000,transparent_70%)]" />
           <div className="absolute -bottom-6 right-4">
             <BloodBadge
               bloodGroup={donor.bloodGroup}
               size="lg"
-              className="shadow-lg group-hover:animate-pulse-blood"
+              className="ring-4 ring-card blood-glow group-hover:animate-pulse-blood"
             />
           </div>
 
           {donor.hidePersonalInfo ? (
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="relative flex items-center gap-2 text-muted-foreground">
               <EyeOff className="h-4 w-4" />
               <span className="text-sm">{t("donors.card.hiddenInfo")}</span>
             </div>
           ) : (
-            <h3 className="font-semibold text-lg truncate pr-16">
+            <h3 className="relative font-semibold text-lg truncate pr-16">
               {donor.name}
             </h3>
           )}
         </div>
 
         {/* Body */}
-        <div className="p-4 pt-8 space-y-3">
+        <div className="flex-1 p-4 pt-8 space-y-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <UserIcon className="h-4 w-4 text-primary" />
+            <UserIcon className="h-4 w-4 shrink-0 text-primary" />
             <span>{t(`common.gender.${donor.gender}`)}</span>
             {!donor.hidePersonalInfo && (
               <>
@@ -74,7 +74,7 @@ export function DonorCard({ donor, onClick }: DonorCardProps) {
           </div>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 text-primary" />
+            <MapPin className="h-4 w-4 shrink-0 text-primary" />
             <span className="truncate">
               {donor.hidePersonalInfo
                 ? t(`location.district.${donor.district}`)
@@ -84,30 +84,38 @@ export function DonorCard({ donor, onClick }: DonorCardProps) {
 
           {!donor.hidePersonalInfo && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Briefcase className="h-4 w-4 text-primary" />
+              <Briefcase className="h-4 w-4 shrink-0 text-primary" />
               <span className="truncate">{donor.occupation}</span>
             </div>
           )}
 
-          {donor.lastDonationDate && (
-            <div className="flex items-center gap-2 text-sm">
-              <Calendar className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-2 text-sm">
+            <Calendar className="h-4 w-4 shrink-0 text-primary" />
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium",
+                canDonate()
+                  ? "bg-green-500/10 text-green-600 dark:text-green-400"
+                  : "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+              )}
+            >
               <span
                 className={cn(
-                  canDonate() ? "text-green-600 dark:text-green-400" : "text-amber-600 dark:text-amber-400",
+                  "h-1.5 w-1.5 rounded-full",
+                  canDonate() ? "bg-green-500" : "bg-amber-500",
                 )}
-              >
-                {canDonate()
-                  ? t("donors.status.available")
-                  : t("donors.status.unavailable")}
-              </span>
-            </div>
-          )}
+                aria-hidden="true"
+              />
+              {canDonate()
+                ? t("donors.status.available")
+                : t("donors.status.unavailable")}
+            </span>
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-3 bg-muted/50 border-t text-center">
-          <span className="text-sm text-primary font-medium">
+        <div className="mt-auto px-4 py-3 bg-muted/60 border-t text-center transition-all duration-300 group-hover:blood-gradient group-hover:border-transparent">
+          <span className="text-sm text-primary font-semibold transition-colors group-hover:text-white">
             {t("donors.card.viewDetails")}
           </span>
         </div>
