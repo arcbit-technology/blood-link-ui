@@ -94,7 +94,7 @@ export function DonorCard({ donor, onClick }: DonorCardProps) {
               <Calendar className="h-4 w-4 text-primary" />
               <span
                 className={cn(
-                  canDonate() ? "text-green-600" : "text-amber-600",
+                  canDonate() ? "text-green-600 dark:text-green-400" : "text-amber-600 dark:text-amber-400",
                 )}
               >
                 {canDonate()

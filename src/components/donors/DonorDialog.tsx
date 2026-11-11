@@ -179,7 +179,7 @@ export function DonorDialog({ donorId, open, onOpenChange }: DonorDialogProps) {
                 <Button
                   onClick={handleCall}
                   disabled={!canCall}
-                  className="w-full blood-gradient text-primary-foreground gap-2"
+                  className="w-full blood-gradient text-blood-foreground gap-2"
                   size="lg"
                 >
                   <Phone className="h-5 w-5" />

@@ -1,5 +1,8 @@
 {
   "header": {
+    "theme": {
+      "toggle": "লাইট ও ডার্ক থিম পরিবর্তন করুন"
+    },
     "findDonors": "ডোনার খুঁজুন",
     "bloodRequests": "রক্তের অনুরোধ",
     "login": "লগইন",

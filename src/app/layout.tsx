@@ -8,22 +8,21 @@ export const metadata: Metadata = {
   description: "A blood donation tracking application",
   authors: [{ name: "Blood Link Team" }],
   icons: {
+    // Keep tab icons theme-specific so a fixed ICO cannot override them.
     icon: [
-      { url: "/favicon.ico?v=2", sizes: "16x16 32x32 48x48 64x64" },
       {
-        url: "/favicon-light.png",
+        url: "/favicon-light.png?v=3",
         type: "image/png",
         sizes: "32x32",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/favicon-dark.png",
+        url: "/favicon-dark.png?v=3",
         type: "image/png",
         sizes: "32x32",
         media: "(prefers-color-scheme: dark)",
       },
     ],
-    shortcut: "/favicon.ico?v=2",
     apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
   },
   openGraph: {
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="bn">
+    <html lang="bn" suppressHydrationWarning>
       <body>
         <Providers>{children}</Providers>
       </body>

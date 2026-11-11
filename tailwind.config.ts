@@ -53,6 +53,7 @@ export default {
         },
         blood: {
           DEFAULT: "hsl(var(--blood-primary))",
+          foreground: "hsl(var(--blood-foreground))",
           light: "hsl(var(--blood-light))",
           dark: "hsl(var(--blood-dark))",
           glow: "hsl(var(--blood-glow))",

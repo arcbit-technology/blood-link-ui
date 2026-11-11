@@ -108,8 +108,8 @@ export default function Posts() {
   };
 
   const statusColors = {
-    open: "bg-green-100 text-green-800",
-    fulfilled: "bg-blue-100 text-blue-800",
+    open: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300",
+    fulfilled: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300",
     closed: "bg-muted text-muted-foreground",
   };
 
@@ -136,7 +136,7 @@ export default function Posts() {
           {isAuthenticated ? (
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="blood-gradient text-primary-foreground gap-2">
+                <Button className="blood-gradient text-blood-foreground gap-2">
                   <Plus className="h-5 w-5" />
                   {t("posts.createButton")}
                 </Button>
@@ -268,7 +268,7 @@ export default function Posts() {
 
                   <Button
                     type="submit"
-                    className="w-full blood-gradient text-primary-foreground"
+                    className="w-full blood-gradient text-blood-foreground"
                   >
                     {t("posts.form.submit")}
                   </Button>
@@ -276,7 +276,7 @@ export default function Posts() {
               </DialogContent>
             </Dialog>
           ) : (
-            <Button asChild className="blood-gradient text-primary-foreground">
+            <Button asChild className="blood-gradient text-blood-foreground">
               <Link href="/login">{t("posts.loginToPost")}</Link>
             </Button>
           )}
@@ -347,7 +347,7 @@ export default function Posts() {
                       className={
                         user && post.interestedUsers.includes(user.id)
                           ? ""
-                          : "blood-gradient text-primary-foreground"
+                          : "blood-gradient text-blood-foreground"
                       }
                       disabled={post.status !== "open"}
                     >

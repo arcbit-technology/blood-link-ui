@@ -92,12 +92,12 @@ export default function Admin() {
   };
 
   const statusColors = {
-    pending: "bg-amber-100 text-amber-800",
-    accepted: "bg-green-100 text-green-800",
-    rejected: "bg-red-100 text-red-800",
-    completed: "bg-blue-100 text-blue-800",
-    open: "bg-green-100 text-green-800",
-    fulfilled: "bg-blue-100 text-blue-800",
+    pending: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300",
+    accepted: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300",
+    rejected: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300",
+    completed: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300",
+    open: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300",
+    fulfilled: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300",
     closed: "bg-muted text-muted-foreground",
   };
 
@@ -112,9 +112,9 @@ export default function Admin() {
   };
 
   const urgencyColors = {
-    normal: "bg-blue-100 text-blue-800",
-    urgent: "bg-amber-100 text-amber-800",
-    emergency: "bg-red-100 text-red-800",
+    normal: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300",
+    urgent: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300",
+    emergency: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300",
   };
 
   const urgencyLabels = {
@@ -148,7 +148,7 @@ export default function Admin() {
           <Card>
             <CardContent className="p-4 flex items-center gap-4">
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center">
-                <Users className="h-6 w-6 text-primary-foreground" />
+                <Users className="h-6 w-6 text-blood-foreground" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{totalUsers}</p>
@@ -329,7 +329,7 @@ export default function Admin() {
                             <div>
                               <p className="font-medium">{req.requesterName}</p>
                               {req.isAdminRequest && (
-                                <Badge className="bg-red-100 text-red-800 text-xs">
+                                <Badge className="bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300 text-xs">
                                   {t("admin.requests.adminRequest")}
                                 </Badge>
                               )}
@@ -363,7 +363,7 @@ export default function Admin() {
                                 <Button
                                   size="sm"
                                   onClick={() => handleApproveRequest(req.id)}
-                                  className="blood-gradient text-primary-foreground"
+                                  className="blood-gradient text-blood-foreground"
                                 >
                                   <Check className="h-4 w-4" />
                                 </Button>

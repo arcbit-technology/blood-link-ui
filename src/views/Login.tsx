@@ -140,7 +140,7 @@ export default function Login() {
 
               <Button
                 type="submit"
-                className="w-full blood-gradient text-primary-foreground"
+                className="w-full blood-gradient text-blood-foreground"
                 disabled={loginIsLoading}
               >
                 {loginIsLoading

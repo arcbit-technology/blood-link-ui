@@ -31,8 +31,8 @@ export default function Index() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
 
         <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center text-primary-foreground">
-            <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6 animate-fade-in">
+          <div className="max-w-3xl mx-auto text-center text-blood-foreground">
+            <div className="inline-flex items-center gap-2 bg-blood-foreground/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6 animate-fade-in">
               <Droplet className="h-4 w-4" />
               <span className="text-sm font-medium">{t("hero.saveLife")}</span>
             </div>
@@ -57,7 +57,7 @@ export default function Index() {
               <Button
                 asChild
                 size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 gap-2"
+                className="bg-blood-foreground text-blood-dark hover:bg-blood-foreground/90 gap-2"
               >
                 <Link href="/donors">
                   <Search className="h-5 w-5" />
@@ -68,7 +68,7 @@ export default function Index() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 gap-2"
+                className="bg-transparent border-blood-foreground text-blood-foreground hover:bg-blood-foreground/10 gap-2"
               >
                 <Link href="/register">
                   {t("hero.registerNow")}
@@ -81,13 +81,13 @@ export default function Index() {
 
         {/* Floating blood drops */}
         <div className="absolute top-20 left-10 animate-float opacity-30">
-          <Droplet className="h-16 w-16 text-primary-foreground fill-primary-foreground" />
+          <Droplet className="h-16 w-16 text-blood-foreground fill-blood-foreground" />
         </div>
         <div
           className="absolute bottom-20 right-20 animate-float opacity-20"
           style={{ animationDelay: "1s" }}
         >
-          <Droplet className="h-24 w-24 text-primary-foreground fill-primary-foreground" />
+          <Droplet className="h-24 w-24 text-blood-foreground fill-blood-foreground" />
         </div>
       </section>
 
@@ -140,7 +140,7 @@ export default function Index() {
             <Button
               asChild
               size="lg"
-              className="blood-gradient text-primary-foreground gap-2"
+              className="blood-gradient text-blood-foreground gap-2"
             >
               <Link href="/emergency-request">
                 <Heart className="h-5 w-5" />
@@ -165,7 +165,7 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-card rounded-xl p-6 card-shadow hover:blood-shadow transition-shadow animate-fade-in">
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
-                <Users className="h-6 w-6 text-primary-foreground" />
+                <Users className="h-6 w-6 text-blood-foreground" />
               </div>
               <h3 className="font-semibold text-lg mb-2">
                 {t("home.features.network")}
@@ -180,7 +180,7 @@ export default function Index() {
               style={{ animationDelay: "0.1s" }}
             >
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
-                <Search className="h-6 w-6 text-primary-foreground" />
+                <Search className="h-6 w-6 text-blood-foreground" />
               </div>
               <h3 className="font-semibold text-lg mb-2">
                 {t("home.features.search")}
@@ -195,7 +195,7 @@ export default function Index() {
               style={{ animationDelay: "0.2s" }}
             >
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
-                <Clock className="h-6 w-6 text-primary-foreground" />
+                <Clock className="h-6 w-6 text-blood-foreground" />
               </div>
               <h3 className="font-semibold text-lg mb-2">
                 {t("home.features.response")}
@@ -210,7 +210,7 @@ export default function Index() {
               style={{ animationDelay: "0.3s" }}
             >
               <div className="w-12 h-12 blood-gradient rounded-lg flex items-center justify-center mb-4">
-                <Shield className="h-6 w-6 text-primary-foreground" />
+                <Shield className="h-6 w-6 text-blood-foreground" />
               </div>
               <h3 className="font-semibold text-lg mb-2">
                 {t("home.features.privacy")}

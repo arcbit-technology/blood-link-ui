@@ -68,7 +68,7 @@ export default function EmergencyRequest() {
           </Link>
 
           <Card className="overflow-hidden">
-            <div className="blood-gradient p-6 text-primary-foreground">
+            <div className="blood-gradient p-6 text-blood-foreground">
               <div className="flex items-center gap-3">
                 <AlertCircle className="h-8 w-8" />
                 <div>
@@ -273,7 +273,7 @@ export default function EmergencyRequest() {
 
                 <Button
                   type="submit"
-                  className="w-full blood-gradient text-primary-foreground"
+                  className="w-full blood-gradient text-blood-foreground"
                   size="lg"
                   disabled={isSubmitting}
                 >

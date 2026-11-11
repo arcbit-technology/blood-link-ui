@@ -1,5 +1,8 @@
 {
   "header": {
+    "theme": {
+      "toggle": "Toggle light and dark theme"
+    },
     "findDonors": "Find Donors",
     "bloodRequests": "Blood Requests",
     "login": "Login",

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
 import { BrandName } from "@/components/BrandName";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   User,
@@ -80,6 +81,8 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
+          <ThemeToggle />
+
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -116,7 +119,7 @@ export function Header() {
               </Button>
               <Button
                 onClick={() => router.push("/register")}
-                className="blood-gradient text-primary-foreground"
+                className="blood-gradient text-blood-foreground"
               >
                 {t("header.register")}
               </Button>
@@ -126,6 +129,7 @@ export function Header() {
 
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -219,7 +223,7 @@ export function Header() {
                   {t("header.login")}
                 </Button>
                 <Button
-                  className="blood-gradient text-primary-foreground"
+                  className="blood-gradient text-blood-foreground"
                   onClick={() => {
                     router.push("/register");
                     setMobileMenuOpen(false);

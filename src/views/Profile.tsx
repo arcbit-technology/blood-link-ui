@@ -76,10 +76,10 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
   };
 
   const statusColors = {
-    pending: "bg-amber-100 text-amber-800",
-    accepted: "bg-green-100 text-green-800",
-    rejected: "bg-red-100 text-red-800",
-    completed: "bg-blue-100 text-blue-800",
+    pending: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300",
+    accepted: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300",
+    rejected: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300",
+    completed: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300",
   };
 
   const statusLabels = {
@@ -304,7 +304,7 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                           <div className="flex gap-2">
                             <Button
                               onClick={() => handleAcceptRequest(request.id)}
-                              className="flex-1 blood-gradient text-primary-foreground"
+                              className="flex-1 blood-gradient text-blood-foreground"
                             >
                               <Check className="h-4 w-4 mr-2" />
                               {t("profile.requests.actions.accept")}

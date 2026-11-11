@@ -19,7 +19,7 @@ export function BloodBadge({ bloodGroup, size = 'md', animated = false, classNam
   return (
     <div
       className={cn(
-        "blood-badge-gradient rounded-full flex items-center justify-center text-primary-foreground font-bold shadow-lg",
+        "blood-badge-gradient rounded-full flex items-center justify-center text-blood-foreground font-bold shadow-lg",
         sizeClasses[size],
         animated && "animate-pulse-blood",
         className
