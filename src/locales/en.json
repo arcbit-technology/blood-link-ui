@@ -18,9 +18,20 @@
   },
   "hero": {
     "saveLife": "Save Life by Donating Blood",
-    "description": "Find donors by blood group or register as a donor.",
-    "findDonor": "Find Donor",
-    "registerNow": "Register Now"
+    "description": "When someone needs blood, every connection matters. Find a donor near you, or become the reason someone gets another tomorrow.",
+    "findDonor": "Find a donor",
+    "registerNow": "Become a donor",
+    "eyebrow": "A little kindness. A lifeline for someone.",
+    "title": "Connected by blood.",
+    "titleAccent": "United for life.",
+    "community": "People helping people.",
+    "communityNote": "A community built on the willingness to give.",
+    "visualCaption": "Different blood groups. One shared humanity.",
+    "groupLink": "Find {{group}} blood donors",
+    "searchTitle": "Your search for a donor starts here",
+    "searchNote": "Choose a blood group and location to get started.",
+    "footnote": "One connection can make all the difference.",
+    "emergency": "Urgent need? Request blood"
   },
   "home": {
     "allBloodGroups": "Donors of all blood groups are available",
@@ -803,7 +814,6 @@
       "Bagerhat Sadar": "Bagerhat Sadar",
       "Chitalmari": "Chitalmari",
       "Fakirhat": "Fakirhat",
-      "Kachua": "Kachua",
       "Mollahat": "Mollahat",
       "Mongla": "Mongla",
       "Morrelganj": "Morrelganj",

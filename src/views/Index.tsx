@@ -2,22 +2,18 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { BloodBadge } from "@/components/ui/blood-badge";
 import { Layout } from "@/components/layout/Layout";
 import {
-  Droplet,
   Users,
   Heart,
   Clock,
-  ArrowRight,
   Search,
   AlertCircle,
   Shield,
 } from "lucide-react";
-import { BLOOD_GROUPS } from "@/data/mockData";
 import { useTranslation } from "react-i18next";
 
-import { FindDonorSection } from "@/components/home/FindDonorSection";
+import { HeroSection } from "@/components/home/HeroSection";
 import { BloodRequestSection } from "@/components/home/BloodRequestSection";
 import { RecentDonorsSection } from "@/components/home/RecentDonorsSection";
 
@@ -26,94 +22,7 @@ export default function Index() {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden blood-gradient py-20 md:py-32">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
-
-        <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center text-blood-foreground">
-            <div className="inline-flex items-center gap-2 bg-blood-foreground/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6 animate-fade-in">
-              <Droplet className="h-4 w-4" />
-              <span className="text-sm font-medium">{t("hero.saveLife")}</span>
-            </div>
-
-            <h1
-              className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in"
-              style={{ animationDelay: "0.1s" }}
-            >
-              {t("header.appName")}
-            </h1>
-            <p
-              className="text-lg md:text-xl opacity-90 mb-8 animate-fade-in"
-              style={{ animationDelay: "0.2s" }}
-            >
-              {t("hero.description")}
-            </p>
-
-            <div
-              className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in"
-              style={{ animationDelay: "0.3s" }}
-            >
-              <Button
-                asChild
-                size="lg"
-                className="bg-blood-foreground text-blood-dark hover:bg-blood-foreground/90 gap-2"
-              >
-                <Link href="/donors">
-                  <Search className="h-5 w-5" />
-                  {t("hero.findDonor")}
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-blood-foreground text-blood-foreground hover:bg-blood-foreground/10 gap-2"
-              >
-                <Link href="/register">
-                  {t("hero.registerNow")}
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating blood drops */}
-        <div className="absolute top-20 left-10 animate-float opacity-30">
-          <Droplet className="h-16 w-16 text-blood-foreground fill-blood-foreground" />
-        </div>
-        <div
-          className="absolute bottom-20 right-20 animate-float opacity-20"
-          style={{ animationDelay: "1s" }}
-        >
-          <Droplet className="h-24 w-24 text-blood-foreground fill-blood-foreground" />
-        </div>
-      </section>
-
-      {/* Blood Groups */}
-      <section className="py-16 bg-muted/30">
-        <div className="container">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-            {t("home.allBloodGroups")}
-          </h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            {BLOOD_GROUPS.map((group, index) => (
-              <Link
-                key={group}
-                href={`/donors?bloodGroup=${group}`}
-                className="animate-scale-in transition-transform hover:scale-110"
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <BloodBadge bloodGroup={group} size="lg" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Find Donor Section */}
-      <FindDonorSection />
+      <HeroSection />
 
       {/* Blood Request Section */}
       <BloodRequestSection />
