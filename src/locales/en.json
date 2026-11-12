@@ -526,6 +526,48 @@
     }
   },
   "admin": {
+    "workspace": {
+      "workspace": "Blood Link workspace",
+      "administration": "Administration",
+      "administrator": "Platform administrator",
+      "management": "Management",
+      "overview": "Overview",
+      "overviewTitle": "Dashboard overview",
+      "toggleMenu": "Toggle navigation",
+      "closeMenu": "Close navigation",
+      "skipContent": "Skip to dashboard content",
+      "visitSite": "Visit website",
+      "missionTitle": "Every connection saves lives",
+      "missionDescription": "Keep your community connected to the blood they need, when they need it.",
+      "viewAll": "View all",
+      "reviewRequests": "Review requests",
+      "registeredDonors": "Donors in your community",
+      "donationsCompleted": "Recorded successful donations",
+      "awaitingReview": "Awaiting your review",
+      "priorityRequests": "Requests needing priority attention",
+      "reviewQueue": "Needs your attention",
+      "reviewQueueDescription": "Pending blood requests, with emergencies first.",
+      "allCaughtUp": "All caught up. No requests waiting for review.",
+      "bloodGroupDistribution": "Donors by blood group",
+      "bloodGroupDescription": "A snapshot of your donor community.",
+      "recentDonations": "Recent donations",
+      "recentDonationsDescription": "The latest recorded contributions.",
+      "bankApprovals": "Blood bank approvals",
+      "bankApprovalsDescription": "Review new blood banks and help grow a trusted donation network.",
+      "bankLoadError": "Unable to load approvals. Open blood banks to retry.",
+      "retry": "Try again",
+      "manageBanks": "Manage blood banks",
+      "noResults": "No records found.",
+      "reviewed": "Reviewed",
+      "descriptions": {
+        "overview": "Welcome back. Here's what's happening in your donation community.",
+        "users": "Get to know your donors and manage community information.",
+        "bloodBanks": "Review applications and manage your blood bank network.",
+        "requests": "Review blood requests and help people find the support they need.",
+        "posts": "Keep blood request posts up to date for your community.",
+        "history": "Explore the donations that bring your community together."
+      }
+    },
     "dashboard": {
       "title": "Admin Dashboard",
       "subtitle": "Manage Blood Link"
