@@ -29,6 +29,7 @@ import { mockDonationRequests, mockDonationPosts } from "@/data/mockData";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import type { User as BloodLinkUser } from "@/types";
+import { MyBloodBankCard, ProfileGamification } from "@/components/gamification/ProfileGamification";
 
 export default function Profile() {
   const router = useRouter();
@@ -127,8 +128,9 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
           </Card>
 
           <Tabs defaultValue="info" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2 h-auto sm:grid-cols-4">
               <TabsTrigger value="info">{t("profile.tabs.info")}</TabsTrigger>
+              <TabsTrigger value="achievements">{t("profile.tabs.achievements")}</TabsTrigger>
               <TabsTrigger value="requests">
                 {t("profile.tabs.requests")}
                 {incomingRequests.length > 0 && (
@@ -201,6 +203,9 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                         </p>
                         <p className="font-medium">
                           {user.address},{" "}
+                          {user.upazila
+                            ? `${t(`location.upazila.${user.upazila}`, { defaultValue: user.upazila })}, `
+                            : ""}
                           {t(`location.district.${user.district}`)},{" "}
                           {t(`location.division.${user.division}`)}
                         </p>
@@ -225,6 +230,8 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                   </div>
                 </CardContent>
               </Card>
+
+              <MyBloodBankCard />
 
               <Card>
                 <CardHeader>
@@ -254,6 +261,11 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            {/* Achievements Tab: points, level, badges */}
+            <TabsContent value="achievements" className="space-y-6">
+              <ProfileGamification userId={user.id} />
             </TabsContent>
 
             {/* Requests Tab */}

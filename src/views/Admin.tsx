@@ -39,10 +39,14 @@ import {
 } from "@/data/mockData";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { BloodBankRequestsPanel } from "@/components/admin/BloodBankRequestsPanel";
+import { getBloodBanks } from "@/api/bloodBanks";
 
 export default function Admin() {
   const { t, i18n } = useTranslation();
-  const { user, isAuthenticated, isAuthLoading } = useAuth();
+  const { user, token, isAuthenticated, isAuthLoading } = useAuth();
+  const isPlatformAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
   const router = useRouter();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
@@ -51,13 +55,20 @@ export default function Admin() {
   const [posts, setPosts] = useState(mockDonationPosts);
   const [history] = useState(mockDonationHistory);
 
+  const pendingBanksQuery = useQuery({
+    queryKey: ["bloodBanks", "admin", "pending"],
+    enabled: isPlatformAdmin && !!token,
+    queryFn: () => getBloodBanks({ status: "pending", size: 100 }, token),
+  });
+  const pendingBanks = pendingBanksQuery.data?.totalCount ?? 0;
+
   useEffect(() => {
-    if (!isAuthLoading && (!isAuthenticated || user?.role !== "ADMIN")) {
+    if (!isAuthLoading && (!isAuthenticated || !isPlatformAdmin)) {
       router.replace("/");
     }
-  }, [isAuthLoading, isAuthenticated, user?.role, router]);
+  }, [isAuthLoading, isAuthenticated, isPlatformAdmin, router]);
 
-  if (isAuthLoading || !isAuthenticated || user?.role !== "ADMIN") return null;
+  if (isAuthLoading || !isAuthenticated || !isPlatformAdmin) return null;
 
   const filteredUsers = users.filter(
     (u) =>
@@ -202,8 +213,16 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-5">
             <TabsTrigger value="users">{t("admin.tabs.users")}</TabsTrigger>
+            <TabsTrigger value="bloodBanks">
+              {t("admin.tabs.bloodBanks")}
+              {pendingBanks > 0 && (
+                <span className="ml-2 w-5 h-5 bg-primary text-primary-foreground rounded-full text-xs flex items-center justify-center">
+                  {pendingBanks}
+                </span>
+              )}
+            </TabsTrigger>
             <TabsTrigger value="requests">
               {t("admin.tabs.requests")}
               {pendingRequests > 0 && (
@@ -215,6 +234,11 @@ export default function Admin() {
             <TabsTrigger value="posts">{t("admin.tabs.posts")}</TabsTrigger>
             <TabsTrigger value="history">{t("admin.tabs.history")}</TabsTrigger>
           </TabsList>
+
+          {/* Blood bank requests (live API) */}
+          <TabsContent value="bloodBanks">
+            <BloodBankRequestsPanel />
+          </TabsContent>
 
           {/* Users Tab */}
           <TabsContent value="users">

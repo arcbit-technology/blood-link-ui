@@ -13,7 +13,9 @@ import {
   Menu,
   X,
   Globe,
+  MessagesSquare,
 } from "lucide-react";
+import { useConversations } from "@/hooks/useConversations";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -30,6 +32,8 @@ export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const { unreadTotal } = useConversations();
+  const isPlatformAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
 
   const handleLogout = () => {
     logout();
@@ -70,13 +74,44 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-2">
+        <nav className="hidden lg:flex items-center gap-2">
           <Link href="/donors" className={navClass("/donors")}>
             {t("header.findDonors")}
           </Link>
           <Link href="/posts" className={navClass("/posts")}>
             {t("header.bloodRequests")}
           </Link>
+          <Link href="/blood-banks" className={navClass("/blood-banks")}>
+            {t("header.bloodBanks")}
+          </Link>
+          <Link href="/leaderboard" className={navClass("/leaderboard")}>
+            {t("header.leaderboard")}
+          </Link>
+
+          {isAuthenticated && (
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              className="relative rounded-full"
+            >
+              <Link
+                href="/messages"
+                aria-label={
+                  unreadTotal > 0
+                    ? t("header.messagesUnread", { count: unreadTotal })
+                    : t("header.messages")
+                }
+              >
+                <MessagesSquare className="h-5 w-5" />
+                {unreadTotal > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                    {unreadTotal > 99 ? "99+" : unreadTotal}
+                  </span>
+                )}
+              </Link>
+            </Button>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -113,7 +148,11 @@ export function Header() {
                   <User className="mr-2 h-4 w-4" />
                   {t("header.profile")}
                 </DropdownMenuItem>
-                {user?.role === "ADMIN" && (
+                <DropdownMenuItem onClick={() => router.push("/messages")}>
+                  <MessagesSquare className="mr-2 h-4 w-4" />
+                  {t("header.messages")}
+                </DropdownMenuItem>
+                {isPlatformAdmin && (
                   <DropdownMenuItem onClick={() => router.push("/admin")}>
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     {t("header.adminDashboard")}
@@ -145,7 +184,7 @@ export function Header() {
         </nav>
 
         {/* Mobile Menu Button */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -184,7 +223,7 @@ export function Header() {
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-primary/10 bg-background/95 backdrop-blur-xl animate-fade-in">
+        <div className="lg:hidden border-t border-primary/10 bg-background/95 backdrop-blur-xl animate-fade-in">
           <nav className="container py-4 flex flex-col gap-1">
             <Link
               href="/donors"
@@ -200,6 +239,20 @@ export function Header() {
             >
               {t("header.bloodRequests")}
             </Link>
+            <Link
+              href="/blood-banks"
+              className={mobileNavClass("/blood-banks")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t("header.bloodBanks")}
+            </Link>
+            <Link
+              href="/leaderboard"
+              className={mobileNavClass("/leaderboard")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t("header.leaderboard")}
+            </Link>
             {isAuthenticated ? (
               <>
                 <Link
@@ -209,7 +262,19 @@ export function Header() {
                 >
                   {t("header.profile")}
                 </Link>
-                {user?.role === "ADMIN" && (
+                <Link
+                  href="/messages"
+                  className={cn(mobileNavClass("/messages"), "flex items-center justify-between")}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t("header.messages")}
+                  {unreadTotal > 0 && (
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-bold text-primary-foreground">
+                      {unreadTotal}
+                    </span>
+                  )}
+                </Link>
+                {isPlatformAdmin && (
                   <Link
                     href="/admin"
                     className={mobileNavClass("/admin")}

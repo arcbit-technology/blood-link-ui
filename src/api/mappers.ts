@@ -62,6 +62,7 @@ export function mapApiUserToUser(apiUser: ApiUser): User {
     address,
     district,
     division: division as User["division"],
+    upazila: typeof apiUser.upazila === "string" ? apiUser.upazila : undefined,
     bloodGroup: (apiBloodGroup as User["bloodGroup"]) || "O+",
     age: typeof apiUser.age === "number" ? apiUser.age : 0,
     occupation: typeof apiUser.profession === "string" ? apiUser.profession : "",

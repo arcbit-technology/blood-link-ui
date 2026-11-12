@@ -14,7 +14,11 @@
     "language": {
       "en": "English",
       "bn": "Bangla"
-    }
+    },
+    "bloodBanks": "Blood Banks",
+    "leaderboard": "Leaderboard",
+    "messages": "Messages",
+    "messagesUnread": "Messages ({{count}} unread)"
   },
   "hero": {
     "saveLife": "Save Life by Donating Blood",
@@ -385,7 +389,9 @@
         "division": "Division *",
         "district": "District *",
         "address": "Full Address",
-        "requiredDate": "When Needed *"
+        "requiredDate": "When Needed *",
+        "urgency": "Urgency",
+        "unitsNeeded": "Units (bags) needed"
       },
       "placeholders": {
         "title": "e.g., Urgent O+ Blood Needed",
@@ -403,11 +409,31 @@
       "expressInterest": "Express Interest",
       "postedBy": "Posted by: ",
       "anonymous": "Anonymous donor",
-      "yourPost": "Your post"
+      "yourPost": "Your post",
+      "viewDonors": "Donors ({{count}})",
+      "messageRequester": "Message"
     },
     "empty": {
       "title": "No Posts Found",
       "subtitle": "Be the first to create a post"
+    },
+    "donors": {
+      "title": "Interested donors",
+      "description": "Call or message them. Once someone has donated, confirm it — they earn points and badges.",
+      "empty": "Nobody has shown interest yet.",
+      "stats": "{{points}} pts · {{count}} donations",
+      "lastDonated": "last donated {{date}}",
+      "donated": "Donated",
+      "notEligible": "Donated < 90 days ago",
+      "message": "Message",
+      "confirm": "Confirm donation",
+      "confirmTitle": "Confirm this donation?",
+      "confirmBody": "Confirm only if {{name}} has actually donated blood for this request.",
+      "date": "Donation date",
+      "confirmed": {
+        "title": "Donation confirmed",
+        "description": "The donor earned {{points}} points. Thank you!"
+      }
     }
   },
   "profile": {
@@ -418,7 +444,8 @@
     "tabs": {
       "info": "My Info",
       "requests": "Requests",
-      "activity": "My Activity"
+      "activity": "My Activity",
+      "achievements": "Achievements"
     },
     "info": {
       "title": "Personal Info",
@@ -473,6 +500,12 @@
     "activity": {
       "title": "Interested Posts",
       "empty": "No interests expressed"
+    },
+    "bloodBank": {
+      "title": "My blood bank",
+      "open": "Open",
+      "none": "You're not in a blood bank yet.",
+      "find": "Find one"
     }
   },
   "admin": {
@@ -504,7 +537,8 @@
       "users": "Users",
       "requests": "Requests",
       "posts": "Posts",
-      "history": "History"
+      "history": "History",
+      "bloodBanks": "Blood banks"
     },
     "users": {
       "title": "User List",
@@ -567,6 +601,31 @@
         "date": "Date"
       },
       "units": "bags"
+    },
+    "bloodBanks": {
+      "title": "Blood bank requests",
+      "empty": "Nothing here.",
+      "table": {
+        "name": "Name",
+        "location": "Location",
+        "requestedBy": "Requested by",
+        "date": "Date",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "approve": "Approve",
+      "reactivate": "Re-activate",
+      "reject": "Reject",
+      "suspend": "Suspend",
+      "rejectTitle": "Reject \"{{name}}\"?",
+      "suspendTitle": "Suspend \"{{name}}\"?",
+      "reasonHint": "The requester will see this reason.",
+      "reason": "Reason",
+      "toasts": {
+        "approve": "Blood bank approved",
+        "reject": "Request rejected",
+        "suspend": "Blood bank suspended"
+      }
     }
   },
   "location": {
@@ -1124,7 +1183,360 @@
       "Nakla": "Nakla",
       "Nalitabari": "Nalitabari",
       "Sherpur Sadar": "Sherpur Sadar",
-      "Sreebardi": "Sreebardi"
+      "Sreebardi": "Sreebardi",
+      "Adabor": "Adabor",
+      "Badda": "Badda",
+      "Banani": "Banani",
+      "Bangshal": "Bangshal",
+      "Bhasantek": "Bhasantek",
+      "Bhatara": "Bhatara",
+      "Bimanbandar": "Bimanbandar",
+      "Cantonment": "Cantonment",
+      "Chawkbazar": "Chawkbazar",
+      "Dakshinkhan": "Dakshinkhan",
+      "Darus Salam": "Darus Salam",
+      "Demra": "Demra",
+      "Dhanmondi": "Dhanmondi",
+      "Gendaria": "Gendaria",
+      "Gulshan": "Gulshan",
+      "Hazaribagh": "Hazaribagh",
+      "Jatrabari": "Jatrabari",
+      "Kadamtali": "Kadamtali",
+      "Kafrul": "Kafrul",
+      "Kalabagan": "Kalabagan",
+      "Kamrangirchar": "Kamrangirchar",
+      "Khilgaon": "Khilgaon",
+      "Khilkhet": "Khilkhet",
+      "Kotwali": "Kotwali",
+      "Lalbagh": "Lalbagh",
+      "Mirpur Model": "Mirpur Model",
+      "Motijheel": "Motijheel",
+      "Mugda": "Mugda",
+      "New Market": "New Market",
+      "Pallabi": "Pallabi",
+      "Paltan": "Paltan",
+      "Ramna": "Ramna",
+      "Rampura": "Rampura",
+      "Rupnagar": "Rupnagar",
+      "Sabujbagh": "Sabujbagh",
+      "Shah Ali": "Shah Ali",
+      "Shahbagh": "Shahbagh",
+      "Shahjahanpur": "Shahjahanpur",
+      "Sher-e-Bangla Nagar": "Sher-e-Bangla Nagar",
+      "Shyampur": "Shyampur",
+      "Sutrapur": "Sutrapur",
+      "Tejgaon": "Tejgaon",
+      "Tejgaon Industrial Area": "Tejgaon Industrial Area",
+      "Turag": "Turag",
+      "Uttara East": "Uttara East",
+      "Uttara West": "Uttara West",
+      "Uttarkhan": "Uttarkhan",
+      "Wari": "Wari",
+      "Faridpur": "Faridpur",
+      "Parbatipur": "Parbatipur",
+      "Kishoreganj": "Kishoreganj"
+    },
+    "labels": {
+      "division": "Division",
+      "district": "District",
+      "upazila": "Upazila / Thana"
+    }
+  },
+  "apiErrors": {
+    "187": "This blood request no longer exists.",
+    "188": "This blood request is no longer open.",
+    "194": "You can't express interest in your own request.",
+    "195": "The selected upazila does not belong to the district.",
+    "196": "Blood bank not found.",
+    "197": "Blood bank name is required (3–120 characters).",
+    "198": "Please choose the division, district and upazila.",
+    "199": "You already belong to, or have asked to join, a blood bank.",
+    "200": "You already have a blood bank request waiting for review.",
+    "201": "This blood bank is not active.",
+    "202": "This request has already been reviewed.",
+    "203": "Your role in this blood bank doesn't allow that.",
+    "204": "Member not found.",
+    "205": "Hand the admin role to another member before leaving.",
+    "206": "Invalid role.",
+    "207": "Position must be at most 60 characters.",
+    "208": "The new admin must be an active member of the blood bank.",
+    "209": "Please give a reason.",
+    "210": "Only the author of the request can do this.",
+    "211": "This donor has not expressed interest in your request.",
+    "212": "This donation is already confirmed.",
+    "213": "The donor donated less than 90 days ago.",
+    "214": "The donation date is invalid or in the future.",
+    "215": "Conversation not found.",
+    "216": "Messages must be 1–2000 characters.",
+    "217": "You are sending messages too fast.",
+    "218": "You can only message the author of a request you are interested in, or a donor interested in yours.",
+    "forbidden": "You don't have permission to do that."
+  },
+  "gamification": {
+    "heroScore": "Hero score",
+    "points": "Points",
+    "pts": "pts",
+    "donations": "Donations",
+    "rank": "National rank",
+    "levelProgress": "Progress to the next level",
+    "toNextLevel": "{{points}} points to {{level}}",
+    "maxLevel": "Top level reached — thank you, legend!",
+    "levels": {
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "platinum": "Platinum"
+    },
+    "earnedOn": "Earned on {{date}}",
+    "badgesTitle": "Badges ({{earned}}/{{total}})",
+    "badges": {
+      "first_drop": {
+        "name": "First Drop",
+        "description": "Made your first confirmed donation"
+      },
+      "life_saver": {
+        "name": "Life Saver",
+        "description": "3 confirmed donations"
+      },
+      "hero": {
+        "name": "Hero",
+        "description": "5 confirmed donations"
+      },
+      "super_hero": {
+        "name": "Super Hero",
+        "description": "10 confirmed donations"
+      },
+      "legend": {
+        "name": "Legend",
+        "description": "25 confirmed donations"
+      },
+      "emergency_responder": {
+        "name": "Emergency Responder",
+        "description": "Donated for an emergency request"
+      },
+      "bank_founder": {
+        "name": "Bank Founder",
+        "description": "Founded a blood bank that was approved"
+      },
+      "top_donor_month": {
+        "name": "Top Donor of the Month",
+        "description": "Most points in your blood bank in a month"
+      }
+    },
+    "recentPoints": "Recent points",
+    "reasons": {
+      "donation": "Confirmed donation",
+      "first_donation": "First donation bonus",
+      "emergency_bonus": "Emergency bonus",
+      "bank_founder": "Founded a blood bank"
+    },
+    "seeLeaderboard": "See the leaderboard"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "subtitle": "The heroes who give the most. Points come from donations confirmed by the people they helped.",
+    "national": "All of Bangladesh",
+    "in": "Top donors in {{place}}",
+    "period": "Period",
+    "allTime": "All time",
+    "thisMonth": "This month",
+    "empty": "No points earned here yet. Be the first hero!",
+    "anonymous": "Anonymous donor",
+    "you": "you",
+    "howPoints": {
+      "title": "How to earn points",
+      "donation": {
+        "label": "Each confirmed donation",
+        "points": "+100"
+      },
+      "first": {
+        "label": "Your first donation",
+        "points": "+50"
+      },
+      "emergency": {
+        "label": "Donating for an emergency request",
+        "points": "+50"
+      },
+      "founder": {
+        "label": "Founding an approved blood bank",
+        "points": "+200"
+      },
+      "note": "A donation counts only when the person who asked for blood confirms it, and donors must wait 90 days between donations."
+    }
+  },
+  "chat": {
+    "title": "Messages",
+    "subtitle": "Chat with your blood bank and with donors and requesters in real time.",
+    "conversations": "Conversations",
+    "bankChat": "Blood bank chat",
+    "unknownUser": "Donor",
+    "about": "About:",
+    "viewBank": "View blood bank",
+    "live": "Live",
+    "reconnecting": "Reconnecting…",
+    "loadError": "Couldn't load messages.",
+    "empty": "No messages yet. Say hello!",
+    "failed": "Not sent",
+    "sending": "Sending…",
+    "typing": "{{names}} is typing…",
+    "someoneTyping": "Someone is typing…",
+    "placeholder": "Write a message…",
+    "send": "Send",
+    "noConversations": "No conversations yet. Join a blood bank or show interest in a request to start chatting.",
+    "you": "You",
+    "noMessagesYet": "No messages yet",
+    "back": "All conversations",
+    "notFound": "This conversation is not available.",
+    "pickConversation": "Pick a conversation"
+  },
+  "bloodBanks": {
+    "header": {
+      "title": "Blood Banks",
+      "subtitle": "Local hero groups that manage blood for their upazila or thana. Join one near you, or start your own."
+    },
+    "status": {
+      "pending": "Pending review",
+      "approved": "Active",
+      "rejected": "Rejected",
+      "suspended": "Suspended"
+    },
+    "roles": {
+      "admin": "Admin",
+      "officer": "Officer",
+      "member": "Member"
+    },
+    "stats": {
+      "members": "Members",
+      "donations": "Donations",
+      "points": "Points"
+    },
+    "createButton": "Start a blood bank",
+    "loginToCreate": "Log in to start a blood bank",
+    "myBank": "My blood bank",
+    "viewMyRequest": "View my request",
+    "search": "Search",
+    "searchPlaceholder": "Name or area…",
+    "loadError": "Couldn't load blood banks.",
+    "empty": {
+      "title": "No blood banks found",
+      "subtitle": "There is no blood bank here yet — start one for your area!"
+    },
+    "fields": {
+      "name": "Blood bank name",
+      "description": "About",
+      "address": "Address",
+      "contactPhone": "Contact phone"
+    },
+    "placeholders": {
+      "name": "e.g. Savar Blood Heroes",
+      "description": "Who you are, which area you cover and how people can reach you",
+      "address": "Office or meeting place (optional)"
+    },
+    "new": {
+      "title": "Start a blood bank",
+      "subtitle": "Bring the donors of your upazila or thana together.",
+      "formTitle": "Blood bank details",
+      "howItWorks": "An admin reviews every request. Once approved you become the blood bank admin: you can accept members, assign positions and hand over the admin role.",
+      "submit": "Send request",
+      "locationRequired": "Choose the division, district and upazila.",
+      "success": {
+        "title": "Request sent",
+        "description": "We'll notify you when an admin reviews it."
+      },
+      "alreadyMember": {
+        "title": "You already belong to a blood bank",
+        "description": "You are part of {{name}}. A donor can be in one blood bank at a time."
+      },
+      "alreadyPending": {
+        "title": "Your request is being reviewed",
+        "description": "{{name}} is waiting for an admin to review it."
+      },
+      "open": "Open"
+    },
+    "members": {
+      "empty": "No members yet.",
+      "donations_one": "{{count}} donation",
+      "donations_other": "{{count}} donations"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "members": "Members",
+      "leaderboard": "Leaderboard",
+      "chat": "Chat",
+      "manage": "Manage"
+    },
+    "detail": {
+      "notFound": "Blood bank not found",
+      "backToList": "Back to blood banks",
+      "loginToJoin": "Log in to join",
+      "join": "Request to join",
+      "joinRequested": {
+        "title": "Request sent",
+        "description": "The blood bank's admin or officers will review it."
+      },
+      "pending": "Join request pending",
+      "cancelRequest": "Cancel request",
+      "requestCancelled": "Join request cancelled",
+      "leave": "Leave",
+      "left": "You left the blood bank",
+      "leaveConfirmTitle": "Leave this blood bank?",
+      "leaveConfirmBody": "You'll leave {{name}} and its chat. You can ask to join again later.",
+      "inAnotherBank": "You already belong to (or asked to join) another blood bank.",
+      "pendingReview": {
+        "title": "Waiting for review",
+        "description": "An admin will review this blood bank request soon. You will get a notification."
+      },
+      "rejected": {
+        "title": "This request was rejected"
+      },
+      "suspended": {
+        "title": "This blood bank is suspended"
+      },
+      "reason": "Reason: {{reason}}",
+      "about": "About",
+      "noDescription": "No description yet.",
+      "admin": "Admin",
+      "since": "Active since {{date}}",
+      "topHeroes": "Top heroes"
+    },
+    "manage": {
+      "requests": {
+        "title": "Join requests",
+        "description": "Donors who asked to join.",
+        "empty": "No pending requests."
+      },
+      "approve": "Approve",
+      "reject": "Decline",
+      "approved": "Member approved",
+      "rejected": "Request declined",
+      "roles": {
+        "title": "Members & positions",
+        "description": "Make trusted members officers (they can accept join requests) and give anyone a position title.",
+        "officerDescription": "As an officer you can remove members.",
+        "role": "Role",
+        "position": "Position",
+        "positionPlaceholder": "e.g. General Secretary"
+      },
+      "save": "Save",
+      "saved": "Saved",
+      "remove": "Remove",
+      "removed": "Member removed",
+      "removeConfirmTitle": "Remove this member?",
+      "removeConfirmBody": "{{name}} will be removed from the blood bank and its chat.",
+      "cancel": "Cancel",
+      "transfer": {
+        "title": "Transfer admin",
+        "description": "Hand the admin role to another member. You will become an officer.",
+        "select": "Choose a member",
+        "button": "Transfer",
+        "confirmTitle": "Transfer admin?",
+        "confirmBody": "{{name}} will become the admin of this blood bank and you will become an officer. This cannot be undone by you.",
+        "confirm": "Yes, transfer"
+      },
+      "transferred": "Admin transferred",
+      "details": {
+        "title": "Blood bank details"
+      }
     }
   }
 }
