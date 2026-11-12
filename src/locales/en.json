@@ -13,7 +13,8 @@
     "appName": "Blood Link",
     "language": {
       "en": "English",
-      "bn": "Bangla"
+      "bn": "Bangla",
+      "switchTo": "Switch to {{language}}"
     },
     "bloodBanks": "Blood Banks",
     "leaderboard": "Leaderboard",

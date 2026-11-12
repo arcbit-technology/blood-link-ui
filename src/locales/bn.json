@@ -13,7 +13,8 @@
     "appName": "ব্লাড লিংক",
     "language": {
       "en": "ইংরেজি",
-      "bn": "বাংলা"
+      "bn": "বাংলা",
+      "switchTo": "{{language}} ভাষায় পরিবর্তন করুন"
     },
     "bloodBanks": "ব্লাড ব্যাংক",
     "leaderboard": "লিডারবোর্ড",

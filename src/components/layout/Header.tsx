@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
 import { BrandName } from "@/components/BrandName";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   User,
   LogOut,
   LayoutDashboard,
-  Globe,
   MessagesSquare,
 } from "lucide-react";
 import { useConversations } from "@/hooks/useConversations";
@@ -28,7 +28,7 @@ export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { unreadTotal } = useConversations();
   const isPlatformAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
 
@@ -44,10 +44,6 @@ export function Header() {
         ? "bg-primary/10 text-primary"
         : "text-muted-foreground hover:bg-primary/5 hover:text-primary",
     );
-
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-background/85 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70">
@@ -102,25 +98,7 @@ export function Header() {
             </Button>
           )}
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="rounded-full flex items-center gap-2 px-3"
-              >
-                <Globe className="h-5 w-5" />
-                <span>{i18n.language?.startsWith("en") ? "🇺🇸" : "🇧🇩"}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => changeLanguage("en")}>
-                <span className="mr-2">🇺🇸</span> {t("header.language.en")}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage("bn")}>
-                <span className="mr-2">🇧🇩</span> {t("header.language.bn")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <LanguageToggle />
 
           <ThemeToggle />
 
@@ -173,7 +151,9 @@ export function Header() {
         </nav>
 
         {/* Mobile header actions — main navigation lives in the bottom tab bar */}
-        <div className="flex items-center gap-1 lg:hidden">
+        <div className="flex items-center gap-0.5 lg:hidden">
+          <LanguageToggle className="mr-0.5" />
+          <ThemeToggle />
           {isAuthenticated ? (
             <Button asChild variant="ghost" size="icon" className="relative rounded-full">
               <Link
@@ -195,7 +175,7 @@ export function Header() {
           ) : (
             <Button
               size="sm"
-              className="rounded-full px-4"
+              className="ml-1 h-9 rounded-full px-3.5"
               onClick={() => router.push("/login")}
             >
               {t("header.login")}
