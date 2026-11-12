@@ -89,7 +89,8 @@
    Layout
    ===================================================================== */
 .container { width: 100%; padding-top: 24px; padding-bottom: 24px; }
-.main { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 44px; padding-bottom: 28px; }
+.main { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 44px; }
+.searchSection { position: relative; padding-bottom: 56px; }
 .copy { min-width: 0; }
 .copy > * { animation: rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 .copy > :nth-child(2) { animation-delay: 80ms; }
@@ -371,14 +372,15 @@
    Responsive
    ===================================================================== */
 @media (min-width: 768px) {
-  .hero {
+  /* The first screen (headline + map) fills the viewport below the 65px header. */
+  .screen {
     display: grid;
     align-items: center;
     min-height: calc(100svh - 65px);
   }
-  /* Size the map by the viewport height too, so the whole hero (map + search card) fits
-     on one screen. ~300px = header + paddings + search card; 400 / 540 is the map's aspect ratio. */
-  .visual { max-width: clamp(280px, calc((100svh - 300px) * 400 / 540), 420px); }
+  /* Map grows as large as the screen height allows: 125px = header + vertical padding,
+     400 / 540 is the map's aspect ratio. */
+  .visual { max-width: clamp(320px, calc((100svh - 125px) * 400 / 540), 560px); }
 }
 
 @media (min-width: 1500px) { .main { gap: 72px; } }
@@ -396,6 +398,7 @@
 @media (max-width: 767px) {
   .container { padding: 36px 16px 28px; }
   .main { grid-template-columns: 1fr; gap: 20px; padding-bottom: 28px; }
+  .searchSection { padding-bottom: 36px; }
   .copy { text-align: center; }
   .eyebrow { font-size: 12.5px; margin-bottom: 22px; }
   .title { font-size: clamp(28px, 7.4vw, 36px); margin-bottom: 12px; }
