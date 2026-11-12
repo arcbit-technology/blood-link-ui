@@ -6,6 +6,7 @@ import { Droplet, MapPin, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocationLabel } from "@/components/common/LocationSelect";
+import { BankCover, BankLogo } from "@/components/bloodbank/BankImages";
 import { cn } from "@/lib/utils";
 import type { BankRole, BloodBank, BloodBankStatus } from "@/types";
 
@@ -47,13 +48,17 @@ export function BloodBankCard({ bank, className }: { bank: BloodBank; className?
 
   return (
     <Card className={cn("lift-card accent-top group overflow-hidden", className)}>
-      <Link href={`/blood-banks/${bank.id}`} className="block h-full focus-visible:outline-none">
-        <CardContent className="flex h-full flex-col gap-4 p-5">
-          <div className="flex items-start gap-3">
-            <span className="icon-tile h-12 w-12 shrink-0 rounded-2xl">
-              <Droplet className="h-6 w-6" />
-            </span>
-            <div className="min-w-0 flex-1">
+      <Link href={`/blood-banks/${bank.id}`} className="flex h-full flex-col focus-visible:outline-none">
+        {bank.cover && <BankCover cover={bank.cover} width={640} className="h-24 w-full" />}
+        <CardContent className={cn("flex flex-1 flex-col gap-4 p-5", bank.cover && "pt-0")}>
+          <div className={cn("flex items-start gap-3", bank.cover && "-mt-6")}>
+            <BankLogo
+              logo={bank.logo}
+              name={bank.name}
+              size={48}
+              className={cn(bank.cover && "border-2 border-card shadow-md")}
+            />
+            <div className={cn("min-w-0 flex-1", bank.cover && "pt-6")}>
               <h3 className="truncate text-lg font-semibold group-hover:text-primary">{bank.name}</h3>
               <p className="flex items-center gap-1 text-sm text-muted-foreground">
                 <MapPin className="h-3.5 w-3.5 shrink-0 text-primary" />

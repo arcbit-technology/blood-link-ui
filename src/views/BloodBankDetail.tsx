@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import {
   AlertCircle,
   Building2,
+  Camera,
   Calendar,
   Clock,
   Droplet,
@@ -44,6 +45,9 @@ import { BankMembersList } from "@/components/bloodbank/BankMembersList";
 import { BankManagePanel } from "@/components/bloodbank/BankManagePanel";
 import { LeaderboardTable } from "@/components/gamification/LeaderboardTable";
 import { ChatWindow } from "@/components/chat/ChatWindow";
+import { BankCover, BankLogo } from "@/components/bloodbank/BankImages";
+import { ImageSlotMenu } from "@/components/images/ImageSlotMenu";
+import { IMAGE_PRESETS } from "@/components/images/ImageUploadDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { MY_BLOOD_BANK_KEY, useMyBloodBank } from "@/hooks/useMyBloodBank";
@@ -83,6 +87,7 @@ export default function BloodBankDetail() {
   const viewerRole: BankRole | "" = isMemberHere && membership?.status === "active" ? membership.role : "";
   const isPlatformAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
   const canManage = viewerRole === "admin" || viewerRole === "officer" || isPlatformAdmin;
+  const canEditImages = viewerRole === "admin" || isPlatformAdmin;
   const approved = bank?.status === "approved";
 
   const membersQuery = useQuery({
@@ -110,6 +115,13 @@ export default function BloodBankDetail() {
     void queryClient.invalidateQueries({ queryKey: ["conversations"] });
   };
   const onError = (e: unknown) => toast({ title: apiErrorMessage(e, t), variant: "destructive" });
+
+  // logo / cover changed: update this page at once, refresh lists in the background
+  const onImageChange = (field: "logo" | "cover") => (url: string) => {
+    queryClient.setQueriesData<typeof bankQuery.data>({ queryKey: ["bloodBank", id] }, (b) => (b ? { ...b, [field]: url } : b));
+    void queryClient.invalidateQueries({ queryKey: ["bloodBanks"] });
+    void queryClient.invalidateQueries({ queryKey: MY_BLOOD_BANK_KEY });
+  };
 
   const join = useMutation({
     mutationFn: () => joinBloodBank(id, token as string),
@@ -225,15 +237,42 @@ export default function BloodBankDetail() {
       <div className="container py-8">
         {/* Header */}
         <Card className="mb-6 overflow-hidden border-primary/15">
-          <div className="relative isolate h-24 overflow-hidden blood-gradient">
-            <div aria-hidden="true" className="absolute -right-10 -top-16 -z-10 h-48 w-48 rounded-full border-[30px] border-white/10" />
-            <div aria-hidden="true" className="absolute inset-0 -z-10 opacity-40 [background-image:radial-gradient(rgb(255_255_255/0.35)_1px,transparent_1px)] [background-size:18px_18px]" />
+          <div className="relative">
+            <BankCover cover={bank.cover} className={bank.cover ? "aspect-[16/5] max-h-64 w-full" : "h-24"} />
+            {canEditImages && (
+              <div className="absolute right-3 top-3">
+                <ImageSlotMenu
+                  slot={{ target: "bank_cover", bloodBankId: bank.id }}
+                  preset={IMAGE_PRESETS.cover}
+                  hasImage={!!bank.cover}
+                  label={t("images.bankCover")}
+                  description={t("images.bankCoverHint")}
+                  onChange={onImageChange("cover")}
+                >
+                  <Button type="button" size="sm" variant="secondary" className="gap-1.5 rounded-full shadow-md">
+                    <Camera className="h-4 w-4" />
+                    {bank.cover ? t("images.changeCover") : t("images.addCover")}
+                  </Button>
+                </ImageSlotMenu>
+              </div>
+            )}
           </div>
           <CardContent className="relative pt-0">
             <div className="-mt-10 flex flex-col gap-4 md:flex-row md:items-end">
-              <span className="icon-tile h-20 w-20 shrink-0 rounded-3xl border-4 border-card">
-                <Droplet className="h-10 w-10" />
-              </span>
+              <div className="relative w-fit">
+                <BankLogo logo={bank.logo} name={bank.name} size={80} className="rounded-3xl border-4 border-card shadow-md" />
+                {canEditImages && (
+                  <ImageSlotMenu
+                    slot={{ target: "bank_logo", bloodBankId: bank.id }}
+                    preset={IMAGE_PRESETS.logo}
+                    hasImage={!!bank.logo}
+                    label={t("images.bankLogo")}
+                    description={t("images.bankLogoHint")}
+                    onChange={onImageChange("logo")}
+                    className="absolute -bottom-2 -right-2"
+                  />
+                )}
+              </div>
               <div className="min-w-0 flex-1 md:pb-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h1 className="text-2xl font-bold md:text-3xl">{bank.name}</h1>

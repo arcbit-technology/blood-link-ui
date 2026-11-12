@@ -44,7 +44,7 @@ function MessagesContent() {
       <div className="container py-8">
         <PageHeader icon={MessagesSquare} title={t("chat.title")} subtitle={t("chat.subtitle")} />
 
-        <div className="grid h-[calc(100vh-16rem)] min-h-[480px] grid-cols-1 gap-4 md:grid-cols-[320px_1fr]">
+        <div className="grid h-[calc(100dvh-19rem-env(safe-area-inset-bottom))] min-h-[420px] lg:h-[calc(100vh-16rem)] lg:min-h-[480px] grid-cols-1 gap-4 md:grid-cols-[320px_1fr]">
           <aside
             className={cn(
               "min-h-0 overflow-y-auto rounded-2xl border bg-card",

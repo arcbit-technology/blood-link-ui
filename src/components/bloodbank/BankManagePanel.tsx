@@ -20,7 +20,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { BloodBadge } from "@/components/ui/blood-badge";
 import {
   Select,
   SelectContent,
@@ -30,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { BankRoleBadge } from "@/components/bloodbank/BloodBankCard";
 import { memberName } from "@/components/bloodbank/BankMembersList";
+import { UserAvatar } from "@/components/images/UserAvatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -41,7 +41,7 @@ import {
   updateBloodBank,
 } from "@/api/bloodBanks";
 import { apiErrorMessage } from "@/lib/apiErrors";
-import type { BankMember, BankRole, BloodBank, BloodGroup } from "@/types";
+import type { BankMember, BankRole, BloodBank } from "@/types";
 
 interface BankManagePanelProps {
   bank: BloodBank;
@@ -142,7 +142,7 @@ export function BankManagePanel({ bank, members, viewerRole, isPlatformAdmin }: 
             <ul className="divide-y">
               {(pending.data ?? []).map((m) => (
                 <li key={m.id} className="flex flex-wrap items-center gap-3 py-3">
-                  {m.bloodGroup && <BloodBadge bloodGroup={m.bloodGroup as BloodGroup} size="sm" />}
+                  <UserAvatar src={m.photo} name={memberName(m, "")} size={40} bloodGroup={m.bloodGroup || undefined} />
                   <div className="min-w-0 flex-1">
                     <p className="font-medium">{memberName(m, t("leaderboard.anonymous"))}</p>
                     <p className="text-xs text-muted-foreground">
@@ -331,9 +331,12 @@ function MemberRoleRow({
 
   return (
     <li className="flex flex-col gap-3 py-3 md:flex-row md:items-center">
-      <div className="min-w-0 flex-1">
-        <p className="font-medium">{memberName(member, t("leaderboard.anonymous"))}</p>
-        <BankRoleBadge role={member.role} position={member.position} />
+      <div className="flex min-w-0 flex-1 items-center gap-3">
+        <UserAvatar src={member.photo} name={memberName(member, "")} size={40} />
+        <div className="min-w-0">
+          <p className="font-medium">{memberName(member, t("leaderboard.anonymous"))}</p>
+          <BankRoleBadge role={member.role} position={member.position} />
+        </div>
       </div>
       {editable && (
         <div className="flex flex-wrap items-center gap-2">

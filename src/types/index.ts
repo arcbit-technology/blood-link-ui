@@ -32,6 +32,7 @@ export interface User {
   district: string;
   division: Division;
   upazila?: string;
+  photo?: string;
   bloodGroup: BloodGroup;
   age: number;
   occupation: string;
@@ -113,6 +114,7 @@ export interface BloodBank {
   address: string;
   contactPhone: string;
   logo: string;
+  cover: string;
   status: BloodBankStatus;
   adminId: number;
   adminName: string;
@@ -141,6 +143,7 @@ export interface BankMember {
   points: number;
   donationCount: number;
   donatedAt?: string;
+  photo?: string;
   joinedAt?: string;
   createdAt: string;
 }
@@ -202,6 +205,7 @@ export interface LeaderboardEntry {
   userId: number;
   firstName: string;
   lastName: string;
+  photo?: string;
   bloodGroup: string;
   district: string;
   upazila: string;
@@ -217,6 +221,7 @@ export interface InterestedDonor {
   lastName: string;
   bloodGroup: string;
   phone: string;
+  photo?: string;
   district: string;
   upazila: string;
   donatedAt?: string;
@@ -244,6 +249,7 @@ export interface ChatUser {
   id: number;
   firstName: string;
   lastName: string;
+  photo?: string;
 }
 
 export interface ChatMessage {
@@ -251,6 +257,7 @@ export interface ChatMessage {
   conversationId: number;
   senderId: number;
   senderName: string;
+  senderPhoto?: string;
   body: string;
   createdAt: string;
   /** Set on optimistic messages until the server echoes them back. */

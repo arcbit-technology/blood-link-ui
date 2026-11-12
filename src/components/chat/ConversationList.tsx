@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { MessagesSquare, Users } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { conversationTitle } from "@/components/chat/ChatWindow";
+import { UserAvatar } from "@/components/images/UserAvatar";
 import { cn } from "@/lib/utils";
 import type { Conversation } from "@/types";
 
@@ -64,9 +65,13 @@ export function ConversationList({ conversations, isLoading, activeId, onSelect,
                 c.id === activeId ? "bg-primary/10" : "hover:bg-primary/5",
               )}
             >
-              <span className="icon-tile-soft h-10 w-10 shrink-0 rounded-xl">
-                {c.type === "bank" ? <Users className="h-5 w-5" /> : <MessagesSquare className="h-5 w-5" />}
-              </span>
+              {c.type === "direct" ? (
+                <UserAvatar src={c.otherUser?.photo} name={conversationTitle(c, t)} size={40} />
+              ) : (
+                <span className="icon-tile-soft h-10 w-10 shrink-0 rounded-xl">
+                  <Users className="h-5 w-5" />
+                </span>
+              )}
               <span className="min-w-0 flex-1">
                 <span className="flex items-baseline justify-between gap-2">
                   <span className={cn("truncate", c.unreadCount > 0 ? "font-bold" : "font-medium")}>

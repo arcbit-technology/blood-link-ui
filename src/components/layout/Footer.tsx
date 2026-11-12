@@ -8,7 +8,7 @@ export function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="relative isolate mt-auto overflow-hidden border-t border-primary/10 bg-gradient-to-b from-muted/40 to-accent/60">
+    <footer className="relative isolate mt-auto hidden overflow-hidden lg:block border-t border-primary/10 bg-gradient-to-b from-muted/40 to-accent/60">
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
       <div aria-hidden="true" className="absolute -right-32 -top-32 -z-10 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
       <div aria-hidden="true" className="absolute -bottom-40 -left-24 -z-10 h-72 w-72 rounded-full bg-primary/5 blur-3xl" />

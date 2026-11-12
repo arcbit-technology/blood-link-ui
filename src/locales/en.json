@@ -20,6 +20,23 @@
     "messages": "Messages",
     "messagesUnread": "Messages ({{count}} unread)"
   },
+  "mobileNav": {
+    "home": "Home",
+    "donors": "Donors",
+    "requests": "Requests",
+    "banks": "Banks",
+    "more": "More",
+    "moreTitle": "More options",
+    "account": "Account",
+    "explore": "Explore",
+    "preferences": "Preferences",
+    "language": "Language",
+    "theme": "Dark mode",
+    "emergencyRequest": "Emergency request",
+    "emergencyCall": "Emergency hotline",
+    "signInPrompt": "Sign in to message donors and track your donations.",
+    "primary": "Main navigation"
+  },
   "hero": {
     "saveLife": "Save Life by Donating Blood",
     "description": "In a moment of need, one connection can make a big difference.",
@@ -1270,6 +1287,9 @@
     "216": "Messages must be 1–2000 characters.",
     "217": "You are sending messages too fast.",
     "218": "You can only message the author of a request you are interested in, or a donor interested in yours.",
+    "219": "Image uploads are not available right now.",
+    "220": "That image could not be saved.",
+    "221": "The upload didn't finish. Please try again.",
     "forbidden": "You don't have permission to do that."
   },
   "gamification": {
@@ -1537,6 +1557,39 @@
       "details": {
         "title": "Blood bank details"
       }
+    }
+  },
+  "images": {
+    "profilePhoto": "Profile photo",
+    "profilePhotoHint": "Drag to position your face in the circle, zoom and rotate, then save.",
+    "bankLogo": "Blood bank logo",
+    "bankLogoHint": "A square logo or photo that represents your blood bank.",
+    "bankCover": "Cover photo",
+    "bankCoverHint": "A wide photo for the top of your blood bank page — your team, a donation camp, your area.",
+    "addCover": "Add cover",
+    "changeCover": "Change cover",
+    "uploadNew": "Upload new",
+    "remove": "Remove",
+    "removed": "Image removed",
+    "removeConfirmTitle": "Remove this image?",
+    "removeConfirmBody": "It will be deleted and replaced by the default.",
+    "dropTitle": "Drop an image here or click to choose",
+    "dropHint": "JPG, PNG or WebP, up to 15 MB. You can also paste an image.",
+    "cropperHint": "Drag to move · scroll or pinch to zoom · arrow keys to nudge",
+    "smallWarning": "This image is quite small and may look blurry.",
+    "zoom": "Zoom",
+    "rotateLeft": "Rotate left",
+    "rotateRight": "Rotate right",
+    "reset": "Reset",
+    "another": "Choose another",
+    "save": "Save",
+    "saved": "Image updated",
+    "uploading": "Uploading… {{percent}}%",
+    "finishing": "Finishing up…",
+    "errors": {
+      "type": "Please choose a JPG, PNG or WebP image.",
+      "size": "The image must be smaller than {{mb}} MB.",
+      "upload": "Couldn't upload the image"
     }
   }
 }

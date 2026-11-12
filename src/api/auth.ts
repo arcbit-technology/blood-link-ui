@@ -18,6 +18,7 @@ export type ApiUser = {
   district?: string;
   division?: string;
   upazila?: string;
+  photo?: string;
   country?: string;
   is_verified?: boolean;
   last_login?: string;

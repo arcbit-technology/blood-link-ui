@@ -2,10 +2,10 @@
 
 import { useTranslation } from "react-i18next";
 import { Phone, Users } from "lucide-react";
-import { BloodBadge } from "@/components/ui/blood-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BankRoleBadge } from "@/components/bloodbank/BloodBankCard";
-import type { BankMember, BloodGroup } from "@/types";
+import { UserAvatar } from "@/components/images/UserAvatar";
+import type { BankMember } from "@/types";
 
 export function memberName(m: Pick<BankMember, "firstName" | "lastName">, anonymous: string) {
   return [m.firstName, m.lastName].filter(Boolean).join(" ") || anonymous;
@@ -44,7 +44,7 @@ export function BankMembersList({ members, isLoading, currentUserId }: BankMembe
     <ul className="divide-y">
       {members.map((m) => (
         <li key={m.id} className="flex flex-wrap items-center gap-3 py-3">
-          {m.bloodGroup ? <BloodBadge bloodGroup={m.bloodGroup as BloodGroup} size="sm" /> : <span className="h-8 w-8" />}
+          <UserAvatar src={m.photo} name={memberName(m, "")} size={44} bloodGroup={m.bloodGroup} />
           <div className="min-w-0 flex-1">
             <p className="font-medium">
               {memberName(m, t("leaderboard.anonymous"))}

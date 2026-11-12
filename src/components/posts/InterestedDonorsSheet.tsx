@@ -15,19 +15,19 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { BloodBadge } from "@/components/ui/blood-badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLocationLabel } from "@/components/common/LocationSelect";
+import { UserAvatar } from "@/components/images/UserAvatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { useOpenDirectChat } from "@/hooks/useConversations";
 import { confirmDonation, getPostInterests } from "@/api/gamification";
 import { apiErrorMessage } from "@/lib/apiErrors";
-import type { BloodGroup, DonationPost, InterestedDonor } from "@/types";
+import type { DonationPost, InterestedDonor } from "@/types";
 
 interface InterestedDonorsSheetProps {
   post: DonationPost | null;
@@ -91,7 +91,7 @@ export function InterestedDonorsSheet({ post, onOpenChange }: InterestedDonorsSh
               donors.map((d) => (
                 <div key={d.userId} className="space-y-3 rounded-xl border p-4">
                   <div className="flex items-start gap-3">
-                    {d.bloodGroup && <BloodBadge bloodGroup={d.bloodGroup as BloodGroup} size="sm" />}
+                    <UserAvatar src={d.photo} name={name(d)} size={48} bloodGroup={d.bloodGroup || undefined} />
                     <div className="min-w-0 flex-1">
                       <p className="font-semibold">{name(d)}</p>
                       <p className="text-xs text-muted-foreground">

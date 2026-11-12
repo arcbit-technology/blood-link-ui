@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useChat } from "@/hooks/useChat";
+import { UserAvatar } from "@/components/images/UserAvatar";
 import { cn } from "@/lib/utils";
 import type { ChatMessage, Conversation } from "@/types";
 
@@ -97,9 +98,13 @@ export function ChatWindow({ conversation, className, hideHeader }: ChatWindowPr
     >
       {!hideHeader && (
         <header className="flex items-center gap-3 border-b px-4 py-3">
-          <span className="icon-tile-soft h-10 w-10 shrink-0 rounded-xl">
-            {conversation.type === "bank" ? <Users className="h-5 w-5" /> : <MessagesSquare className="h-5 w-5" />}
-          </span>
+          {conversation.type === "direct" ? (
+            <UserAvatar src={conversation.otherUser?.photo} name={conversationTitle(conversation, t)} size={40} />
+          ) : (
+            <span className="icon-tile-soft h-10 w-10 shrink-0 rounded-xl">
+              <Users className="h-5 w-5" />
+            </span>
+          )}
           <div className="min-w-0 flex-1">
             <h2 className="truncate font-semibold">{conversationTitle(conversation, t)}</h2>
             {conversation.type === "direct" && conversation.postTitle ? (
@@ -165,6 +170,10 @@ export function ChatWindow({ conversation, className, hideHeader }: ChatWindowPr
             const mine = m.senderId === chat.myId;
             const newDay = !prev || !sameDay(prev.createdAt, m.createdAt);
             const showName = !mine && conversation.type === "bank" && (newDay || prev?.senderId !== m.senderId);
+            const next = chat.messages[i + 1];
+            // avatar on the last bubble of a run from the same sender (group chats)
+            const showAvatar =
+              !mine && conversation.type === "bank" && (!next || next.senderId !== m.senderId || !sameDay(next.createdAt, m.createdAt));
             return (
               <div key={m.clientId ?? m.id}>
                 {newDay && (
@@ -176,16 +185,21 @@ export function ChatWindow({ conversation, className, hideHeader }: ChatWindowPr
                     })}
                   </p>
                 )}
-                <div className={cn("flex flex-col", mine ? "items-end" : "items-start")}>
+                <div className={cn("flex flex-col", mine ? "items-end" : "items-start", !mine && conversation.type === "bank" && "pl-9")}>
                   {showName && <span className="mb-0.5 ml-3 text-xs font-medium text-primary">{m.senderName}</span>}
                   <div
                     className={cn(
-                      "max-w-[80%] whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2 text-sm shadow-sm",
+                      "relative max-w-[80%] whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2 text-sm shadow-sm",
                       mine ? "rounded-br-md blood-gradient text-blood-foreground" : "rounded-bl-md bg-muted",
                       m.pending && "opacity-60",
                       m.failed && "ring-2 ring-destructive",
                     )}
                   >
+                    {showAvatar && (
+                      <span className="absolute -left-9 bottom-0">
+                        <UserAvatar src={m.senderPhoto} name={m.senderName} size={28} />
+                      </span>
+                    )}
                     {m.body}
                   </div>
                   <span className="mx-2 mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">

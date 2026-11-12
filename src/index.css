@@ -444,3 +444,10 @@
   background-size: 200% 100%;
   animation: shimmer 2s linear infinite;
 }
+
+/* Keep bottom toasts clear of the mobile tab bar. */
+@media (max-width: 1023.98px) {
+  [data-sonner-toaster][data-y-position="bottom"] {
+    bottom: calc(5rem + env(safe-area-inset-bottom)) !important;
+  }
+}

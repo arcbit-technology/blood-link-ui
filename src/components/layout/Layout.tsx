@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { MobileNav } from './MobileNav';
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,7 +11,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="relative isolate flex-1">
+      <main className="relative isolate flex-1 pb-[calc(4rem+env(safe-area-inset-bottom))] lg:pb-0">
         {/* Soft aurora + grid backdrop, matching the home hero. Sections with
             their own background (like the hero) simply paint over it. */}
         <div className="page-decor" aria-hidden="true">
@@ -19,6 +20,7 @@ export function Layout({ children }: LayoutProps) {
         {children}
       </main>
       <Footer />
+      <MobileNav />
     </div>
   );
 }

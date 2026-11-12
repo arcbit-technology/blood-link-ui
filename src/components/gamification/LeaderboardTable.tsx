@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Trophy } from "lucide-react";
-import { BloodBadge } from "@/components/ui/blood-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLocationLabel } from "@/components/common/LocationSelect";
+import { UserAvatar } from "@/components/images/UserAvatar";
 import { cn } from "@/lib/utils";
-import type { BloodGroup, LeaderboardEntry } from "@/types";
+import type { LeaderboardEntry } from "@/types";
 
 const MEDALS = ["🥇", "🥈", "🥉"];
 
@@ -60,11 +60,7 @@ export function LeaderboardTable({ entries, isLoading, currentUserId, hideBank }
             <span className="w-9 shrink-0 text-center text-lg font-bold tabular-nums">
               {e.rank <= 3 ? <span aria-label={`#${e.rank}`}>{MEDALS[e.rank - 1]}</span> : fmt(e.rank)}
             </span>
-            {e.bloodGroup ? (
-              <BloodBadge bloodGroup={e.bloodGroup as BloodGroup} size="sm" />
-            ) : (
-              <span className="h-8 w-8" />
-            )}
+            <UserAvatar src={e.photo} name={name} size={40} bloodGroup={e.bloodGroup || undefined} />
             <div className="min-w-0 flex-1">
               <p className="truncate font-semibold">
                 {name}
