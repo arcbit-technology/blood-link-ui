@@ -54,10 +54,14 @@ export async function http<T>(options: HttpOptions): Promise<T> {
   const data = await parseJsonSafely(res);
 
   if (!res.ok) {
+    // The Go API answers { result, error } where error is a message key
+    // such as "api.bloodlinkapi.err.199" (see src/lib/apiErrors.ts).
     const message =
-      (typeof data === "object" && data && "message" in data && typeof data.message === "string"
+      typeof data === "object" && data && "message" in data && typeof data.message === "string"
         ? data.message
-        : `Request failed with status ${res.status}`);
+        : typeof data === "object" && data && "error" in data && typeof data.error === "string" && data.error
+          ? data.error
+          : `Request failed with status ${res.status}`;
     throw new ApiError(message, res.status, data);
   }
 

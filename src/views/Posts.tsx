@@ -27,13 +27,16 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, MapPin, Calendar, Users, Heart, Clock, Droplet } from "lucide-react";
+import { Plus, MapPin, Calendar, Users, Heart, Clock, Droplet, MessageCircle, Siren } from "lucide-react";
 import { BLOOD_GROUPS, DIVISIONS, DISTRICTS } from "@/data/mockData";
 import { Division, DonationPost } from "@/types";
 import { createPost, getPosts, togglePostInterest } from "@/api/posts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { InterestedDonorsSheet } from "@/components/posts/InterestedDonorsSheet";
+import { useOpenDirectChat } from "@/hooks/useConversations";
+import { apiErrorMessage } from "@/lib/apiErrors";
 
 const POSTS_QUERY_KEY = ["posts"] as const;
 
@@ -46,6 +49,8 @@ export default function Posts() {
   const [selectedDivision, setSelectedDivision] = useState<Division | null>(
     null,
   );
+  const [donorsPost, setDonorsPost] = useState<DonationPost | null>(null);
+  const openChat = useOpenDirectChat();
 
   const postsQuery = useQuery({
     queryKey: POSTS_QUERY_KEY,
@@ -129,6 +134,8 @@ export default function Posts() {
       division: field("division"),
       district: field("district"),
       required_date: field("requiredDate"),
+      units_needed: Number(field("unitsNeeded")) || 1,
+      urgency: (field("urgency") || "normal") as "normal" | "urgent" | "emergency",
     });
   };
 
@@ -191,6 +198,37 @@ export default function Posts() {
                         ))}
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>{t("posts.form.fields.urgency")}</Label>
+                      <Select name="urgency" defaultValue="normal">
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {(["normal", "urgent", "emergency"] as const).map((u) => (
+                            <SelectItem key={u} value={u}>
+                              {t(`admin.urgency.${u}`)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="unitsNeeded">
+                        {t("posts.form.fields.unitsNeeded")}
+                      </Label>
+                      <Input
+                        id="unitsNeeded"
+                        name="unitsNeeded"
+                        type="number"
+                        min={1}
+                        max={20}
+                        defaultValue={1}
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -343,9 +381,23 @@ export default function Posts() {
                 <CardHeader className="pb-2">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <Badge className={statusColors[post.status]}>
-                        {statusLabels[post.status]}
-                      </Badge>
+                      <div className="flex flex-wrap gap-1.5">
+                        <Badge className={statusColors[post.status]}>
+                          {statusLabels[post.status]}
+                        </Badge>
+                        {post.urgency && post.urgency !== "normal" && (
+                          <Badge
+                            className={
+                              post.urgency === "emergency"
+                                ? "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300"
+                                : "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300"
+                            }
+                          >
+                            <Siren className="mr-1 h-3 w-3" />
+                            {t(`admin.urgency.${post.urgency}`)}
+                          </Badge>
+                        )}
+                      </div>
                       <CardTitle className="text-lg mt-2">
                         {post.title}
                       </CardTitle>
@@ -385,9 +437,21 @@ export default function Posts() {
                     </div>
                   </div>
 
-                  <div className="pt-2">
+                  <div className="flex flex-wrap gap-2 pt-2">
                     {user && post.authorId === user.id ? (
-                      <Badge variant="outline">{t("posts.card.yourPost")}</Badge>
+                      <>
+                        <Badge variant="outline">{t("posts.card.yourPost")}</Badge>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setDonorsPost(post)}
+                        >
+                          <Users className="h-4 w-4 mr-2" />
+                          {t("posts.card.viewDonors", {
+                            count: post.interestedUsers.length,
+                          })}
+                        </Button>
+                      </>
                     ) : (
                       <Button
                         onClick={() => handleInterest(post.id)}
@@ -415,6 +479,29 @@ export default function Posts() {
                           : t("posts.card.expressInterest")}
                       </Button>
                     )}
+                    {user &&
+                      post.authorId !== user.id &&
+                      post.interestedUsers.includes(user.id) && (
+                        <Button
+                          variant="outline"
+                          disabled={openChat.isPending}
+                          onClick={() =>
+                            openChat.mutate(
+                              { postId: post.id, userId: post.authorId },
+                              {
+                                onError: (e) =>
+                                  toast({
+                                    title: apiErrorMessage(e, t),
+                                    variant: "destructive",
+                                  }),
+                              },
+                            )
+                          }
+                        >
+                          <MessageCircle className="h-4 w-4 mr-2" />
+                          {t("posts.card.messageRequester")}
+                        </Button>
+                      )}
                   </div>
 
                   <div className="text-xs text-muted-foreground pt-2 border-t">
@@ -442,6 +529,10 @@ export default function Posts() {
           </div>
         )}
       </div>
+      <InterestedDonorsSheet
+        post={donorsPost}
+        onOpenChange={(open) => !open && setDonorsPost(null)}
+      />
     </Layout>
   );
 }

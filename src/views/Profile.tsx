@@ -29,6 +29,11 @@ import { mockDonationRequests, mockDonationPosts } from "@/data/mockData";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import type { User as BloodLinkUser } from "@/types";
+import { MyBloodBankCard, ProfileGamification } from "@/components/gamification/ProfileGamification";
+import { UserAvatar } from "@/components/images/UserAvatar";
+import { ImageSlotMenu } from "@/components/images/ImageSlotMenu";
+import { IMAGE_PRESETS } from "@/components/images/ImageUploadDialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Profile() {
   const router = useRouter();
@@ -48,6 +53,8 @@ export default function Profile() {
 function ProfileContent({ user }: { user: BloodLinkUser }) {
   const { t, i18n } = useTranslation();
   const { toast } = useToast();
+  const { updateUser } = useAuth();
+  const queryClient = useQueryClient();
   const [hideInfo, setHideInfo] = useState(user?.hidePersonalInfo ?? false);
 
   const incomingRequests = mockDonationRequests.filter(
@@ -102,11 +109,32 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
             </div>
             <CardContent className="relative pt-0">
               <div className="flex flex-col md:flex-row items-center md:items-end gap-4 -mt-12">
-                <BloodBadge
-                  bloodGroup={user.bloodGroup}
-                  size="xl"
-                  className="border-4 border-card blood-glow"
-                />
+                <div className="relative">
+                  <UserAvatar
+                    src={user.photo}
+                    name={user.name}
+                    size={112}
+                    className="border-4 border-card blood-glow"
+                  />
+                  <BloodBadge
+                    bloodGroup={user.bloodGroup}
+                    size="sm"
+                    className="absolute -bottom-1 -right-1 border-2 border-card"
+                  />
+                  <ImageSlotMenu
+                    slot={{ target: "user_avatar" }}
+                    preset={IMAGE_PRESETS.avatar}
+                    hasImage={!!user.photo}
+                    label={t("images.profilePhoto")}
+                    description={t("images.profilePhotoHint")}
+                    className="absolute -bottom-1 -left-1"
+                    onChange={(url) => {
+                      updateUser({ photo: url || undefined });
+                      void queryClient.invalidateQueries({ queryKey: ["bankMembers"] });
+                      void queryClient.invalidateQueries({ queryKey: ["leaderboard"] });
+                    }}
+                  />
+                </div>
                 <div className="text-center md:text-left flex-1 pb-4">
                   <h1 className="text-2xl font-bold">{user.name}</h1>
                   <p className="text-muted-foreground">{user.email}</p>
@@ -127,8 +155,9 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
           </Card>
 
           <Tabs defaultValue="info" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2 h-auto sm:grid-cols-4">
               <TabsTrigger value="info">{t("profile.tabs.info")}</TabsTrigger>
+              <TabsTrigger value="achievements">{t("profile.tabs.achievements")}</TabsTrigger>
               <TabsTrigger value="requests">
                 {t("profile.tabs.requests")}
                 {incomingRequests.length > 0 && (
@@ -201,6 +230,9 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                         </p>
                         <p className="font-medium">
                           {user.address},{" "}
+                          {user.upazila
+                            ? `${t(`location.upazila.${user.upazila}`, { defaultValue: user.upazila })}, `
+                            : ""}
                           {t(`location.district.${user.district}`)},{" "}
                           {t(`location.division.${user.division}`)}
                         </p>
@@ -225,6 +257,8 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                   </div>
                 </CardContent>
               </Card>
+
+              <MyBloodBankCard />
 
               <Card>
                 <CardHeader>
@@ -254,6 +288,11 @@ function ProfileContent({ user }: { user: BloodLinkUser }) {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            {/* Achievements Tab: points, level, badges */}
+            <TabsContent value="achievements" className="space-y-6">
+              <ProfileGamification userId={user.id} />
             </TabsContent>
 
             {/* Requests Tab */}

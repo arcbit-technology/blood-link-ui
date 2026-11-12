@@ -16,6 +16,7 @@ export type ApiPost = {
   contact_phone?: string;
   required_date?: string;
   status: string;
+  urgency?: string;
   interested_users?: number[];
   created_at?: string;
 };
@@ -50,6 +51,7 @@ export type CreatePostPayload = {
   required_date: string; // YYYY-MM-DD
   units_needed?: number;
   contact_phone?: string;
+  urgency?: "normal" | "urgent" | "emergency";
 };
 
 function buildQueryString(query: PostsQuery): string {
@@ -111,6 +113,8 @@ export function mapApiPostToPost(p: ApiPost): DonationPost {
     requiredDate: p.required_date ?? "",
     interestedUsers: (p.interested_users ?? []).map(String),
     status,
+    urgency: p.urgency === "urgent" || p.urgency === "emergency" ? p.urgency : "normal",
+    unitsNeeded: p.units_needed ?? 1,
     createdAt: p.created_at ? p.created_at.slice(0, 10) : "",
   };
 }

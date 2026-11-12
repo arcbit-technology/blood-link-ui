@@ -5,6 +5,8 @@ import { Providers } from "@/app/providers";
 import { useAuth } from "@/contexts/AuthContext";
 import { createI18n } from "@/i18n";
 import Profile from "@/views/Profile";
+import { BrandName } from "@/components/BrandName";
+import { languageFromAcceptHeader, readLanguageCookie } from "@/lib/language";
 
 const { validateToken, replace } = vi.hoisted(() => {
   process.env.NEXT_PUBLIC_API_BASE_URL = "http://localhost:8765";
@@ -41,6 +43,7 @@ function AuthStatus() {
 
 beforeEach(() => {
   localStorage.clear();
+  document.cookie = "lang=; path=/; max-age=0";
   vi.clearAllMocks();
 });
 
@@ -113,5 +116,35 @@ describe("server-rendered translations", () => {
 
     await waitFor(() => expect(document.documentElement.lang).toBe("en"));
     expect(localStorage.getItem("i18nextLng")).toBe("en");
+  });
+
+  it("renders the server-chosen language so hydration text matches", () => {
+    const html = renderToString(<Providers initialLanguage="en"><BrandName /></Providers>);
+    expect(html).toContain("Blood");
+    expect(html).not.toContain("ব্লাড");
+  });
+
+  it("keeps the server language and saves it as a cookie on first visit", async () => {
+    render(<Providers initialLanguage="en"><BrandName /></Providers>);
+
+    expect(screen.getByText("Blood")).toBeInTheDocument();
+    await waitFor(() => expect(readLanguageCookie(document.cookie)).toBe("en"));
+  });
+
+  it("prefers the language cookie over older localStorage values", async () => {
+    document.cookie = "lang=en; path=/";
+    localStorage.setItem("i18nextLng", "bn");
+
+    render(<Providers initialLanguage="en"><BrandName /></Providers>);
+
+    await act(async () => {});
+    expect(screen.getByText("Blood")).toBeInTheDocument();
+  });
+
+  it("picks a supported language from Accept-Language", () => {
+    expect(languageFromAcceptHeader("en-US,en;q=0.9")).toBe("en");
+    expect(languageFromAcceptHeader("fr-FR,bn;q=0.8,en;q=0.5")).toBe("bn");
+    expect(languageFromAcceptHeader("de,fr;q=0.8")).toBeUndefined();
+    expect(languageFromAcceptHeader("en;q=0.2,bn-BD;q=0.9")).toBe("bn");
   });
 });

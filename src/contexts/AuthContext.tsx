@@ -43,6 +43,8 @@ interface AuthContextType {
     password: string,
   ) => Promise<{ ok: true; user: User } | { ok: false; message: string }>;
   logout: () => void;
+  /** Merges fields into the signed-in user (e.g. a new photo) and persists it. */
+  updateUser: (patch: Partial<User>) => void;
   register: (
     userData: RegisterRequest,
   ) => Promise<{ ok: true } | { ok: false; message: string }>;
@@ -71,6 +73,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     clearStoredToken();
     queryClient.clear();
   }, [queryClient]);
+
+  const updateUser = useCallback((patch: Partial<User>) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const next = { ...prev, ...patch };
+      setStoredUser(next);
+      return next;
+    });
+  }, []);
 
   const tokenValidationQuery = useQuery({
     queryKey: ["auth", "tokenValidation", token],
@@ -193,6 +204,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         registerIsLoading: registerMutation.isPending,
         login,
         logout,
+        updateUser,
         register,
       }}
     >

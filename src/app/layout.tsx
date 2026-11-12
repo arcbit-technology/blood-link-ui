@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Providers } from "./providers";
+import { getRequestLanguage } from "@/lib/serverLanguage";
 import "@/index.css";
 
 export const metadata: Metadata = {
@@ -32,11 +33,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // Let content extend under the iOS home indicator; the bottom nav pads itself.
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fffafb" },
+    { media: "(prefers-color-scheme: dark)", color: "#140a0e" },
+  ],
+};
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  // Render in the visitor's language on the server so hydration sees identical text.
+  const language = await getRequestLanguage();
+
   return (
-    <html lang="bn" suppressHydrationWarning>
+    <html lang={language} suppressHydrationWarning>
       <body>
-        <Providers>{children}</Providers>
+        <Providers initialLanguage={language}>{children}</Providers>
       </body>
     </html>
   );
